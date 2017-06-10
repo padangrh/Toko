@@ -1,0 +1,68 @@
+Line 51: Class Crystal.CrystalReport of control Cr was not a loaded control class.
+Line 59: Class MSAdodcLib.Adodc of control Adodc2 was not a loaded control class.
+Line 140: Class MSComCtl2.DTPicker of control DTPicker4 was not a loaded control class.
+Line 162: Class MSComCtl2.DTPicker of control DTPicker3 was not a loaded control class.
+Line 201: Class MSComCtl2.DTPicker of control DTPicker2 was not a loaded control class.
+Line 223: Class MSComCtl2.DTPicker of control DTPicker1 was not a loaded control class.
+Line 298: Class MSComCtl2.DTPicker of control DTPicker9 was not a loaded control class.
+Line 54: The property name _ExtentX in Cr is invalid.
+Line 55: The property name _ExtentY in Cr is invalid.
+Line 56: The property name _Version in Cr is invalid.
+Line 57: The property name PrintFileLinesPerPage in Cr is invalid.
+Line 65: The property name _ExtentX in Adodc2 is invalid.
+Line 66: The property name _ExtentY in Adodc2 is invalid.
+Line 67: The property name ConnectMode in Adodc2 is invalid.
+Line 68: The property name CursorLocation in Adodc2 is invalid.
+Line 69: The property name IsolationLevel in Adodc2 is invalid.
+Line 70: The property name ConnectionTimeout in Adodc2 is invalid.
+Line 71: The property name CommandTimeout in Adodc2 is invalid.
+Line 72: The property name CursorType in Adodc2 is invalid.
+Line 73: The property name LockType in Adodc2 is invalid.
+Line 74: The property name CommandType in Adodc2 is invalid.
+Line 75: The property name CursorOptions in Adodc2 is invalid.
+Line 76: The property name CacheSize in Adodc2 is invalid.
+Line 77: The property name MaxRecords in Adodc2 is invalid.
+Line 78: The property name BOFAction in Adodc2 is invalid.
+Line 79: The property name EOFAction in Adodc2 is invalid.
+Line 80: The property name ConnectStringType in Adodc2 is invalid.
+Line 84: The property name Orientation in Adodc2 is invalid.
+Line 86: The property name Connect in Adodc2 is invalid.
+Line 87: The property name OLEDBString in Adodc2 is invalid.
+Line 88: The property name OLEDBFile in Adodc2 is invalid.
+Line 89: The property name DataSourceName in Adodc2 is invalid.
+Line 90: The property name OtherAttributes in Adodc2 is invalid.
+Line 91: The property name UserName in Adodc2 is invalid.
+Line 92: The property name Password in Adodc2 is invalid.
+Line 93: The property name RecordSource in Adodc2 is invalid.
+Line 94: The property name Caption in Adodc2 is invalid.
+Line 104: The property name _Version in Adodc2 is invalid.
+Line 146: The property name _ExtentX in DTPicker4 is invalid.
+Line 147: The property name _ExtentY in DTPicker4 is invalid.
+Line 148: The property name _Version in DTPicker4 is invalid.
+Line 158: The property name CustomFormat in DTPicker4 is invalid.
+Line 159: The property name Format in DTPicker4 is invalid.
+Line 160: The property name CurrentDate in DTPicker4 is invalid.
+Line 168: The property name _ExtentX in DTPicker3 is invalid.
+Line 169: The property name _ExtentY in DTPicker3 is invalid.
+Line 170: The property name _Version in DTPicker3 is invalid.
+Line 180: The property name CustomFormat in DTPicker3 is invalid.
+Line 181: The property name Format in DTPicker3 is invalid.
+Line 182: The property name CurrentDate in DTPicker3 is invalid.
+Line 207: The property name _ExtentX in DTPicker2 is invalid.
+Line 208: The property name _ExtentY in DTPicker2 is invalid.
+Line 209: The property name _Version in DTPicker2 is invalid.
+Line 219: The property name CustomFormat in DTPicker2 is invalid.
+Line 220: The property name Format in DTPicker2 is invalid.
+Line 221: The property name CurrentDate in DTPicker2 is invalid.
+Line 229: The property name _ExtentX in DTPicker1 is invalid.
+Line 230: The property name _ExtentY in DTPicker1 is invalid.
+Line 231: The property name _Version in DTPicker1 is invalid.
+Line 241: The property name CustomFormat in DTPicker1 is invalid.
+Line 242: The property name Format in DTPicker1 is invalid.
+Line 243: The property name CurrentDate in DTPicker1 is invalid.
+Line 304: The property name _ExtentX in DTPicker9 is invalid.
+Line 305: The property name _ExtentY in DTPicker9 is invalid.
+Line 306: The property name _Version in DTPicker9 is invalid.
+Line 316: The property name CustomFormat in DTPicker9 is invalid.
+Line 317: The property name Format in DTPicker9 is invalid.
+Line 318: The property name CurrentDate in DTPicker9 is invalid.
