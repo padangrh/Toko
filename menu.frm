@@ -241,9 +241,10 @@ Public Sub logoff()
         Unload active_form
         Set active_form = Nothing
     End If
+    Unload Me
     username = ""
     status = ""
-    frmlogin.Show (1)
+    frmlogin.Show
 End Sub
 
 Private Sub lpr_Click()

@@ -80,22 +80,22 @@ Public Function Base64DecodeString(ByVal s As String) As String
 Public Function Base64Decode(ByVal s As String) As Byte()
    If Not InitDone Then Init
    Dim IBuf() As Byte: IBuf = ConvertStringToBytes(s)
-   Dim ILen As Long: ILen = UBound(IBuf) + 1
-   If ILen Mod 4 <> 0 Then Err.Raise vbObjectError, , "Length of Base64 encoded input string is not a multiple of 4."
-   Do While ILen > 0
-      If IBuf(ILen - 1) <> Asc("=") Then Exit Do
-      ILen = ILen - 1
+   Dim iLen As Long: iLen = UBound(IBuf) + 1
+   If iLen Mod 4 <> 0 Then Err.Raise vbObjectError, , "Length of Base64 encoded input string is not a multiple of 4."
+   Do While iLen > 0
+      If IBuf(iLen - 1) <> Asc("=") Then Exit Do
+      iLen = iLen - 1
       Loop
-   Dim OLen As Long: OLen = (ILen * 3) \ 4
+   Dim OLen As Long: OLen = (iLen * 3) \ 4
    Dim Out() As Byte
    ReDim Out(0 To OLen - 1) As Byte
    Dim ip As Long
    Dim op As Long
-   Do While ip < ILen
+   Do While ip < iLen
       Dim i0 As Byte: i0 = IBuf(ip): ip = ip + 1
       Dim i1 As Byte: i1 = IBuf(ip): ip = ip + 1
-      Dim i2 As Byte: If ip < ILen Then i2 = IBuf(ip): ip = ip + 1 Else i2 = Asc("A")
-      Dim i3 As Byte: If ip < ILen Then i3 = IBuf(ip): ip = ip + 1 Else i3 = Asc("A")
+      Dim i2 As Byte: If ip < iLen Then i2 = IBuf(ip): ip = ip + 1 Else i2 = Asc("A")
+      Dim i3 As Byte: If ip < iLen Then i3 = IBuf(ip): ip = ip + 1 Else i3 = Asc("A")
       If i0 > 127 Or i1 > 127 Or i2 > 127 Or i3 > 127 Then _
          Err.Raise vbObjectError, , "Illegal character in Base64 encoded data."
       Dim b0 As Byte: b0 = Map2(i0)

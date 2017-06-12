@@ -317,7 +317,7 @@ www:
 End Sub
 
 Private Sub Form_Load()
-    frmlogin.Enabled = False
+'    frmlogin.Enabled = False
     Dim x As Variant
 
     Set myDevices2 = New FPDevices
@@ -345,7 +345,7 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_unload(cancel As Integer)
-    frmlogin.Enabled = True
+'    frmlogin.Enabled = True
     Dim x As Variant
     Set rsUser = Nothing
     Blank_SJ = ""

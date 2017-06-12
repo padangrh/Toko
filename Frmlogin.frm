@@ -14,7 +14,7 @@ Begin VB.Form frmlogin
    StartUpPosition =   2  'CenterScreen
    Begin VB.Timer Timer1 
       Enabled         =   0   'False
-      Interval        =   500
+      Interval        =   5000
       Left            =   5400
       Top             =   960
    End
@@ -192,7 +192,7 @@ Dim cmdbatal As Boolean
 
 Private Sub CommandBatal_Click()
     cmdbatal = True
-    con.Close
+'    con.Close
     Unload Me
 End Sub
 
@@ -215,18 +215,19 @@ Private Sub CommandLogin_Click()
             FrmMain.Toolbar1.Buttons(3).Enabled = CBool(Rec.Fields("hak3"))
             FrmMain.a.Enabled = CBool(Rec.Fields("hak4"))
             FrmMain.Toolbar1.Buttons(4).Enabled = CBool(Rec.Fields("hak4"))
-            
-            DoEvents
+            'Call Form_unload(0)
             
             Unload Me
             DoEvents
             FrmMain.Show
 
             FrmMain.Toolbar1.Enabled = True
+            Exit Sub
         Else
             lbl_Result.ForeColor = vbRed
             lbl_Result.Caption = "Login Gagal, Ulangi !!!"
-
+            Timer1.Enabled = False
+            Timer1.Enabled = True
 '            MsgBox "Nama user atau password anda tidak cocok!"
             txtuser.SetFocus
         End If
@@ -234,10 +235,12 @@ Private Sub CommandLogin_Click()
 '      MsgBox "Nama user atau password anda tidak cocok!"
         lbl_Result.ForeColor = vbRed
         lbl_Result.Caption = "Login Gagal, Ulangi !!!"
+        Timer1.Enabled = False
+        Timer1.Enabled = True
         txtuser.SetFocus
-        
     End If
-    Exit Sub
+
+    
     
 'salah:
 'MsgBox "Periksa komputer server hidup atau tidak, kabel internet tercolok di komputer atau tidak, coba restart modem"
@@ -248,15 +251,16 @@ Private Sub Form_Activate()
 End Sub
 
 Private Sub Form_Load()
+    
     Mulai = False
     cmdbatal = False
     lbl_Finger.Caption = "FingerPrint Sedang DiAktifkan ...."
 '    On Error GoTo Keluar
-    Dim X As Variant
+    Dim x As Variant
     Set myDevices = New FPDevices
     If myDevices.count <> 0 Then
-        For Each X In myDevices
-            Set dev3 = X
+        For Each x In myDevices
+            Set dev3 = x
             dev3.SubScribe Dp_StdPriority, Me.hWnd
         Next
         
@@ -264,7 +268,7 @@ Private Sub Form_Load()
     Else
         lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     End If
-    Set X = Nothing
+    Set x = Nothing
     Mulai = True
     DoEvents
     Exit Sub
@@ -281,23 +285,24 @@ End Sub
 
 Private Sub Form_unload(cancel As Integer)
 'con.Close
-    
+    Mulai = False
     If Not (dev3 Is Nothing) Then
         dev3.UnSubScribe
     End If
-    Set dev3 = Nothing
-    Set myDevices = Nothing
-    Set Rec = Nothing
-    DoEvents
-    Dim ctrl As Control
-    For Each ctrl In Me.Controls
-        If TypeOf ctrl Is CommandButton Then
-            ctrl.Enabled = False
-        End If
-    Next
-    Set frmlogin = Nothing
+'    Set dev3 = Nothing
+'    Set myDevices = Nothing
+'    Set Rec = Nothing
     If cmdbatal = True Then End
+    DoEvents
+'    Dim ctrl As Control
+'    For Each ctrl In Me.Controls
+'        If TypeOf ctrl Is CommandButton Then
+'            ctrl.Enabled = False
+'        End If
+'    Next
+'    Set frmlogin = Nothing
     
+
 End Sub
 
 Private Sub dev3_FingerLeaving()
@@ -310,7 +315,7 @@ End Sub
 
 Private Sub dev3_SampleAcquired(ByVal pRawSample As Object)
     If Mulai = False Then Exit Sub
-    
+    If dev3 Is Nothing Then Exit Sub
 '    On Error Resume Next
     
 '    MsgBox Me.Name
@@ -372,12 +377,8 @@ Private Sub myDevices_DeviceDisconnected(ByVal serNum As String)
 End Sub
 
 Private Sub Timer1_Timer()
-    lbl_Result.Visible = True
-    c = c + 1
-    If c = 10 Then
-        Timer1.Enabled = False
-        lbl_Result.Visible = False
-    End If
+    lbl_Result.Visible = False
+    Timer1.Enabled = False
 
 End Sub
 
@@ -427,6 +428,12 @@ Private Sub Cek()
         Rec.MoveNext
         Erase blobarray
     Loop
+    Set verTemplate = Nothing
+    Set regTemplate = Nothing
+    Set score = Nothing
+'    Set result = Nothing
+    Set threshold = Nothing
+'    Set learn = Nothing
     Rec.Close
     
     If LogOke = True Then
@@ -436,10 +443,12 @@ Private Sub Cek()
     Else
         lbl_Result.ForeColor = vbRed
         lbl_Result.Caption = "Login Gagal, Ulangi !!!"
+        Timer1.Enabled = False
+        Timer1.Enabled = True
     End If
 '    c = 0
 '    MsgBox temp_String & vbNewLine & "End   : " & Format(Now, "h:mm:ss")
-    Timer1.Enabled = True
+
 '    Lbl_Kode.Caption = ""
 '    Label7.Caption = ""
     
