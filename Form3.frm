@@ -83,7 +83,7 @@ Begin VB.Form Form_Entri_Supplier
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   40632323
+      Format          =   105578499
       CurrentDate     =   42145
    End
    Begin VB.CommandButton btn_cancel 
@@ -363,7 +363,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Private Sub btn_save_Click()
+Private Sub btn_Save_Click()
     If Trim(txt_kode) = "" Then
         MsgBox "Kode Tidak Boleh Kosong"
         Exit Sub
@@ -390,7 +390,7 @@ Sub kosongkan()
     txt_no_rek = ""
     txt_bank = ""
 End Sub
-Private Sub btn_cancel_Click()
+Private Sub btn_Cancel_Click()
     Unload Me
 End Sub
 
@@ -420,44 +420,81 @@ Private Sub txt_kode_change()
     End If
 End Sub
 
-Private Sub txt_kode_keypress(key As Integer)
+Private Sub txt_kode_KeyPress(key As Integer)
     If key = 13 Then
         txt_nama.SetFocus
     End If
 End Sub
-Private Sub txt_nama_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        txt_alamat.SetFocus
-        If txt_nama_rek = "" Then
-            txt_nama_rek = txt_nama
-        End If
-    End If
+Private Sub txt_nama_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_alamat.SetFocus
+            If txt_nama_rek = "" Then
+                txt_nama_rek = txt_nama
+            End If
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 Private Sub txt_alamat_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        txt_telp.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_telp.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 Private Sub txt_telp_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        txt_nama_rek.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_nama_rek.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 Private Sub txt_nama_rek_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        txt_no_rek.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_no_rek.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_no_rek_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        txt_bank.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_bank.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_bank_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        btn_save.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            btn_save.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
+
 

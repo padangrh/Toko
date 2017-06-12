@@ -81,35 +81,35 @@ Sub Main()
     fMainForm.Show
 End Sub
 
-'tambahan fingerprint
-Function arraytohex(arr() As Byte) As String
-    Dim templatestr As String
-    Dim tempstr As String
-    Dim i As Integer
-    templatestr = ""
-    For i = LBound(arr) To UBound(arr)
-        tempstr = Hex$(arr(i))
-        If Len(tempstr) = 1 Then tempstr = "0" + tempstr 'padHex
-        templatestr = templatestr + tempstr
-    Next i
-    arraytohex = templatestr
-End Function
-
-Public Sub hextoarray(inphex As String, outarray() As Byte)
-    ReDim outarray(0 To Len(inphex) / 2) As Byte
-    DoEvents
-    Dim i As Integer
-    For i = 1 To Len(inphex) Step 2
-        outarray(((i + 1) / 2) - 1) = Val("&H" + Mid$(inphex, i, 2))
-    Next i
-End Sub
-
-Function Kualitas(X As AISampleQuality)
-    If X = Sq_Good Then
-        Kualitas = "Hasil Bagus"
-    Else
-        Kualitas = "Hasil Jelek"
-    End If
-End Function
-'end tambahan fingerprint
+''tambahan fingerprint
+'Function arraytohex(arr() As Byte) As String
+'    Dim templatestr As String
+'    Dim tempstr As String
+'    Dim i As Integer
+'    templatestr = ""
+'    For i = LBound(arr) To UBound(arr)
+'        tempstr = Hex$(arr(i))
+'        If Len(tempstr) = 1 Then tempstr = "0" + tempstr 'padHex
+'        templatestr = templatestr + tempstr
+'    Next i
+'    arraytohex = templatestr
+'End Function
+'
+'Public Sub hextoarray(inphex As String, outarray() As Byte)
+'    ReDim outarray(0 To Len(inphex) / 2) As Byte
+'    DoEvents
+'    Dim i As Integer
+'    For i = 1 To Len(inphex) Step 2
+'        outarray(((i + 1) / 2) - 1) = Val("&H" + Mid$(inphex, i, 2))
+'    Next i
+'End Sub
+'
+'Function Kualitas(X As AISampleQuality)
+'    If X = Sq_Good Then
+'        Kualitas = "Hasil Bagus"
+'    Else
+'        Kualitas = "Hasil Jelek"
+'    End If
+'End Function
+''end tambahan fingerprint
 

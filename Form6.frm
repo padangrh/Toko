@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   95617027
+      Format          =   105644035
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -557,11 +557,28 @@ Private Sub btn_kategori_Click()
 End Sub
 
 Private Sub cb_kategori_KeyPress(key As Integer)
-    If key = 13 Then
-        txt_modal.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_modal.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
+Private Sub dp_masuk_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_ketahanan.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
 
 Private Sub Form_Activate()
     If txt_kode = "" Then
@@ -571,7 +588,7 @@ Private Sub Form_Activate()
     End If
 End Sub
 
-Private Sub btn_save_Click()
+Private Sub btn_Save_Click()
     Dim a As New ADODB.Recordset
     
     If cek_Kategori = False Then
@@ -607,7 +624,7 @@ Sub kosongkan()
     txt_jual = 0
 End Sub
 
-Private Sub btn_cancel_Click()
+Private Sub btn_Cancel_Click()
     Unload Me
 End Sub
 
@@ -668,44 +685,65 @@ Private Sub txt_kode_change()
     End If
     txt_sup_toggle = True
 End Sub
-Private Sub txt_kode_keypress(KeyAscii As Integer)
+Private Sub txt_kode_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         txt_nama.SetFocus
     End If
 End Sub
-Private Sub txt_nama_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        cb_kategori.SetFocus
-    End If
+Private Sub txt_nama_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 45, 47, 8 ' A-Z, 0-9, a-z, minus, slash and backspace
+        'Let these key codes pass through
+        Case 13
+            cb_kategori.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_modal_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        txt_jual.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 48 To 57, 8 '0-9 and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_jual.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 Private Sub txt_jual_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        txt_kode_supplier.SetFocus
-    End If
+    Select Case KeyAscii
+        Case 48 To 57, 8 ' 0-9 and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_stok.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_kode_supplier_KeyDown(key As Integer, Shift As Integer)
-    If key = 13 Then
-        txt_sup_toggle = True
-        
-        Set rsSupplier = con.Execute("select * from tbsuplier")
-        
-        If getSupplier(txt_kode_supplier) Then
-            txt_nama_supplier.Text = rsSupplier!nmsuplier
-            txt_ketahanan.SetFocus
-        Else
-            MsgBox "Supplier tidak terdaftar"
-            txt_kode_supplier.Text = ""
-        End If
-    Else
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_sup_toggle = True
+            Set rsSupplier = con.Execute("select * from tbsuplier")
+            If getSupplier(txt_kode_supplier) Then
+                txt_nama_supplier.Text = rsSupplier!nmsuplier
+                txt_ketahanan.SetFocus
+            Else
+                MsgBox "Supplier tidak terdaftar"
+                txt_kode_supplier.Text = ""
+            End If
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
         txt_nama_supplier = ""
-    End If
+    End Select
 End Sub
 
 Private Sub txt_nama_supplier_Change()
@@ -719,13 +757,31 @@ Private Sub txt_nama_supplier_Change()
 End Sub
 
 Private Sub txt_ketahanan_KeyPress(KeyAscii As Integer)
-If KeyAscii = 13 Then
-    If Val(txt_ketahanan) > 0 Then
-        btn_save.SetFocus
-    Else
-        MsgBox ("Ketahanan barang tidak valid")
-    End If
-End If
+    Select Case KeyAscii
+        Case 48 To 57, 8 '0-9 and backspace
+        'Let these key codes pass through
+        Case 13
+            If Val(txt_ketahanan) > 0 Then
+                btn_save.SetFocus
+            Else
+                MsgBox ("Ketahanan barang tidak valid")
+            End If
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
+Private Sub txt_nama_supplier_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            dp_masuk.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_nama_supplier_LostFocus()
@@ -808,3 +864,15 @@ Private Function cek_Kategori() As Boolean
         i = i + 1
     Loop
 End Function
+
+Private Sub txt_stok_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 48 To 57, 8, 45 '  0-9, backspace, and minus
+        'Let these key codes pass through
+        Case 13
+            txt_kode_supplier.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub

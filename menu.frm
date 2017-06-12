@@ -163,25 +163,6 @@ Begin VB.MDIForm FrmMain
    Begin VB.Menu pa 
       Caption         =   "Pengaturan Akun"
    End
-   Begin VB.Menu tbhs 
-      Caption         =   "tbhistory"
-      Visible         =   0   'False
-      Begin VB.Menu uh 
-         Caption         =   "UpdateHistory"
-      End
-      Begin VB.Menu uh2 
-         Caption         =   "UpdateHistory2"
-      End
-      Begin VB.Menu uh3 
-         Caption         =   "UpdateHistory3"
-      End
-      Begin VB.Menu uh4 
-         Caption         =   "UpdateHistory4"
-      End
-      Begin VB.Menu td 
-         Caption         =   "TrimData"
-      End
-   End
    Begin VB.Menu lg 
       Caption         =   "Logout"
    End
