@@ -210,7 +210,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   105447425
+         Format          =   105775105
          CurrentDate     =   39459
       End
    End
@@ -577,10 +577,10 @@ Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
   For i = 1 To LV1.ColumnHeaders.count
     LV1.ColumnHeaders.item(i).Icon = 0
   Next
-  If LV1.SortKey <> ColumnHeader.Index - 1 Then
+  If LV1.SortKey <> ColumnHeader.index - 1 Then
     LV1.SortOrder = lvwAscending
     ColumnHeader.Icon = 1
-    LV1.SortKey = ColumnHeader.Index - 1
+    LV1.SortKey = ColumnHeader.index - 1
   Else
     If LV1.SortOrder = lvwAscending Then
       LV1.SortOrder = lvwDescending
@@ -590,6 +590,16 @@ Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
       ColumnHeader.Icon = 1
     End If
   End If
+End Sub
+
+Private Sub tgl_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_filter_change()
@@ -622,7 +632,7 @@ Private Sub tgl_Change()
 End Sub
 
 Public Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
-    Select Case Button.Index
+    Select Case Button.index
         Case 1
             tambah
         Case 2
@@ -658,7 +668,7 @@ Private Sub deleteRecord()
     Loop
     con.Execute ("delete from tbbeli where nobukti='" & no_bon & "'")
     con.Execute ("delete from bill_beli where nobukti='" & no_bon & "'")
-    LV1.ListItems.Remove (LV1.SelectedItem.Index)
+    LV1.ListItems.Remove (LV1.SelectedItem.index)
 End Sub
 
 Private Sub Settlement()
@@ -703,3 +713,12 @@ Private Sub tambah()
   Form_Pembelian.Show
 End Sub
 
+Private Sub txt_filter_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub

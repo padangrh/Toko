@@ -256,11 +256,11 @@ Private Sub Form_Load()
     cmdbatal = False
     lbl_Finger.Caption = "FingerPrint Sedang DiAktifkan ...."
 '    On Error GoTo Keluar
-    Dim x As Variant
+    Dim X As Variant
     Set myDevices = New FPDevices
     If myDevices.count <> 0 Then
-        For Each x In myDevices
-            Set dev3 = x
+        For Each X In myDevices
+            Set dev3 = X
             dev3.SubScribe Dp_StdPriority, Me.hWnd
         Next
         
@@ -268,7 +268,7 @@ Private Sub Form_Load()
     Else
         lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     End If
-    Set x = Nothing
+    Set X = Nothing
     Mulai = True
     DoEvents
     Exit Sub
@@ -454,4 +454,23 @@ Private Sub Cek()
     
 End Sub
 
+Private Sub txtuser_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
+Private Sub txtpass_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
 

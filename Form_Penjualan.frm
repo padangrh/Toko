@@ -540,6 +540,16 @@ Private Sub list_nama_KeyDown(key As Integer, Shift As Integer)
     End If
 End Sub
 
+Private Sub txt_jumlah_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 48 To 57, 45, 8 ' 0-9, minus and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
 Private Sub txt_nama_Change()
     If txt_nama.Text <> "" And txt_nama_Toggle = False Then
 '        list_nama.ListItems.Clear
@@ -569,6 +579,16 @@ Private Sub txt_nama_Change()
     End If
 End Sub
 
+Private Sub txt_nama_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 45, 47, 8 ' A-Z, 0-9, a-z, minus, slash and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
 Private Sub txt_nama_LostFocus()
     If Not Me.ActiveControl Is Nothing Then
         If Not Me.ActiveControl.Name = "list_nama" Then
@@ -581,7 +601,7 @@ Private Sub list_nama_DblClick()
     
     If getItemByID(list_nama.SelectedItem.Text) Then
         txt_kode.Text = rsbarang!kode
-        txt_nama.Text = rsbarang!nama
+        txt_nama.Text = rsbarang!Nama
         txt_harga.Text = Format(rsbarang!harga_jual, "###,###,##0")
         list_nama.Visible = False
         txt_jumlah.SetFocus
@@ -629,7 +649,7 @@ Private Sub txt_jumlah_KeyDown(key As Integer, Shift As Integer)
         If found = False Then
             Dim item As ListItem
             Set item = lv_jual.ListItems.Add(, , rsbarang!kode)
-            item.SubItems(1) = rsbarang!nama
+            item.SubItems(1) = rsbarang!Nama
             item.SubItems(2) = Format(rsbarang!harga_jual, "###,###,##0")
             item.SubItems(3) = txt_jumlah.Text
             item.SubItems(4) = subtotal
@@ -672,7 +692,7 @@ Private Sub txt_kode_KeyDown(key As Integer, Shift As Integer)
         Dim kode As String
         kode = Trim(txt_kode.Text)
         If getItemByID(kode) Then
-            txt_nama.Text = rsbarang!nama
+            txt_nama.Text = rsbarang!Nama
             txt_harga.Text = Format(rsbarang!harga_jual, "###,###,##0")
             txt_jumlah.SetFocus
             txt_jumlah.SelLength = Len(txt_jumlah.Text)
@@ -770,7 +790,7 @@ Public Sub reload_List()
     Do While Not rsFilter.EOF
         Dim mitem As ListItem
         Set mitem = list_nama.ListItems.Add(, , rsFilter!kode)
-        mitem.SubItems(1) = rsFilter!nama
+        mitem.SubItems(1) = rsFilter!Nama
         mitem.SubItems(2) = "Rp. " + Format(rsFilter!harga_jual, "###,###,##0")
         rsFilter.MoveNext
     Loop

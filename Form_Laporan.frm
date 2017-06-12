@@ -139,7 +139,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   152829953
+      Format          =   105775105
       CurrentDate     =   42810
    End
    Begin MSComCtl2.DTPicker dt_end 
@@ -160,7 +160,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   152829953
+      Format          =   105775105
       CurrentDate     =   42810
    End
    Begin VB.Label Label2 
@@ -248,6 +248,25 @@ Private Sub btn_stok_Click()
     Call openReport("laporanstok.rpt", "", NO_DATE)
 End Sub
 
+Private Sub dt_end_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
+Private Sub dt_start_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
 
 Private Sub Form_Load()
     dt_start.Value = Now

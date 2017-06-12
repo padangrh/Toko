@@ -287,7 +287,7 @@ Dim c As Integer
 Dim hhkLowLevelKybd As Long
 Dim Mulai As Boolean
 
-Private Sub btn_cancel_Click()
+Private Sub btn_Cancel_Click()
     Unload Me
 End Sub
 
@@ -384,42 +384,63 @@ Private Sub txt_diskon_LostFocus()
     txt_diskon = Format(txt_diskon, "###,###,##0")
 End Sub
 
-Private Sub txt_spv_keypress(key As Integer)
-    If key = 13 Then
-        txt_password.SetFocus
-    End If
+Private Sub txt_spv_keypress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_password.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
-Private Sub txt_password_keypress(key As Integer)
-    If key = 13 Then
-        cb_status.SetFocus
-    End If
+Private Sub txt_password_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            cb_status.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
-Private Sub cb_status_keypress(key As Integer)
-    If key = 13 Then
-        txt_customer.SetFocus
-    End If
+Private Sub cb_status_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_customer.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
-Private Sub txt_customer_keypress(key As Integer)
-    If key = 13 Then
-        txt_diskon.SetFocus
-    End If
+Private Sub txt_customer_keypress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            txt_diskon.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
-Private Sub txt_diskon_keypress(key As Integer)
-'    If key = 13 Then
-'        btn_ok.SetFocus
-'    End If
-    Select Case key
-        Case 48 To 57, 8 '  0-9 & backspace
+Private Sub txt_diskon_keypress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
         'Let these key codes pass through
         Case 13
             btn_ok.SetFocus
         Case Else
         'All others get trapped
-        key = 0 ' set ascii 0 to trap others input
+        KeyAscii = 0 ' set ascii 0 to trap others input
     End Select
 End Sub
 

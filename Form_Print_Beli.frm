@@ -436,6 +436,16 @@ Private Sub txt_kode_supplier_KeyDown(key As Integer, Shift As Integer)
     End If
 End Sub
 
+Private Sub txt_kode_supplier_KeyPress(KeyAscii As Integer)
+   Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
 Private Sub txt_nama_supplier_Change()
     If txt_nama_supplier.Text <> "" And txt_sup_toggle = False Then
         list_supplier.Visible = True
@@ -444,6 +454,16 @@ Private Sub txt_nama_supplier_Change()
         list_supplier.Visible = False
         txt_sup_toggle = False
     End If
+End Sub
+
+Private Sub txt_nama_supplier_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_nama_supplier_LostFocus()

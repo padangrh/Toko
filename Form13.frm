@@ -599,3 +599,13 @@ Public Sub diskon_query()
     dis_status = Form_Diskon.cb_status.Text
     dis_cust = Form_Diskon.txt_customer.Text
 End Sub
+
+Private Sub txt_uang_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 48 To 57, 44, 8 '0-9, comma and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub

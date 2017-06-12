@@ -318,17 +318,17 @@ End Sub
 
 Private Sub Form_Load()
 '    frmlogin.Enabled = False
-    Dim x As Variant
+    Dim X As Variant
 
     Set myDevices2 = New FPDevices
     If myDevices2.count <> 0 Then
-        For Each x In myDevices2
-            Set dev2 = x
+        For Each X In myDevices2
+            Set dev2 = X
             dev2.SubScribe Dp_StdPriority, Me.hWnd
         Next
     End If
 
-    Set x = Nothing
+    Set X = Nothing
     Sta.Caption = "Letakan Jari Anda Pada FingerPrint"
 
     ScanOke = False
@@ -346,7 +346,7 @@ End Sub
 
 Private Sub Form_unload(cancel As Integer)
 '    frmlogin.Enabled = True
-    Dim x As Variant
+    Dim X As Variant
     Set rsUser = Nothing
     Blank_SJ = ""
     Set Template(4) = Nothing
@@ -427,5 +427,33 @@ Private Sub Siap2x()
 End Sub
 
 Private Sub txt_ConfirmPassword_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then cmd_Simpan.SetFocus
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case 13
+            cmd_Simpan.SetFocus
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
+Private Sub txt_NewPassword_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
+Private Sub txt_password_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub

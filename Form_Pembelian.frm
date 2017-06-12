@@ -10,9 +10,9 @@ Begin VB.Form Form_Pembelian
    ClientWidth     =   16320
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form11"
-   ScaleHeight     =   13046.83
+   ScaleHeight     =   13064.73
    ScaleMode       =   0  'User
-   ScaleWidth      =   34569.55
+   ScaleWidth      =   42894.2
    StartUpPosition =   2  'CenterScreen
    WindowState     =   2  'Maximized
    Begin MSComctlLib.ListView list_nama 
@@ -569,6 +569,26 @@ Private Sub list_nama_KeyDown(key As Integer, Shift As Integer)
     End If
 End Sub
 
+Private Sub txt_jumlah_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 48 To 57, 45, 8 ' 0-9, minus and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
+Private Sub txt_kode_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
+End Sub
+
 Private Sub txt_nama_Change()
     If txt_nama.Text <> "" And txt_nama_Toggle = False Then
         list_nama.Visible = True
@@ -577,6 +597,16 @@ Private Sub txt_nama_Change()
         list_nama.Visible = False
         txt_nama_Toggle = False
     End If
+End Sub
+
+Private Sub txt_nama_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 65 To 90, 48 To 57, 97 To 122, 45, 47, 8 ' A-Z, 0-9, a-z, minus, slash and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
 
 Private Sub txt_nama_LostFocus()
@@ -765,4 +795,14 @@ Public Sub reload_List()
     Loop
     
     Set rsFilter = Nothing
+End Sub
+
+Private Sub txt_return_KeyPress(KeyAscii As Integer)
+    Select Case KeyAscii
+        Case 48 To 57, 45, 8 ' 0-9, minus and backspace
+        'Let these key codes pass through
+        Case Else
+        'All others get trapped
+        KeyAscii = 0 ' set ascii 0 to trap others input
+    End Select
 End Sub
