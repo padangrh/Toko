@@ -204,9 +204,6 @@ Private Sub CommandLogin_Click()
         If UCase(Rec.Fields("UserID")) = UCase(Trim(txtuser)) And Rec.Fields("pass") = Trim(txtpass) Then
             username = Rec!userid
             status = Rec!posisi
-            If status = "Master" Then
-                FrmMain.tbhs.Visible = True
-            End If
             FrmMain.p.Enabled = CBool(Rec.Fields("hak1"))
             FrmMain.Toolbar1.Buttons(1).Enabled = CBool(Rec.Fields("hak1"))
             FrmMain.l.Enabled = CBool(Rec.Fields("hak2"))
@@ -256,11 +253,11 @@ Private Sub Form_Load()
     cmdbatal = False
     lbl_Finger.Caption = "FingerPrint Sedang DiAktifkan ...."
 '    On Error GoTo Keluar
-    Dim X As Variant
+    Dim x As Variant
     Set myDevices = New FPDevices
     If myDevices.count <> 0 Then
-        For Each X In myDevices
-            Set dev3 = X
+        For Each x In myDevices
+            Set dev3 = x
             dev3.SubScribe Dp_StdPriority, Me.hWnd
         Next
         
@@ -268,7 +265,7 @@ Private Sub Form_Load()
     Else
         lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     End If
-    Set X = Nothing
+    Set x = Nothing
     Mulai = True
     DoEvents
     Exit Sub

@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   105840643
+      Format          =   43384835
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -554,12 +554,6 @@ Private Sub btn_kategori_Click()
     cb_kategori.Text = new_kategori
     cb_kategori.AddItem (new_kategori)
     con.Execute ("insert into tbkategori values('" & new_kategori & "')")
-End Sub
-
-Private Sub cb_kategori_KeyPress(key As Integer)
-    If key = 13 Then
-        txt_modal.SetFocus
-    End If
 End Sub
 
 Private Sub cb_kategori_KeyPress(key As Integer)
