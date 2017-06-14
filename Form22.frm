@@ -27,6 +27,7 @@ Begin VB.Form Form_Warning
       FullRowSelect   =   -1  'True
       GridLines       =   -1  'True
       _Version        =   393217
+      ColHdrIcons     =   "ImageListOrder"
       ForeColor       =   -2147483640
       BackColor       =   -2147483643
       BorderStyle     =   1
@@ -69,6 +70,28 @@ Begin VB.Form Form_Warning
          SubItemIndex    =   5
          Text            =   "Jumlah"
          Object.Width           =   2646
+      EndProperty
+   End
+   Begin MSComctlLib.ImageList ImageListOrder 
+      Left            =   0
+      Top             =   0
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      BackColor       =   -2147483643
+      ImageWidth      =   11
+      ImageHeight     =   11
+      MaskColor       =   12632256
+      _Version        =   393216
+      BeginProperty Images {2C247F25-8591-11D1-B16A-00C0F0283628} 
+         NumListImages   =   2
+         BeginProperty ListImage1 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "Form22.frx":0000
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
+            Picture         =   "Form22.frx":037B
+            Key             =   ""
+         EndProperty
       EndProperty
    End
    Begin VB.Label Label1 
@@ -120,3 +143,55 @@ Private Sub Form_Load()
   End If
 End Sub
 
+Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
+    Dim strQuery As String
+    strQuery = "SELECT * from v_warning where sisa_waktu < ketahanan * 0.3 and ketahanan > 0"
+    
+    Select Case ColumnHeader.index
+        Case 1
+            strQuery = strQuery & " order by kode"
+        Case 2
+            strQuery = strQuery & " order by nama"
+        Case 3
+            strQuery = strQuery & " order by tgl_masuk"
+        Case 4
+            strQuery = strQuery & " order by ketahanan"
+        Case 5
+            strQuery = strQuery & " order by sisa_waktu"
+        Case 6
+            strQuery = strQuery & " order by jumlah"
+    End Select
+    
+    If ColumnHeader.Icon = 1 Then
+        strQuery = strQuery & " desc"
+        For i = 1 To LV1.ColumnHeaders.count
+            LV1.ColumnHeaders.item(i).Icon = 0
+        Next
+        ColumnHeader.Icon = 2
+    Else
+        strQuery = strQuery & " asc"
+        For i = 1 To LV1.ColumnHeaders.count
+            LV1.ColumnHeaders.item(i).Icon = 0
+        Next
+        ColumnHeader.Icon = 1
+    End If
+    
+    Set rswarning = con.Execute(strQuery)
+    LV1.ListItems.Clear
+    If rswarning.RecordCount = 0 Then
+        Label1.Caption = "TIDAK ADA BARANG HAMPIR EXPIRED"
+    Else
+        If Not rswarning.EOF Then
+            rswarning.MoveFirst
+            Do While Not rswarning.EOF
+                Set mitem = LV1.ListItems.Add(, , rswarning.Fields("kode"))
+                mitem.SubItems(1) = rswarning.Fields("nama")
+                mitem.SubItems(2) = rswarning.Fields("tgl_masuk")
+                mitem.SubItems(3) = CStr(rswarning.Fields("ketahanan")) + " hari"
+                mitem.SubItems(4) = CStr(rswarning.Fields("sisa_waktu")) + " hari"
+                mitem.SubItems(5) = rswarning.Fields("jumlah")
+                rswarning.MoveNext
+            Loop
+        End If
+    End If
+End Sub

@@ -169,7 +169,7 @@ Begin VB.Form Form_List_Jual
             Strikethrough   =   0   'False
          EndProperty
          CustomFormat    =   "dd-MM-yyyy"
-         Format          =   40763395
+         Format          =   106430467
          CurrentDate     =   42191
       End
       Begin VB.TextBox txt_filter 
@@ -412,20 +412,20 @@ Private Sub lv_tunai_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
     lv_tunai.Sorted = True
     Dim i As Byte
     For i = 1 To lv_tunai.ColumnHeaders.count
-      lv_tunai.ColumnHeaders.item(i).Icon = 0
+        lv_tunai.ColumnHeaders.item(i).Icon = 0
     Next
     If lv_tunai.SortKey <> ColumnHeader.index - 1 Then
-      lv_tunai.SortOrder = lvwAscending
-      ColumnHeader.Icon = 1
-      lv_tunai.SortKey = ColumnHeader.index - 1
-    Else
-      If lv_tunai.SortOrder = lvwAscending Then
-        lv_tunai.SortOrder = lvwDescending
-        ColumnHeader.Icon = 2
-      Else
         lv_tunai.SortOrder = lvwAscending
         ColumnHeader.Icon = 1
-      End If
+        lv_tunai.SortKey = ColumnHeader.index - 1
+    Else
+        If lv_tunai.SortOrder = lvwAscending Then
+            lv_tunai.SortOrder = lvwDescending
+            ColumnHeader.Icon = 2
+        Else
+            lv_tunai.SortOrder = lvwAscending
+            ColumnHeader.Icon = 1
+        End If
     End If
 End Sub
 
@@ -434,20 +434,20 @@ Private Sub lv_nontunai_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHead
     lv_nontunai.Sorted = True
     Dim i As Byte
     For i = 1 To lv_tunai.ColumnHeaders.count
-      lv_tunai.ColumnHeaders.item(i).Icon = 0
+        lv_tunai.ColumnHeaders.item(i).Icon = 0
     Next
     If lv_nontunai.SortKey <> ColumnHeader.index - 1 Then
-      lv_nontunai.SortOrder = lvwAscending
-      ColumnHeader.Icon = 1
-      lv_nontunai.SortKey = ColumnHeader.index - 1
-    Else
-      If lv_nontunai.SortOrder = lvwAscending Then
-        lv_nontunai.SortOrder = lvwDescending
-        ColumnHeader.Icon = 2
-      Else
         lv_nontunai.SortOrder = lvwAscending
         ColumnHeader.Icon = 1
-      End If
+        lv_nontunai.SortKey = ColumnHeader.index - 1
+    Else
+        If lv_nontunai.SortOrder = lvwAscending Then
+            lv_nontunai.SortOrder = lvwDescending
+            ColumnHeader.Icon = 2
+        Else
+            lv_nontunai.SortOrder = lvwAscending
+            ColumnHeader.Icon = 1
+        End If
     End If
 End Sub
 

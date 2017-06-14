@@ -57,7 +57,6 @@ Begin VB.Form Form_List_barang
       _ExtentX        =   12938
       _ExtentY        =   2143
       View            =   3
-      Sorted          =   -1  'True
       LabelWrap       =   -1  'True
       HideSelection   =   -1  'True
       FullRowSelect   =   -1  'True
@@ -258,17 +257,24 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim FilterCat, strsql As String
+
 Private Sub CoolBar1_HeightChanged(ByVal NewHeight As Single)
-  Form_Resize
+    Form_Resize
 End Sub
+
 Private Sub Form_Resize()
-  CoolBar1.Width = Me.ScaleWidth
-  LV1.Top = Me.ScaleTop + CoolBar1.Height
-  LV1.Left = Me.ScaleLeft
-  LV1.Width = Me.ScaleWidth
-  LV1.Height = IIf(Me.ScaleHeight - CoolBar1.Height > 0, Me.ScaleHeight - CoolBar1.Height, 0)
+    CoolBar1.Width = Me.ScaleWidth
+    LV1.Top = Me.ScaleTop + CoolBar1.Height
+    LV1.Left = Me.ScaleLeft
+    LV1.Width = Me.ScaleWidth
+    LV1.Height = IIf(Me.ScaleHeight - CoolBar1.Height > 0, Me.ScaleHeight - CoolBar1.Height, 0)
 End Sub
+
 Public Sub refreshlist()
+    Dim i As Integer
+    For i = 1 To LV1.ColumnHeaders.count
+        LV1.ColumnHeaders.item(i).Icon = 0
+    Next
     Dim mitem As ListItem
     Dim rsbarang As New ADODB.Recordset
     Set rsbarang = con.Execute("SELECT * from v_barang where nama like '%" & txt_filter & "%'")
@@ -303,84 +309,134 @@ Public Sub refreshlist()
 End Sub
 
 Private Sub Form_Load()
-  Dim i As Integer
-  For i = 1 To LV1.ColumnHeaders.count
-    LV1.ColumnHeaders.item(i).Icon = 0
-  Next
-  LV1.ColumnHeaders.item(1).Icon = 1
-  txt_filter.Text = ""
-  
- End Sub
-Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
-  Dim i As Byte
-  For i = 1 To LV1.ColumnHeaders.count
-    LV1.ColumnHeaders.item(i).Icon = 0
-  Next
-  If LV1.SortKey <> ColumnHeader.index - 1 Then
-    LV1.SortOrder = lvwAscending
-    ColumnHeader.Icon = 1
-    LV1.SortKey = ColumnHeader.index - 1
-  Else
-    If LV1.SortOrder = lvwAscending Then
-      LV1.SortOrder = lvwDescending
-      ColumnHeader.Icon = 2
-    Else
-      LV1.SortOrder = lvwAscending
-      ColumnHeader.Icon = 1
-    End If
-  End If
+    Dim i As Integer
+    For i = 1 To LV1.ColumnHeaders.count
+      LV1.ColumnHeaders.item(i).Icon = 0
+    Next
+    LV1.ColumnHeaders.item(1).Icon = 1
+    txt_filter.Text = ""
+    
 End Sub
+
+Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
+    Dim i As Integer
+    Dim rsbarang As New ADODB.Recordset
+    Dim mitem As ListItem
+    Dim strQuery As String
+    strQuery = "SELECT * from v_barang where nama like '%" & txt_filter & "%'"
+    
+    Select Case ColumnHeader.index
+        Case 1
+            strQuery = strQuery & " order by kode"
+        Case 2
+            strQuery = strQuery & " order by nama"
+        Case 3
+            strQuery = strQuery & " order by kategori"
+        Case 4
+            strQuery = strQuery & " order by harga_modal"
+        Case 5
+            strQuery = strQuery & " order by harga_jual"
+        Case 6
+            strQuery = strQuery & " order by jumlah_akhir"
+        Case 7
+            strQuery = strQuery & " order by nmsuplier"
+        Case 8
+            strQuery = strQuery & " order by tgl_masuk"
+    End Select
+    
+    If ColumnHeader.Icon = 1 Then
+        strQuery = strQuery & " desc"
+        For i = 1 To LV1.ColumnHeaders.count
+            LV1.ColumnHeaders.item(i).Icon = 0
+        Next
+        ColumnHeader.Icon = 2
+    Else
+        strQuery = strQuery & " asc"
+        For i = 1 To LV1.ColumnHeaders.count
+            LV1.ColumnHeaders.item(i).Icon = 0
+        Next
+        ColumnHeader.Icon = 1
+    End If
+    
+    Set rsbarang = con.Execute(strQuery)
+    LV1.ListItems.Clear
+    If rsbarang.RecordCount = 0 Then
+        Toolbar1.Buttons(2).Enabled = False
+        Toolbar1.Buttons(3).Enabled = False
+    Else
+        Toolbar1.Buttons(2).Enabled = True
+        Toolbar1.Buttons(3).Enabled = True
+        If Not rsbarang.EOF Then
+            rsbarang.MoveFirst
+        
+            Do While Not rsbarang.EOF
+                Set mitem = LV1.ListItems.Add(, , rsbarang.Fields("kode"))
+                mitem.SubItems(1) = rsbarang.Fields("Nama")
+                mitem.SubItems(2) = rsbarang.Fields("kategori")
+                mitem.SubItems(3) = Format(rsbarang.Fields("harga_modal"), "###,###,##0")
+                mitem.SubItems(4) = Format(rsbarang.Fields("harga_jual"), "###,###,##0")
+                mitem.SubItems(5) = rsbarang.Fields("jumlah_akhir")
+                mitem.SubItems(6) = rsbarang!nmsuplier
+                mitem.SubItems(7) = Format(rsbarang.Fields("tgl_masuk"), "dd-MM-yyyy")
+                rsbarang.MoveNext
+            Loop
+        End If
+    End If
+End Sub
+
 Private Sub txt_filter_change()
     refreshlist
 End Sub
 
 Private Sub LV1_DblClick()
-  If LV1.ListItems.count = 0 Then
-    tambah
-  Else
-    perbaiki
-  End If
+    If LV1.ListItems.count = 0 Then
+      tambah
+    Else
+      perbaiki
+    End If
 End Sub
 
 Private Sub LV1_KeyPress(KeyAscii As Integer)
-  If KeyAscii = 13 Then LV1_DblClick
+    If KeyAscii = 13 Then LV1_DblClick
 End Sub
 
 Public Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
-  Select Case Button.index
-  Case 1
-    tambah
-  Case 2
-    perbaiki
-  Case 3
-    Call hapus
-  Case 4
-    Call refreshlist
-  Case 5
-    Unload Me
-  End Select
+    Select Case Button.index
+    Case 1
+        tambah
+    Case 2
+        perbaiki
+    Case 3
+        Call hapus
+    Case 4
+        Call refreshlist
+    Case 5
+        Unload Me
+    End Select
 End Sub
+
 Private Sub tambah()
-  Form_Entri_Barang.Show (1)
-  CoolBar1.Bands(3).Caption = "Record : " & LV1.ListItems.count
+    Form_Entri_Barang.Show (1)
+    CoolBar1.Bands(3).Caption = "Record : " & LV1.ListItems.count
 End Sub
+
 Private Sub perbaiki()
     Form_Entri_Barang.txt_kode.Text = LV1.SelectedItem.Text
     Form_Entri_Barang.Show (1)
 End Sub
 
 Private Sub hapus()
-  If LV1.ListItems.count = 0 Then Exit Sub
-  If MsgBox("Benar Data akan dihapus?", vbQuestion + vbYesNo, "Hapus") = vbYes Then
-    strsql = "delete from tbbarang where kode='" & LV1.SelectedItem.Text & "'"
-    con.BeginTrans
-    con.Execute (strsql)
-    con.CommitTrans
-    LV1.ListItems.Remove (LV1.SelectedItem.index)
-  End If
-  LV1.SetFocus
-  CoolBar1.Bands(3).Caption = "Record : " & LV1.ListItems.count
-  If LV1.ListItems.count = 0 Then refreshlist
+    If LV1.ListItems.count = 0 Then Exit Sub
+    If MsgBox("Benar Data akan dihapus?", vbQuestion + vbYesNo, "Hapus") = vbYes Then
+        strsql = "delete from tbbarang where kode='" & LV1.SelectedItem.Text & "'"
+        con.BeginTrans
+        con.Execute (strsql)
+        con.CommitTrans
+        LV1.ListItems.Remove (LV1.SelectedItem.index)
+    End If
+    LV1.SetFocus
+    CoolBar1.Bands(3).Caption = "Record : " & LV1.ListItems.count
+    If LV1.ListItems.count = 0 Then refreshlist
 End Sub
 
 Private Sub txt_filter_KeyPress(KeyAscii As Integer)

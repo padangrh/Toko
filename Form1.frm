@@ -239,16 +239,19 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
 Private Sub CoolBar1_HeightChanged(ByVal NewHeight As Single)
-  Form_Resize
+    Form_Resize
 End Sub
+
 Private Sub Form_Resize()
-  CoolBar1.Width = Me.ScaleWidth
-  lv_supplier.Top = Me.ScaleTop + CoolBar1.Height
-  lv_supplier.Left = Me.ScaleLeft
-  lv_supplier.Width = Me.ScaleWidth
-  lv_supplier.Height = IIf(Me.ScaleHeight - CoolBar1.Height > 0, Me.ScaleHeight - CoolBar1.Height, 0)
+    CoolBar1.Width = Me.ScaleWidth
+    lv_supplier.Top = Me.ScaleTop + CoolBar1.Height
+    lv_supplier.Left = Me.ScaleLeft
+    lv_supplier.Width = Me.ScaleWidth
+    lv_supplier.Height = IIf(Me.ScaleHeight - CoolBar1.Height > 0, Me.ScaleHeight - CoolBar1.Height, 0)
 End Sub
+
 Public Sub refreshlist()
     Set rsSupplier = con.Execute("select * from tbsuplier where nmsuplier like '%" & txt_filter & "%'")
     
@@ -277,82 +280,84 @@ Public Sub refreshlist()
 End Sub
 
 Private Sub Form_Load()
-  Dim i As Integer
-  For i = 1 To lv_supplier.ColumnHeaders.count
-    lv_supplier.ColumnHeaders.item(i).Icon = 0
-  Next
-  lv_supplier.ColumnHeaders.item(1).Icon = 1
-  txt_filter.Text = ""
-  refreshlist
- End Sub
+    Dim i As Integer
+    For i = 1 To lv_supplier.ColumnHeaders.count
+        lv_supplier.ColumnHeaders.item(i).Icon = 0
+    Next
+    lv_supplier.ColumnHeaders.item(1).Icon = 1
+    txt_filter.Text = ""
+    refreshlist
+End Sub
+
 Private Sub lv_supplier_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
-  Dim i As Byte
-  For i = 1 To lv_supplier.ColumnHeaders.count
-    lv_supplier.ColumnHeaders.item(i).Icon = 0
-  Next
-  If lv_supplier.SortKey <> ColumnHeader.index - 1 Then
-    lv_supplier.SortOrder = lvwAscending
-    ColumnHeader.Icon = 1
-    lv_supplier.SortKey = ColumnHeader.index - 1
-  Else
-    If lv_supplier.SortOrder = lvwAscending Then
-      lv_supplier.SortOrder = lvwDescending
-      ColumnHeader.Icon = 2
+    Dim i As Byte
+    For i = 1 To lv_supplier.ColumnHeaders.count
+        lv_supplier.ColumnHeaders.item(i).Icon = 0
+    Next
+    If lv_supplier.SortKey <> ColumnHeader.index - 1 Then
+        lv_supplier.SortOrder = lvwAscending
+        ColumnHeader.Icon = 1
+        lv_supplier.SortKey = ColumnHeader.index - 1
     Else
-      lv_supplier.SortOrder = lvwAscending
-      ColumnHeader.Icon = 1
+        If lv_supplier.SortOrder = lvwAscending Then
+            lv_supplier.SortOrder = lvwDescending
+            ColumnHeader.Icon = 2
+        Else
+            lv_supplier.SortOrder = lvwAscending
+            ColumnHeader.Icon = 1
+        End If
     End If
-  End If
 End Sub
 
 Private Sub lv_supplier_DblClick()
-  If lv_supplier.ListItems.count = 0 Then
-    tambah
-  Else
-    perbaiki
-  End If
+    If lv_supplier.ListItems.count = 0 Then
+        tambah
+    Else
+        perbaiki
+    End If
 End Sub
 
 Private Sub lv_supplier_KeyPress(KeyAscii As Integer)
-  If KeyAscii = 13 Then lv_supplier_DblClick
+    If KeyAscii = 13 Then lv_supplier_DblClick
 End Sub
 
 Public Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
-  Select Case Button.index
-  Case 1
-    tambah
-  Case 2
-    perbaiki
-  Case 3
-    Call hapus
-  Case 4
-    Call refreshlist
-  Case 5
-    Unload Me
-  End Select
+    Select Case Button.index
+        Case 1
+            tambah
+        Case 2
+            perbaiki
+        Case 3
+            Call hapus
+        Case 4
+            Call refreshlist
+        Case 5
+            Unload Me
+    End Select
 End Sub
+
 Private Sub tambah()
-  Form_Entri_Supplier.Show (1)
-  CoolBar1.Bands(3).Caption = "Record : " & lv_supplier.ListItems.count
+    Form_Entri_Supplier.Show (1)
+    CoolBar1.Bands(3).Caption = "Record : " & lv_supplier.ListItems.count
 End Sub
+
 Private Sub perbaiki()
-  Form_Entri_Supplier.txt_kode.Text = lv_supplier.SelectedItem.Text
-  Form_Entri_Supplier.Show (1)
+    Form_Entri_Supplier.txt_kode.Text = lv_supplier.SelectedItem.Text
+    Form_Entri_Supplier.Show (1)
 End Sub
 
 Private Sub hapus()
-  If lv_supplier.ListItems.count = 0 Then Exit Sub
-  If MsgBox("Benar Data akan dihapus?", vbQuestion + vbYesNo, "Hapus") = vbYes Then
-    con.BeginTrans
-    con.Execute ("delete from tbsuplier where kdsuplier='" & lv_supplier.SelectedItem.Text & "'")
-    con.CommitTrans
-    lv_supplier.ListItems.Remove (lv_supplier.SelectedItem.index)
-  End If
-  lv_supplier.SetFocus
-  CoolBar1.Bands(3).Caption = "Record : " & lv_supplier.ListItems.count
-  If lv_supplier.ListItems.count = 0 Then refreshlist
+    If lv_supplier.ListItems.count = 0 Then Exit Sub
+    If MsgBox("Benar Data akan dihapus?", vbQuestion + vbYesNo, "Hapus") = vbYes Then
+        con.BeginTrans
+        con.Execute ("delete from tbsuplier where kdsuplier='" & lv_supplier.SelectedItem.Text & "'")
+        con.CommitTrans
+        lv_supplier.ListItems.Remove (lv_supplier.SelectedItem.index)
+    End If
+    lv_supplier.SetFocus
+    CoolBar1.Bands(3).Caption = "Record : " & lv_supplier.ListItems.count
+    If lv_supplier.ListItems.count = 0 Then refreshlist
 End Sub
-
 
 Private Sub txt_filter_change()
     refreshlist

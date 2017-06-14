@@ -210,7 +210,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   105644033
+         Format          =   106430465
          CurrentDate     =   39459
       End
    End
@@ -366,7 +366,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim FilterCat, X, strsql As String
+Dim FilterCat, x, strsql As String
 Dim a, ha, hut As Double
 
 Public Sub refreshlist()
@@ -572,24 +572,24 @@ Private Sub Form_Resize()
   LV1.Height = IIf(Me.ScaleHeight - CoolBar1.Height > 0, Me.ScaleHeight - CoolBar1.Height, 0)
 End Sub
 Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
-  LV1.Sorted = True
-  Dim i As Byte
-  For i = 1 To LV1.ColumnHeaders.count
-    LV1.ColumnHeaders.item(i).Icon = 0
-  Next
-  If LV1.SortKey <> ColumnHeader.index - 1 Then
-    LV1.SortOrder = lvwAscending
-    ColumnHeader.Icon = 1
-    LV1.SortKey = ColumnHeader.index - 1
-  Else
-    If LV1.SortOrder = lvwAscending Then
-      LV1.SortOrder = lvwDescending
-      ColumnHeader.Icon = 2
+    LV1.Sorted = True
+    Dim i As Byte
+    For i = 1 To LV1.ColumnHeaders.count
+        LV1.ColumnHeaders.item(i).Icon = 0
+    Next
+    If LV1.SortKey <> ColumnHeader.index - 1 Then
+        LV1.SortOrder = lvwAscending
+        ColumnHeader.Icon = 1
+        LV1.SortKey = ColumnHeader.index - 1
     Else
-      LV1.SortOrder = lvwAscending
-      ColumnHeader.Icon = 1
+        If LV1.SortOrder = lvwAscending Then
+            LV1.SortOrder = lvwDescending
+            ColumnHeader.Icon = 2
+        Else
+            LV1.SortOrder = lvwAscending
+            ColumnHeader.Icon = 1
+        End If
     End If
-  End If
 End Sub
 
 Private Sub tgl_KeyPress(KeyAscii As Integer)

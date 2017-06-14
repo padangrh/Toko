@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   105644035
+      Format          =   40763395
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -685,11 +685,13 @@ Private Sub txt_kode_change()
     End If
     txt_sup_toggle = True
 End Sub
+
 Private Sub txt_kode_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then
         txt_nama.SetFocus
     End If
 End Sub
+
 Private Sub txt_nama_KeyPress(KeyAscii As Integer)
     Select Case KeyAscii
         Case 65 To 90, 48 To 57, 97 To 122, 45, 47, 8 ' A-Z, 0-9, a-z, minus, slash and backspace
@@ -713,6 +715,7 @@ Private Sub txt_modal_keypress(KeyAscii As Integer)
         KeyAscii = 0 ' set ascii 0 to trap others input
     End Select
 End Sub
+
 Private Sub txt_jual_KeyPress(KeyAscii As Integer)
     Select Case KeyAscii
         Case 48 To 57, 8 ' 0-9 and backspace
