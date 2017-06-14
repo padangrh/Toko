@@ -253,11 +253,11 @@ Private Sub Form_Load()
     cmdbatal = False
     lbl_Finger.Caption = "FingerPrint Sedang DiAktifkan ...."
 '    On Error GoTo Keluar
-    Dim x As Variant
+    Dim X As Variant
     Set myDevices = New FPDevices
     If myDevices.count <> 0 Then
-        For Each x In myDevices
-            Set dev3 = x
+        For Each X In myDevices
+            Set dev3 = X
             dev3.SubScribe Dp_StdPriority, Me.hWnd
         Next
         
@@ -265,7 +265,7 @@ Private Sub Form_Load()
     Else
         lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     End If
-    Set x = Nothing
+    Set X = Nothing
     Mulai = True
     DoEvents
     Exit Sub
@@ -374,7 +374,7 @@ Private Sub myDevices_DeviceDisconnected(ByVal serNum As String)
 End Sub
 
 Private Sub Timer1_Timer()
-    lbl_Result.Visible = False
+    lbl_Result.Caption = ""
     Timer1.Enabled = False
 
 End Sub
@@ -391,13 +391,11 @@ Private Sub Cek()
     Dim blobarray() As Byte
     Set verify = New FPVerify
     Dim Kjk As Byte
-    Dim temp_String As String
     Dim Nama As String
     Dim kode As String
     Dim LogOke As Boolean
     
     lbl_Result.ForeColor = vbBlack
-    temp_String = "Start : " & Format(Now, "h:mm:ss")
     Rec.Open "select * from tblogin where fingerprint <> ''", con, adOpenForwardOnly, adLockReadOnly
     Do Until Rec.EOF
         blob = Rec.Fields("fingerprint")

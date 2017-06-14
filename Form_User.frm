@@ -10,6 +10,23 @@ Begin VB.Form Form_User
    ScaleHeight     =   5955
    ScaleWidth      =   7035
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton cmd_HapusFP 
+      Caption         =   "Hapus Fingerprint"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   615
+      Left            =   3960
+      TabIndex        =   18
+      Top             =   5160
+      Width           =   1335
+   End
    Begin VB.CommandButton Command1 
       Caption         =   "Reset"
       BeginProperty Font 
@@ -371,6 +388,17 @@ Private Sub cb_status_KeyPress(KeyAscii As Integer)
         'All others get trapped
         KeyAscii = 0 ' set ascii 0 to trap others input
     End Select
+End Sub
+
+Private Sub cmd_HapusFP_Click()
+    If MsgBox("Hapus fingerprint untuk user " & txt_id.Text & "?", vbYesNo, "Konfirmasi") = vbYes Then
+        If getUser(txt_id.Text) Then
+            con.Execute ("Update tblogin set fingerprint = '' where userid = '" & txt_id.Text & "'")
+            MsgBox ("Fingerprint sudah dihapus")
+        Else
+            MsgBox "User " & txt_id.Text & " tidak ditemukan"
+        End If
+    End If
 End Sub
 
 Private Sub Command1_Click()
