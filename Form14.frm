@@ -210,7 +210,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   106430465
+         Format          =   7733249
          CurrentDate     =   39459
       End
    End
@@ -593,13 +593,7 @@ Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
 End Sub
 
 Private Sub tgl_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_filter_change()
@@ -714,11 +708,5 @@ Private Sub tambah()
 End Sub
 
 Private Sub txt_filter_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub

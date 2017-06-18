@@ -169,7 +169,7 @@ Begin VB.Form Form_List_Jual
             Strikethrough   =   0   'False
          EndProperty
          CustomFormat    =   "dd-MM-yyyy"
-         Format          =   106430467
+         Format          =   7733251
          CurrentDate     =   42191
       End
       Begin VB.TextBox txt_filter 
@@ -374,13 +374,7 @@ Private Sub CoolBar1_HeightChanged(ByVal NewHeight As Single)
 End Sub
 
 Private Sub DTPicker1_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub Form_Load()
@@ -560,11 +554,5 @@ Private Sub lv_nontunai_DblClick()
 End Sub
 
 Private Sub txt_filter_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub

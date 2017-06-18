@@ -570,23 +570,11 @@ Private Sub list_nama_KeyDown(key As Integer, Shift As Integer)
 End Sub
 
 Private Sub txt_jumlah_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 48 To 57, 45, 8 ' 0-9, minus and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 1)
 End Sub
 
 Private Sub txt_kode_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_nama_Change()
@@ -600,13 +588,7 @@ Private Sub txt_nama_Change()
 End Sub
 
 Private Sub txt_nama_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 45, 47, 8 ' A-Z, 0-9, a-z, minus, slash and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
 
 Private Sub txt_nama_LostFocus()
@@ -799,11 +781,5 @@ Public Sub reload_List()
 End Sub
 
 Private Sub txt_return_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 48 To 57, 45, 8 '0-9, minus and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 1)
 End Sub

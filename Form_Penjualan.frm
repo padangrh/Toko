@@ -541,47 +541,16 @@ Private Sub list_nama_KeyDown(key As Integer, Shift As Integer)
 End Sub
 
 Private Sub txt_jumlah_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 48 To 57, 8 '0-9 and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 1)
 End Sub
 
 Private Sub txt_kode_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_nama_Change()
     If txt_nama.Text <> "" And txt_nama_Toggle = False Then
-'        list_nama.ListItems.Clear
         list_nama.Visible = True
-'        Dim rsFilter As ADODB.Recordset
-'        Set rsFilter = con.Execute("select * from tbbarang where nama like '%" & txt_nama.Text & "%'")
-'
-'        If rsFilter.EOF Then
-'            list_nama.Visible = False
-'            Exit Sub
-'        End If
-'
-'        rsFilter.MoveFirst
-'        Do While Not rsFilter.EOF
-'            Dim mitem As ListItem
-'            Set mitem = list_nama.ListItems.Add(, , rsFilter!kode)
-'            mitem.SubItems(1) = rsFilter!nama
-'            mitem.SubItems(2) = "Rp. " + Format(rsFilter!harga_jual, "###,###,##0")
-'            rsFilter.MoveNext
-'        Loop
-'
-'        Set rsFilter = Nothing
         reload_List
     Else
         list_nama.Visible = False
@@ -590,13 +559,7 @@ Private Sub txt_nama_Change()
 End Sub
 
 Private Sub txt_nama_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 45, 47, 8 ' A-Z, 0-9, a-z, minus, slash and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
 
 Private Sub txt_nama_LostFocus()

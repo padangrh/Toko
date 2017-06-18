@@ -238,7 +238,7 @@ Private Sub cmd_Simpan_Click()
     Dim flagPassword As Boolean
     flagPassword = False
     
-    If txt_password.Text <> rsUser!pass Then
+    If txt_Password.Text <> rsUser!pass Then
         MsgBox "Password salah"
         Exit Sub
     End If
@@ -423,33 +423,16 @@ End Sub
 'End Sub
 
 Private Sub txt_ConfirmPassword_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            cmd_Simpan.SetFocus
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then cmd_Simpan.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_NewPassword_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_ConfirmPassword.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_password_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_NewPassword.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub

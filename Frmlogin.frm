@@ -219,6 +219,14 @@ Private Sub CommandLogin_Click()
             FrmMain.Show
 
             FrmMain.Toolbar1.Enabled = True
+            If Setting_Object("Absen") Then
+                're-use Rec untuk login tbabsen
+                Set Rec = con.Execute("select * from tbabsen where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+                If Rec.EOF Then
+                    con.Execute ("insert into tbabsen (userid, tanggal, jam_masuk, jam_keluar) values ('" & username & "','" & Format(Now, "yyyy-MM-dd") & "','" & Format(Now, "HH:mm:ss") & "','')")
+                End If
+                Set Rec = Nothing
+            End If
             Exit Sub
         Else
             lbl_Result.ForeColor = vbRed
@@ -419,21 +427,10 @@ End Sub
 'End Sub
 
 Private Sub txtuser_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txtpass.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txtpass_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub

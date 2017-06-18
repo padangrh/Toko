@@ -3,14 +3,31 @@ Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Begin VB.Form Form_Laporan 
    Caption         =   "Laporan"
-   ClientHeight    =   4380
+   ClientHeight    =   5355
    ClientLeft      =   60
    ClientTop       =   405
    ClientWidth     =   7020
    LinkTopic       =   "Form1"
-   ScaleHeight     =   4380
+   ScaleHeight     =   5355
    ScaleWidth      =   7020
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton btn_Absen 
+      Caption         =   "Laporan Absen"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   855
+      Left            =   240
+      TabIndex        =   10
+      Top             =   4320
+      Width           =   3135
+   End
    Begin Crystal.CrystalReport cr 
       Left            =   3240
       Top             =   3600
@@ -139,7 +156,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   105578497
+      Format          =   112852993
       CurrentDate     =   42810
    End
    Begin MSComCtl2.DTPicker dt_end 
@@ -160,7 +177,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   105578497
+      Format          =   112852993
       CurrentDate     =   42810
    End
    Begin VB.Label Label2 
@@ -207,6 +224,10 @@ Const NO_DATE As Integer = 0
 Const ONE_DAY As Integer = 1
 Const DURATION As Integer = 2
 
+Private Sub btn_Absen_Click()
+    Call openReport("laporanabsensi.rpt", "tbabsen.tanggal", DURATION)
+End Sub
+
 Private Sub btn_harian_Click()
     Call openReport("laporanharian.rpt", "bill.tanggal", ONE_DAY)
 End Sub
@@ -249,23 +270,11 @@ Private Sub btn_stok_Click()
 End Sub
 
 Private Sub dt_end_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub dt_start_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub Form_Load()

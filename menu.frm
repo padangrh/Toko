@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.MDIForm FrmMain 
    BackColor       =   &H8000000C&
    Caption         =   "Main Menu"
@@ -324,6 +324,14 @@ Private Sub MDIForm_Load()
 End Sub
 
 Private Sub MDIForm_Unload(cancel As Integer)
+    If Setting_Object("Absen") Then
+        Dim Rec As ADODB.Recordset
+        Set Rec = con.Execute("select * from tbabsen where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+        If Not Rec.EOF Then
+            con.Execute ("update tbabsen set jam_keluar = '" & Format(Now, "HH:mm:ss") & "' where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+        End If
+        Set Rec = Nothing
+    End If
     Dim Form As VB.Form
     For Each Form In VB.Forms
         Unload Form
