@@ -188,7 +188,6 @@ Begin VB.Form Form_RegisterFP
       Width           =   2175
    End
    Begin VB.Label lbl_Fingerprint 
-      Alignment       =   2  'Center
       Caption         =   "Sidik jari telah tersimpan"
       Height          =   375
       Left            =   840
@@ -318,18 +317,20 @@ End Sub
 
 Private Sub Form_Load()
 '    frmlogin.Enabled = False
-    Dim X As Variant
+    Dim x As Variant
 
     Set myDevices2 = New FPDevices
     If myDevices2.count <> 0 Then
-        For Each X In myDevices2
-            Set dev2 = X
+        For Each x In myDevices2
+            Set dev2 = x
             dev2.SubScribe Dp_StdPriority, Me.hWnd
         Next
+        Sta.Caption = "Letakan Jari Anda Pada FingerPrint"
+    Else
+        Sta.Caption = "FingerPrint Belum Terpasang !!!"
     End If
 
-    Set X = Nothing
-    Sta.Caption = "Letakan Jari Anda Pada FingerPrint"
+    Set x = Nothing
 
     ScanOke = False
     
@@ -346,7 +347,7 @@ End Sub
 
 Private Sub Form_unload(cancel As Integer)
 '    frmlogin.Enabled = True
-    Dim X As Variant
+    Dim x As Variant
     Set rsUser = Nothing
     Blank_SJ = ""
     Set Template(4) = Nothing
@@ -427,33 +428,36 @@ Private Sub Siap2x()
 End Sub
 
 Private Sub txt_ConfirmPassword_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            cmd_Simpan.SetFocus
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then cmd_Simpan.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_NewPassword_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_ConfirmPassword.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_password_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_NewPassword.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
+End Sub
+
+Private Sub myDevices2_DeviceConnected(ByVal serNum As String)
+    If myDevices2.count <> 0 Then
+        Dim x As Variant
+        For Each x In myDevices2
+            Set dev2 = x
+            dev2.SubScribe Dp_StdPriority, Me.hWnd
+        Next
+        Sta.Caption = "FingerPrint Belum Terpasang !!!"
+    End If
+End Sub
+
+Private Sub myDevices2_DeviceDisconnected(ByVal serNum As String)
+    Sta.Caption = "FingerPrint Belum Terpasang !!!"
+    On Error Resume Next
+    If Not (dev2 Is Nothing) Then
+        dev2.UnSubScribe
+    End If
+    Set dev2 = Nothing
 End Sub

@@ -83,7 +83,7 @@ Begin VB.Form Form_Entri_Supplier
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   41353219
+      Format          =   89587715
       CurrentDate     =   42145
    End
    Begin VB.CommandButton btn_cancel 
@@ -382,6 +382,7 @@ Private Sub btn_Save_Click()
     Unload Me
     Form_List_Supplier.refreshlist
 End Sub
+
 Sub kosongkan()
     txt_nama = ""
     txt_alamat = ""
@@ -390,8 +391,14 @@ Sub kosongkan()
     txt_no_rek = ""
     txt_bank = ""
 End Sub
+
 Private Sub btn_Cancel_Click()
     Unload Me
+End Sub
+
+Private Sub DTPicker1_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 13 Then txt_nama_rek.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub Form_Activate()
@@ -401,10 +408,12 @@ Private Sub Form_Activate()
         txt_nama.SetFocus
     End If
 End Sub
+
 Private Sub Form_Load()
     kosongkan
     DTPicker1 = Date
 End Sub
+
 Private Sub txt_kode_change()
     Set rsSupplier = con.Execute("select * from tbsuplier where kdsuplier='" & Trim(txt_kode) & "'")
     If Not rsSupplier.EOF Then
@@ -425,76 +434,40 @@ Private Sub txt_kode_KeyPress(key As Integer)
         txt_nama.SetFocus
     End If
 End Sub
+
 Private Sub txt_nama_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            txt_alamat.SetFocus
-            If txt_nama_rek = "" Then
-                txt_nama_rek = txt_nama
-            End If
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then
+        txt_alamat.SetFocus
+        If txt_nama_rek = "" Then
+            txt_nama_rek = txt_nama
+        End If
+    End If
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
+
 Private Sub txt_alamat_keypress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            txt_telp.SetFocus
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_telp.SetFocus
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
+
 Private Sub txt_telp_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            txt_nama_rek.SetFocus
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then DTPicker1.SetFocus
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
+
 Private Sub txt_nama_rek_keypress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            txt_no_rek.SetFocus
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_no_rek.SetFocus
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
 
 Private Sub txt_no_rek_keypress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            txt_bank.SetFocus
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_bank.SetFocus
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
 
 Private Sub txt_bank_keypress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case 13
-            btn_save.SetFocus
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then btn_save.SetFocus
+    KeyAscii = validateKey(KeyAscii, 3)
 End Sub
 
 

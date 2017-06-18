@@ -109,9 +109,7 @@ Private Sub Form_Load()
         Set l_item = lv_history.ListItems.Add(, , Format(rsHistory!tanggal, "yyyy-mm-dd"))
         l_item.SubItems(1) = rsHistory!Nama
         l_item.SubItems(2) = Format(rsHistory!harga_modal, "###,###,##0")
-       
         l_item.SubItems(3) = Format(rsHistory!harga_jual, "###,###,##0")
-       
         rsHistory.MoveNext
     Loop
     rsHistory.Close
@@ -123,22 +121,67 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub lv_history_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
-    lv_history.Sorted = True
-    Dim i As Byte
-    For i = 1 To lv_history.ColumnHeaders.count
-      lv_history.ColumnHeaders.item(i).Icon = 0
-    Next
-    If lv_history.SortKey <> ColumnHeader.index - 1 Then
-      lv_history.SortOrder = lvwAscending
-      ColumnHeader.Icon = 1
-      lv_history.SortKey = ColumnHeader.index - 1
-    Else
-      If lv_history.SortOrder = lvwAscending Then
-        lv_history.SortOrder = lvwDescending
+    Dim i As Integer
+    Dim rsbarang As New ADODB.Recordset
+    Dim mitem As ListItem
+    Dim strQuery As String
+    strQuery = "SELECT * from v_barang where nama like '%" & txt_filter & "%'"
+    
+    Select Case ColumnHeader.index
+        Case 1
+            strQuery = strQuery & " order by kode"
+        Case 2
+            strQuery = strQuery & " order by nama"
+        Case 3
+            strQuery = strQuery & " order by kategori"
+        Case 4
+            strQuery = strQuery & " order by harga_modal"
+        Case 5
+            strQuery = strQuery & " order by harga_jual"
+        Case 6
+            strQuery = strQuery & " order by jumlah_akhir"
+        Case 7
+            strQuery = strQuery & " order by nmsuplier"
+        Case 8
+            strQuery = strQuery & " order by tgl_masuk"
+    End Select
+    
+    If ColumnHeader.Icon = 1 Then
+        strQuery = strQuery & " desc"
+        For i = 1 To LV1.ColumnHeaders.count
+            LV1.ColumnHeaders.item(i).Icon = 0
+        Next
         ColumnHeader.Icon = 2
-      Else
-        lv_history.SortOrder = lvwAscending
+    Else
+        strQuery = strQuery & " asc"
+        For i = 1 To LV1.ColumnHeaders.count
+            LV1.ColumnHeaders.item(i).Icon = 0
+        Next
         ColumnHeader.Icon = 1
-      End If
+    End If
+    
+    Set rsbarang = con.Execute(strQuery)
+    LV1.ListItems.Clear
+    If rsbarang.RecordCount = 0 Then
+        Toolbar1.Buttons(2).Enabled = False
+        Toolbar1.Buttons(3).Enabled = False
+    Else
+        Toolbar1.Buttons(2).Enabled = True
+        Toolbar1.Buttons(3).Enabled = True
+        If Not rsbarang.EOF Then
+            rsbarang.MoveFirst
+        
+            Do While Not rsbarang.EOF
+                Set mitem = LV1.ListItems.Add(, , rsbarang.Fields("kode"))
+                mitem.SubItems(1) = rsbarang.Fields("Nama")
+                mitem.SubItems(2) = rsbarang.Fields("kategori")
+                mitem.SubItems(3) = Format(rsbarang.Fields("harga_modal"), "###,###,##0")
+                mitem.SubItems(4) = Format(rsbarang.Fields("harga_jual"), "###,###,##0")
+                mitem.SubItems(5) = rsbarang.Fields("jumlah_akhir")
+                mitem.SubItems(6) = rsbarang!nmsuplier
+                mitem.SubItems(7) = Format(rsbarang.Fields("tgl_masuk"), "dd-MM-yyyy")
+                rsbarang.MoveNext
+            Loop
+        End If
     End If
 End Sub

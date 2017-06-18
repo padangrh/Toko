@@ -381,13 +381,8 @@ Attribute VB_Exposed = False
 Dim rsUser As ADODB.Recordset
 
 Private Sub cb_status_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then Check1.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub cmd_HapusFP_Click()
@@ -439,7 +434,7 @@ End Function
 Private Sub list_user_Click()
     If getUser(list_user.Text) Then
         txt_id = rsUser!userid
-        txt_password = rsUser!pass
+        txt_Password = rsUser!pass
         cb_status.Text = rsUser!posisi
         Check1.Value = rsUser!hak1
         Check2.Value = rsUser!hak2
@@ -452,7 +447,7 @@ End Sub
 
 Private Sub reset()
     txt_id = ""
-    txt_password = ""
+    txt_Password = ""
     cb_status.ListIndex = 0
     Check1.Value = 1
     Check2.Value = 0
@@ -470,7 +465,7 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub tambah()
-    If txt_id = "" Or txt_password = "" Then
+    If txt_id = "" Or txt_Password = "" Then
         MsgBox "Data tidak lengkap"
         Exit Sub
     End If
@@ -480,13 +475,13 @@ Private Sub tambah()
         Exit Sub
     End If
     
-    con.Execute ("insert into tblogin values('" & txt_id & "', '" & txt_password & "', '" & cb_status.Text & "', " & Check1.Value & ", " & Check2.Value & ", " & Check3.Value & ", " & Check4.Value & ",'')")
+    con.Execute ("insert into tblogin values('" & txt_id & "', '" & txt_Password & "', '" & cb_status.Text & "', " & Check1.Value & ", " & Check2.Value & ", " & Check3.Value & ", " & Check4.Value & ",'')")
     reload
     reset
 End Sub
 
 Private Sub ubah()
-    If txt_id = "" Or txt_password = "" Then
+    If txt_id = "" Or txt_Password = "" Then
         MsgBox "Data tidak lengkap"
         Exit Sub
     End If
@@ -496,7 +491,7 @@ Private Sub ubah()
         Exit Sub
     End If
     
-    con.Execute ("update tblogin set pass = '" & txt_password & "', posisi = '" & cb_status.Text & "', hak1 = " & Check1.Value & ", hak2 = " & Check2.Value & ", hak3 = " & Check3.Value & ", hak4 = " & Check4.Value & " where userid = '" & txt_id & "'")
+    con.Execute ("update tblogin set pass = '" & txt_Password & "', posisi = '" & cb_status.Text & "', hak1 = " & Check1.Value & ", hak2 = " & Check2.Value & ", hak3 = " & Check3.Value & ", hak4 = " & Check4.Value & " where userid = '" & txt_id & "'")
     reload
     reset
 End Sub
@@ -512,21 +507,11 @@ Private Sub keluar()
 End Sub
 
 Private Sub txt_id_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txt_Password.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_password_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then cb_status.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub

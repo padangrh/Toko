@@ -217,8 +217,17 @@ Private Sub CommandLogin_Click()
             Unload Me
             DoEvents
             FrmMain.Show
-
+            
             FrmMain.Toolbar1.Enabled = True
+            
+            If Setting_Object("Absen") Then
+                're-use Rec untuk login tbabsen
+                Set Rec = con.Execute("select * from tbabsen where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+                If Rec.EOF Then
+                    con.Execute ("insert into tbabsen (userid, tanggal, jam_masuk, jam_keluar) values ('" & username & "','" & Format(Now, "yyyy-MM-dd") & "','" & Format(Now, "HH:mm:ss") & "','')")
+                End If
+                Set Rec = Nothing
+            End If
             Exit Sub
         Else
             lbl_Result.ForeColor = vbRed
@@ -253,11 +262,11 @@ Private Sub Form_Load()
     cmdbatal = False
     lbl_Finger.Caption = "FingerPrint Sedang DiAktifkan ...."
 '    On Error GoTo Keluar
-    Dim X As Variant
+    Dim x As Variant
     Set myDevices = New FPDevices
     If myDevices.count <> 0 Then
-        For Each X In myDevices
-            Set dev3 = X
+        For Each x In myDevices
+            Set dev3 = x
             dev3.SubScribe Dp_StdPriority, Me.hWnd
         Next
         
@@ -265,7 +274,7 @@ Private Sub Form_Load()
     Else
         lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     End If
-    Set X = Nothing
+    Set x = Nothing
     Mulai = True
     DoEvents
     Exit Sub
@@ -351,25 +360,21 @@ End Sub
 
 Private Sub myDevices_DeviceConnected(ByVal serNum As String)
     If myDevices.count <> 0 Then
-        Set dev3 = Nothing
-'        For Each x In myDevices
-'            Set dev = x
-'
-'        Next
-'        dev3.SubScribe Dp_StdPriority, Me.hWnd
+        Dim x As Variant
+        For Each x In myDevices
+            Set dev3 = x
+            dev3.SubScribe Dp_StdPriority, Me.hWnd
+        Next
         lbl_Finger.Caption = "Letakan Jari Anda pada FingerPrint"
     End If
 End Sub
 
 Private Sub myDevices_DeviceDisconnected(ByVal serNum As String)
-
     lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     On Error Resume Next
-'        For Each x In myDevices
-'            Set dev = x
-'
-'        Next
-    dev3.UnSubScribe
+    If Not (dev3 Is Nothing) Then
+        dev3.UnSubScribe
+    End If
     Set dev3 = Nothing
 End Sub
 
@@ -450,22 +455,11 @@ Private Sub Cek()
 End Sub
 
 Private Sub txtuser_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    If KeyAscii = 13 Then txtpass.SetFocus
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txtpass_KeyPress(KeyAscii As Integer)
-    Select Case KeyAscii
-        Case 65 To 90, 48 To 57, 97 To 122, 8 ' A-Z, 0-9, a-z and backspace
-        'Let these key codes pass through
-        Case Else
-        'All others get trapped
-        KeyAscii = 0 ' set ascii 0 to trap others input
-    End Select
+    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
