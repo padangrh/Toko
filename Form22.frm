@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form Form_Warning 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Form22"
@@ -141,6 +141,7 @@ Private Sub Form_Load()
     Loop
     End If
   End If
+  LV1.ColumnHeaders(5).Icon = 1
 End Sub
 
 Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
