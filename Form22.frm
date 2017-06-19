@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form Form_Warning 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Form22"
@@ -118,10 +118,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-Dim descAsc As Boolean
+
 
 Private Sub Form_Load()
- If con.State = adStateClosed Then connect
+' If con.State = adStateClosed Then connect
   
  strsql = "SELECT * from v_warning where sisa_waktu < ketahanan * 0.3 and ketahanan > 0"
  Set rswarning = con.Execute(strsql)
@@ -143,7 +143,7 @@ Private Sub Form_Load()
     Loop
     End If
   End If
-  descAsc = False
+  LV1.ColumnHeaders(5).Icon = 1
 End Sub
 
 Private Sub LV1_ColumnClick(ByVal ColumnHeader As MSComctlLib.ColumnHeader)
