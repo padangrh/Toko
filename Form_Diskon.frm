@@ -336,7 +336,7 @@ Private Sub btn_ok_Click()
     '    Printer.Print Tab(4); "Diskon"; Tab(18); ": Rp."; txt_diskon
     '    Printer.EndDoc
         'If priceToNum(Form_Print.txt_uang.Text) > 0 Then
-        Form_Print.txt_kembali = Format(priceToNum(Form_Print.txt_uang) - (Val(Form_Print.txt_total) - Val(Form_Print.txt_diskon)), "###,###,##0")
+        Form_Print.txt_kembali = Format(priceToNum(Form_Print.txt_uang) - (priceToNum(Form_Print.txt_total) - priceToNum(Form_Print.txt_diskon)), "###,###,##0")
         rsUser.Close
         Unload Me
         
@@ -347,7 +347,7 @@ End Sub
 Private Sub Form_Load()
     Mulai = False
     Dim x As Variant
-    lbl_finger.Caption = "FingerPrint Sedang DiAktifkan ...."
+    lbl_Finger.Caption = "FingerPrint Sedang DiAktifkan ...."
 '    On Error GoTo Keluar
     
     Set myDevices4 = New FPDevices
@@ -357,9 +357,9 @@ Private Sub Form_Load()
             dev4.SubScribe Dp_StdPriority, Me.hWnd
         Next
         
-        lbl_finger.Caption = "Letakan Jari Anda pada FingerPrint"
+        lbl_Finger.Caption = "Letakan Jari Anda pada FingerPrint"
     Else
-        lbl_finger.Caption = "FingerPrint Belum Terpasang !!!"
+        lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     End If
     Set x = Nothing
     Mulai = True
@@ -421,11 +421,11 @@ Private Function cek_Status() As Boolean
 End Function
 
 Private Sub dev4_FingerLeaving()
-    lbl_finger.Caption = "Letakan Jari Anda pada FingerPrint"
+    lbl_Finger.Caption = "Letakan Jari Anda pada FingerPrint"
 End Sub
 
 Private Sub dev4_FingerTouching()
-    lbl_finger.Caption = "Sidik Jari di-Process"
+    lbl_Finger.Caption = "Sidik Jari di-Process"
 End Sub
 
 Private Sub dev4_SampleAcquired(ByVal pRawSample As Object)
@@ -451,7 +451,7 @@ Private Sub dev4_SampleAcquired(ByVal pRawSample As Object)
     Set ftrex = New FPFtrEx
     ftrex.Process Sample, Tt_Verification, verTemplate, qt
     
-    lbl_finger.Caption = "Proses Selesai !!!"
+    lbl_Finger.Caption = "Proses Selesai !!!"
     If qt = Sq_Good Then
         Cek
     Else
@@ -472,13 +472,13 @@ Private Sub myDevices4_DeviceConnected(ByVal serNum As String)
             Set dev4 = x
             dev4.SubScribe Dp_StdPriority, Me.hWnd
         Next
-        lbl_finger.Caption = "Letakan Jari Anda pada FingerPrint"
+        lbl_Finger.Caption = "Letakan Jari Anda pada FingerPrint"
     End If
 End Sub
 
 Private Sub myDevices4_DeviceDisconnected(ByVal serNum As String)
 
-    lbl_finger.Caption = "FingerPrint Belum Terpasang !!!"
+    lbl_Finger.Caption = "FingerPrint Belum Terpasang !!!"
     If Not (dev4 Is Nothing) Then
         dev4.UnSubScribe
     End If
