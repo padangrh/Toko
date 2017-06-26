@@ -224,6 +224,7 @@ Private Sub CommandLogin_Click()
                 're-use Rec untuk login tbabsen
                 Set Rec = con.Execute("select * from tbabsen where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
                 If Rec.EOF Then
+                    'editV2
                     con.Execute ("insert into tbabsen (userid, tanggal, jam_masuk, jam_keluar) values ('" & username & "','" & Format(Now, "yyyy-MM-dd") & "','" & Format(Now, "HH:mm:ss") & "','')")
                 End If
                 Set Rec = Nothing

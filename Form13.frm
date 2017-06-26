@@ -330,22 +330,25 @@ Private Sub print_bon(tunai As Integer)
         Do While i <= Form_Penjualan.lv_jual.ListItems.count
             Dim item As ListItem
             Set item = Form_Penjualan.lv_jual.ListItems(i)
-            con.Execute ("insert into tbjual values('" & txt_bon & "', '" & tanggal & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ")")
+            'editV2
+            con.Execute ("insert into tbjual (nobukti, tglbukti, kode, nama_barang, harga_jual, jumlah_jual) values('" & txt_bon & "', '" & tanggal & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ")")
             con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir - " & item.SubItems(3) & " where kode = '" & item.Text & "'")
             i = i + 1
         Loop
-        
-        con.Execute ("insert into bill values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & Val(txt_uang) & ", " & tunai & ", " & priceToNum(txt_diskon) & ")")
+        'editV2
+        con.Execute ("insert into bill (nobukti, kasir, tanggal, jam, total, bayar, cash, diskon) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & Val(txt_uang) & ", " & tunai & ", " & priceToNum(txt_diskon) & ")")
         Set rsBill = con.Execute("select * from bill where nobukti = '" & txt_bon & "'")
         If (Val(txt_diskon.Text)) > 0 Then
-            con.Execute ("insert into tbdiskon values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
+            'editV2
+            con.Execute ("insert into tbdiskon (nobukti, supervisor, status, customer, nilai) values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
         End If
     Else
         con.Execute ("update bill set cash = " & tunai & ", bayar = " & priceToNum(txt_uang) & ", diskon = " & priceToNum(txt_diskon) & " where nobukti = '" & txt_bon & "'")
         Set rsDis = con.Execute("select * from tbdiskon where nobukti = '" & txt_bon & "'")
         If Val(txt_diskon) > 0 Then
             If rsDis.EOF = True Then
-                con.Execute ("insert into tbdiskon values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
+                'editV2
+                con.Execute ("insert into tbdiskon (nobukti, supervisor, status, customer, nilai) values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
             Else
                 con.Execute ("update tbdiskon set supervisor = '" & dis_spv & "', customer = '" & dis_cust & "', status = '" & dis_status & "', nilai = " & priceToNum(txt_diskon) & " where nobukti = '" & txt_bon.Text & "'")
             End If

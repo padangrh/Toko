@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form Form_User 
    Caption         =   "User"
    ClientHeight    =   5955
@@ -434,7 +434,7 @@ End Function
 Private Sub list_user_Click()
     If getUser(list_user.Text) Then
         txt_id = rsUser!userid
-        txt_Password = rsUser!pass
+        txt_password = rsUser!pass
         cb_status.Text = rsUser!posisi
         Check1.Value = rsUser!hak1
         Check2.Value = rsUser!hak2
@@ -447,7 +447,7 @@ End Sub
 
 Private Sub reset()
     txt_id = ""
-    txt_Password = ""
+    txt_password = ""
     cb_status.ListIndex = 0
     Check1.Value = 1
     Check2.Value = 0
@@ -465,7 +465,7 @@ Private Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
 End Sub
 
 Private Sub tambah()
-    If txt_id = "" Or txt_Password = "" Then
+    If txt_id = "" Or txt_password = "" Then
         MsgBox "Data tidak lengkap"
         Exit Sub
     End If
@@ -474,14 +474,14 @@ Private Sub tambah()
         MsgBox "User ID telah terpakai"
         Exit Sub
     End If
-    
-    con.Execute ("insert into tblogin values('" & txt_id & "', '" & txt_Password & "', '" & cb_status.Text & "', " & Check1.Value & ", " & Check2.Value & ", " & Check3.Value & ", " & Check4.Value & ",'')")
+    'editV2
+    con.Execute ("insert into tblogin (userid, pass, posisi, hak1, hak2, hak3, hak4) values('" & txt_id & "', '" & txt_password & "', '" & cb_status.Text & "', " & Check1.Value & ", " & Check2.Value & ", " & Check3.Value & ", " & Check4.Value & ",'')")
     reload
     reset
 End Sub
 
 Private Sub ubah()
-    If txt_id = "" Or txt_Password = "" Then
+    If txt_id = "" Or txt_password = "" Then
         MsgBox "Data tidak lengkap"
         Exit Sub
     End If
@@ -491,7 +491,7 @@ Private Sub ubah()
         Exit Sub
     End If
     
-    con.Execute ("update tblogin set pass = '" & txt_Password & "', posisi = '" & cb_status.Text & "', hak1 = " & Check1.Value & ", hak2 = " & Check2.Value & ", hak3 = " & Check3.Value & ", hak4 = " & Check4.Value & " where userid = '" & txt_id & "'")
+    con.Execute ("update tblogin set pass = '" & txt_password & "', posisi = '" & cb_status.Text & "', hak1 = " & Check1.Value & ", hak2 = " & Check2.Value & ", hak3 = " & Check3.Value & ", hak4 = " & Check4.Value & " where userid = '" & txt_id & "'")
     reload
     reset
 End Sub
@@ -507,7 +507,7 @@ Private Sub keluar()
 End Sub
 
 Private Sub txt_id_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then txt_Password.SetFocus
+    If KeyAscii = 13 Then txt_password.SetFocus
     KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
