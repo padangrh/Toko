@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form Form_Entri_Barang 
@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   7733251
+      Format          =   115146755
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -556,7 +556,7 @@ Private Sub btn_kategori_Click()
     con.Execute ("insert into tbkategori values('" & new_kategori & "')")
 End Sub
 
-Private Sub cb_kategori_KeyPress(key As Integer)
+Private Sub cb_kategori_KeyPress(KeyAscii As Integer)
     If KeyAscii = 13 Then txt_modal.SetFocus
     KeyAscii = validateKey(KeyAscii, 2)
 End Sub
@@ -705,7 +705,6 @@ Private Sub txt_kode_supplier_KeyDown(key As Integer, Shift As Integer)
             txt_kode_supplier.Text = ""
         End If
     End If
-    KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
 Private Sub txt_nama_supplier_Change()

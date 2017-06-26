@@ -316,7 +316,7 @@ Private Sub btn_ok_Click()
             Exit Sub
         End If
         
-        If rsUser!pass <> txt_Password Then
+        If rsUser!pass <> txt_password Then
             MsgBox "Password salah"
             Exit Sub
         End If
@@ -325,7 +325,7 @@ Private Sub btn_ok_Click()
         
         Form_Print.diskon_query
         
-        Form_Print.txt_kembali = Format(priceToNum(Form_Print.txt_uang) - (Val(Form_Print.txt_total) - Val(Form_Print.txt_diskon)), "###,###,##0")
+        Form_Print.txt_kembali = Format(priceToNum(Form_Print.txt_uang) - (priceToNum(Form_Print.txt_total) - priceToNum(Form_Print.txt_diskon)), "###,###,##0")
         rsUser.Close
         Unload Me
         
@@ -371,7 +371,7 @@ Private Sub txt_diskon_LostFocus()
 End Sub
 
 Private Sub txt_spv_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then txt_Password.SetFocus
+    If KeyAscii = 13 Then txt_password.SetFocus
     KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
