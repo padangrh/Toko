@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{38911DA0-E448-11D0-84A3-00DD01104159}#1.1#0"; "COMCT332.OCX"
 Begin VB.Form Form_List_beli 
@@ -210,7 +210,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   7733249
+         Format          =   94830593
          CurrentDate     =   39459
       End
    End
@@ -450,9 +450,11 @@ Private Sub btn_export_Click()
     quote = "'"
     comma = ","
     tanggal = quote + Format(tgl.Value, "yyyy-mm-dd") + quote
-    keyword1 = "insert into tbbeli values("
+    'editV2
+    keyword1 = "insert into tbbeli (nobukti, tglbukti, kode, nama_barang, harga, jumlah, return) values("
     keyword2 = "update tbbarang set tgl_masuk=" + tanggal + " where kode="
-    keyword3 = "insert into bill_beli values("
+    'editV2
+    keyword3 = "insert into bill_beli (nobukti, staff, tanggal, jam, total, kode_supplier, pembayaran, lunas, settled, tanggal_lunas) values("
     
     data_beli.MoveFirst
     Do While Not data_beli.EOF

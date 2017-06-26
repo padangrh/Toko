@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form Form_Print_Beli 
    BackColor       =   &H00FF8080&
    Caption         =   "Cetak Bill"
@@ -344,12 +344,13 @@ Private Sub btn_print_click()
         Do While i <= Form_Pembelian.lv_beli.ListItems.count
             Dim item As ListItem
             Set item = Form_Pembelian.lv_beli.ListItems(i)
-            con.Execute ("insert into tbbeli values('" & txt_bon & "', '" & tanggal & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ", " & item.SubItems(4) & ")")
+            'editV2
+            con.Execute ("insert into tbbeli (nobukti, tglbukti, kode, nama_barang, harga, jumlah, return) values('" & txt_bon & "', '" & tanggal & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ", " & item.SubItems(4) & ")")
             con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir + " & (Val(item.SubItems(3)) - Val(item.SubItems(4))) & ", tgl_masuk='" & Format(Now, "yyyy-mm-dd") & "' where kode = '" & item.Text & "'")
             i = i + 1
         Loop
-        
-        con.Execute ("insert into bill_beli values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & txt_kode_supplier & ", " & cb_bayar.ListIndex & ", 0,0,'1990-09-26')")
+        'editV2
+        con.Execute ("insert into bill_beli (nobukti, staff, tanggal, jam, total, kode_supplier, pembayaran, lunas, settled, tanggal_lunas) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & txt_kode_supplier & ", " & cb_bayar.ListIndex & ", 0,0,'1990-09-26')")
         Set rsBill = con.Execute("select * from bill_beli where nobukti = '" & txt_bon & "'")
     Else
         con.Execute ("update bill_beli set kode_supplier = " & txt_kode_supplier & ", pembayaran = " & cb_bayar.ListIndex & " where nobukti = '" & txt_bon & "'")

@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   115146755
+      Format          =   94830595
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -553,7 +553,8 @@ Private Sub btn_kategori_Click()
     
     cb_kategori.Text = new_kategori
     cb_kategori.AddItem (new_kategori)
-    con.Execute ("insert into tbkategori values('" & new_kategori & "')")
+    'editV2
+    con.Execute ("insert into tbkategori (kode) values('" & new_kategori & "')")
 End Sub
 
 Private Sub cb_kategori_KeyPress(KeyAscii As Integer)
@@ -589,9 +590,11 @@ Private Sub btn_Save_Click()
     
     If getBarang(txt_kode) Then
         con.Execute ("Update tbbarang set nama='" & txt_nama & "',kategori='" & cb_kategori.Text & "',harga_modal='" & priceToNum(txt_modal) & "',harga_jual='" & priceToNum(txt_jual) & "',kdsuplier='" & Val(txt_kode_supplier) & "',tgl_masuk='" & Format(dp_masuk, "yyyy-MM-dd") & "',ketahanan='" & Val(txt_ketahanan) & "', jumlah_akhir=" & Val(txt_stok) & " where kode='" & Trim(txt_kode) & "' ")
+        'editV2
         con.Execute ("Insert into tbbarang_history (kode, nama, tanggal, harga_modal, harga_jual) values('" & txt_kode.Text & "','" & txt_nama.Text & "','" & Format(Now, "yyyy-MM-dd") & "','" & priceToNum(txt_modal.Text) & "','" & priceToNum(txt_jual.Text) & "')")
     Else
-       con.Execute ("Insert into tbbarang values('" & Trim(txt_kode) & "' ,'" & txt_nama & "','" & cb_kategori.Text & "','" & Val(txt_modal) & "','" & Val(txt_jual) & "'," & Val(txt_stok) & ",'" & Val(txt_kode_supplier) & "','" & Format(dp_masuk, "yyyy-MM-dd") & "', '" & Val(txt_ketahanan) & "')")
+        'editV2
+        con.Execute ("Insert into tbbarang (kode, nama, kategori, harga_modal, harga_jual, jumlah_akhir, kdsuplier, tgl_masuk, ketahanan) values('" & Trim(txt_kode) & "' ,'" & txt_nama & "','" & cb_kategori.Text & "','" & Val(txt_modal) & "','" & Val(txt_jual) & "'," & Val(txt_stok) & ",'" & Val(txt_kode_supplier) & "','" & Format(dp_masuk, "yyyy-MM-dd") & "', '" & Val(txt_ketahanan) & "')")
     End If
     kosongkan
     

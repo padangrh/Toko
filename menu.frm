@@ -355,8 +355,8 @@ Private Sub uh_Click()
         Set rsHistory = con.Execute("select * from v_update1")
         Do While Not rsHistory.EOF
             If rsHistory!kode = tempKode And rsHistory!harga_jual <> tempHarga And tempKode <> "" Then
-                con.Execute ("insert into tbbarang_history values ('" & tempKode & "','" & rsHistory!nama_barang & "','" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "','0','" & rsHistory!harga_jual & "')")
-                
+                'editV2
+                con.Execute ("insert into tbbarang_history (kode, nama, tanggal, harga_modal, harga_jual) values ('" & tempKode & "','" & rsHistory!nama_barang & "','" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "','0','" & rsHistory!harga_jual & "')")
             End If
             tempKode = rsHistory!kode
             tempHarga = rsHistory!harga_jual
@@ -383,12 +383,14 @@ Private Sub uh2_Click()
             If rsHistory!kode = tempKode And rsHistory!harga <> tempHarga And tempKode <> "" Then
                 Set rsCekTb = con.Execute("Select * from tbbarang_history where tanggal = '" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "' and kode = '" & tempKode & "'")
                 If rsCekTb.EOF Then
-                    con.Execute ("insert into tbbarang_history values ('" & tempKode & "','" & rsHistory!nama_barang & "','" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "','" & rsHistory!harga & "','0')")
+                    'editV2
+                    con.Execute ("insert into tbbarang_history (kode, nama, tanggal, harga_modal, harga_jual) values ('" & tempKode & "','" & rsHistory!nama_barang & "','" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "','" & rsHistory!harga & "','0')")
                 Else
                     If rsCekTb!harga_modal = 0 Then
                         con.Execute ("update tbbarang_history set harga_modal =  '" & rsHistory!harga & "' where tanggal = '" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "' and kode = '" & tempKode & "'")
                     Else
-                        con.Execute ("insert into tbbarang_history values ('" & tempKode & "','" & rsHistory!nama_barang & "','" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "','" & rsHistory!harga & "','0')")
+                        'editV2
+                        con.Execute ("insert into tbbarang_history (kode, nama, tanggal, harga_modal, harga_jual) values ('" & tempKode & "','" & rsHistory!nama_barang & "','" & Format(rsHistory!tglbukti, "yyyy-MM-dd") & "','" & rsHistory!harga & "','0')")
                     End If
                 End If
             End If
