@@ -281,16 +281,16 @@ Private Sub cmd_Simpan_Click()
         
         regTemplate.Export blob
         blobarray = blob
-        'edit ====================================
-            'MsgBox Base64Encode(blobarray)
+'        edit ====================================
+'            MsgBox Base64Encode(blobarray)
             Dim temp_String As String
             
-        'temp_String = Base64Encode(blobarray)
+'        temp_String = Base64Encode(blobarray)
         temp_String = arraytohex(blobarray)
     
     End If
     
-        'temp_String = arrayTostring(blobarray)
+'    temp_String = arrayTostring(blobarray)
 '    Conn.Execute "Insert into karyawan values('" & Text1.Text & "','" & Text2.Text & "','" & temp_String & "')"
     If flagPassword = True Then
         con.Execute ("update tblogin set pass = '" & txt_NewPassword.Text & "' where userid = '" & username & "'")
@@ -298,7 +298,7 @@ Private Sub cmd_Simpan_Click()
     
     con.Execute ("update tblogin set fingerprint = '" & temp_String & "' where userid = '" & username & "'")
     
-        'MsgBox blobarray
+'    MsgBox blobarray
     MsgBox "Data Karyawan Sudah Disimpan !!!", vbInformation, "Information"
     Siap2x
     Unload Me

@@ -236,7 +236,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   40566785
+      Format          =   95027201
       CurrentDate     =   42810
    End
    Begin MSComCtl2.DTPicker dt_end 
@@ -257,7 +257,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   40566785
+      Format          =   95027201
       CurrentDate     =   42810
    End
    Begin VB.Label Label3 
@@ -396,6 +396,7 @@ Private Sub Form_Load()
     btn_pembayaran.Enabled = CheckPath("laporanpembayaran.rpt")
     btn_hutang.Enabled = CheckPath("laporanhutang.rpt")
     btn_stok.Enabled = CheckPath("laporanstok.rpt")
+    btn_Absen.Enabled = CheckPath("laporanabsensi.rpt")
 End Sub
 
 Private Sub runCrystalReport()
