@@ -6,14 +6,14 @@ Begin VB.Form Form_Diskon
    ClientHeight    =   4215
    ClientLeft      =   45
    ClientTop       =   390
-   ClientWidth     =   5130
+   ClientWidth     =   4905
    FillColor       =   &H0000FF00&
    ForeColor       =   &H8000000D&
    LinkTopic       =   "Form2"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   4215
-   ScaleWidth      =   5130
+   ScaleWidth      =   4905
    ShowInTaskbar   =   0   'False
    Begin VB.PictureBox Picture1 
       AutoRedraw      =   -1  'True
@@ -316,7 +316,7 @@ Private Sub btn_ok_Click()
             Exit Sub
         End If
         
-        If rsUser!pass <> txt_password Then
+        If rsUser!pass <> txt_Password Then
             MsgBox "Password salah"
             Exit Sub
         End If
@@ -371,7 +371,7 @@ Private Sub txt_diskon_LostFocus()
 End Sub
 
 Private Sub txt_spv_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then txt_password.SetFocus
+    If KeyAscii = 13 Then txt_Password.SetFocus
     KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
