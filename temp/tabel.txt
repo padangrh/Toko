@@ -1,0 +1,41 @@
+backup
+(kode, nama, tgl_masuk, tglbukti)
+
+bill
+(nobukti, kasir, tanggal, jam, total, bayar, cash, diskon)
+
+bill_beli
+(nobukti, staff, tanggal, jam, total, kode_supplier, pembayaran, lunas, settled, tanggal_lunas)
+
+bill_reseller
+(nobukti, reseller_name, jatuh_tempo)
+
+reseller_item
+(kode, harga, reseller_id)
+
+reseller_member
+(reseller_id, reseller_name, contact_person, email, telepon, alamat)
+
+tbbarang
+(kode, nama, kategori, harga_modal, harga_jual, jumlah_akhir, kdsuplier, tgl_masuk, ketahanan)
+
+tbbarang_history
+(kode, nama, tanggal, harga_modal, harga_jual)
+
+tbbeli
+(nobukti, tglbukti, kode, nama_barang, harga, jumlah, return)
+
+tbdiskon
+(nobukti, supervisor, status, customer, nilai)
+
+tbjual
+(nobukti, tglbukti, kode, nama_barang, harga_jual, jumlah_jual)
+
+tbkategori
+(kode)
+
+tblogin
+(userid, pass, posisi, hak1, hak2, hak3, hak4)
+
+tbsuplier
+(kdsuplier, nmsuplier, alamat, telp, tgl_gabung, nama_rek, no_rek, bank)
