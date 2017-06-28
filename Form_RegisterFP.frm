@@ -340,7 +340,7 @@ Private Sub Form_Load()
         MsgBox "User tidak ditemukan"
         Set rsUser = Nothing
         Unload Me
-    ElseIf rsUser!fingerprint = "" Then
+    ElseIf IsNull(rsUser!fingerprint) Then
         lbl_Fingerprint.Visible = False
     End If
 End Sub

@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   39452675
+      Format          =   96403459
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -651,6 +651,8 @@ Private Function getBarang(kode As String) As Boolean
 End Function
 
 Private Sub txt_kode_change()
+    txt_sup_toggle = True
+    DoEvents
     If getBarang(txt_kode) Then
         txt_nama = rsbarang!Nama
         cb_kategori.Text = rsbarang!kategori
@@ -673,7 +675,8 @@ Private Sub txt_kode_change()
         txt_ketahanan = ""
         txt_stok = 0
     End If
-    txt_sup_toggle = True
+    DoEvents
+    txt_sup_toggle = False
 End Sub
 
 Private Sub txt_kode_KeyPress(KeyAscii As Integer)
@@ -702,8 +705,8 @@ Private Sub txt_jual_KeyPress(KeyAscii As Integer)
     KeyAscii = validateKey(KeyAscii, 1)
 End Sub
 
-Private Sub txt_kode_supplier_KeyDown(key As Integer, Shift As Integer)
-    If KeyAscii = 13 Then
+Private Sub txt_kode_supplier_KeyDown(keyCode As Integer, Shift As Integer)
+    If keyCode = 13 Then
         txt_sup_toggle = True
         Set rsSupplier = con.Execute("select * from tbsuplier")
         If getSupplier(txt_kode_supplier) Then
