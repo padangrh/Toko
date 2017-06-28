@@ -345,7 +345,7 @@ Private Sub btn_print_click()
             Dim item As ListItem
             Set item = Form_Pembelian.lv_beli.ListItems(i)
             'editV2
-            con.Execute ("insert into tbbeli (nobukti, tglbukti, kode, nama_barang, harga, jumlah, return) values('" & txt_bon & "', '" & tanggal & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ", " & item.SubItems(4) & ")")
+            con.Execute ("insert into tbbeli  (nobukti, tglbukti, kode, nama_barang, harga, jumlah, `return`) values('" & txt_bon & "', '" & tanggal & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ", " & item.SubItems(4) & ")")
             con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir + " & (Val(item.SubItems(3)) - Val(item.SubItems(4))) & ", tgl_masuk='" & Format(Now, "yyyy-mm-dd") & "' where kode = '" & item.Text & "'")
             i = i + 1
         Loop

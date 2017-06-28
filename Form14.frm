@@ -210,7 +210,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   94830593
+         Format          =   95223809
          CurrentDate     =   39459
       End
    End
@@ -451,7 +451,7 @@ Private Sub btn_export_Click()
     comma = ","
     tanggal = quote + Format(tgl.Value, "yyyy-mm-dd") + quote
     'editV2
-    keyword1 = "insert into tbbeli (nobukti, tglbukti, kode, nama_barang, harga, jumlah, return) values("
+    keyword1 = "insert into tbbeli (nobukti, tglbukti, kode, nama_barang, harga, jumlah, `return`) values("
     keyword2 = "update tbbarang set tgl_masuk=" + tanggal + " where kode="
     'editV2
     keyword3 = "insert into bill_beli (nobukti, staff, tanggal, jam, total, kode_supplier, pembayaran, lunas, settled, tanggal_lunas) values("

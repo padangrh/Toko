@@ -236,7 +236,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   93388801
+      Format          =   39190529
       CurrentDate     =   42810
    End
    Begin MSComCtl2.DTPicker dt_end 
@@ -257,7 +257,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   93388801
+      Format          =   39190529
       CurrentDate     =   42810
    End
    Begin VB.Label Label3 
@@ -387,7 +387,7 @@ Private Sub Form_Load()
     dt_end.Value = Now
     
     list_supplier.Visible = False
-    txt_sup_toggle = True
+    txt_sup_toggle = False
     btn_barang.Enabled = False
     
     btn_harian.Enabled = CheckPath("laporanharian.rpt")
