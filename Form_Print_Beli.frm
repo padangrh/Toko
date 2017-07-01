@@ -427,8 +427,6 @@ Private Sub txt_kode_supplier_KeyDown(key As Integer, Shift As Integer)
     If key = 13 Then
         txt_sup_toggle = True
         
-        Set rsSupplier = con.Execute("select * from tbsuplier")
-        
         If getSupplier(txt_kode_supplier) Then
             txt_nama_supplier.Text = rsSupplier!nmsuplier
             cb_bayar.SetFocus

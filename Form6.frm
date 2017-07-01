@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   95158275
+      Format          =   95223811
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -706,7 +706,7 @@ End Sub
 Private Sub txt_kode_supplier_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 13 Then
         txt_sup_toggle = True
-        Set rsSupplier = con.Execute("select * from tbsuplier")
+        
         If getSupplier(txt_kode_supplier) Then
             txt_nama_supplier.Text = rsSupplier!nmsuplier
             txt_ketahanan.SetFocus

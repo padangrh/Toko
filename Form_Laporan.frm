@@ -236,7 +236,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   39190529
+      Format          =   95092737
       CurrentDate     =   42810
    End
    Begin MSComCtl2.DTPicker dt_end 
@@ -257,7 +257,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   39190529
+      Format          =   95092737
       CurrentDate     =   42810
    End
    Begin VB.Label Label3 
@@ -436,8 +436,6 @@ End Sub
 Private Sub txt_kode_supplier_KeyDown(KeyCode As Integer, Shift As Integer)
     If KeyCode = 13 Then
         txt_sup_toggle = True
-        
-        Set rsSupplier = con.Execute("select * from tbsuplier")
         
         If getSupplier(txt_kode_supplier) Then
             txt_nama_supplier.Text = rsSupplier!nmsuplier

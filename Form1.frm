@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Object = "{38911DA0-E448-11D0-84A3-00DD01104159}#1.1#0"; "COMCT332.OCX"
 Begin VB.Form Form_List_Supplier 
    Caption         =   "Suplier"
@@ -253,29 +253,31 @@ Private Sub Form_Resize()
 End Sub
 
 Public Sub refreshlist()
-    Set rsSupplier = con.Execute("select * from tbsuplier where nmsuplier like '%" & txt_filter & "%'")
+    
+    Dim rsSupFilter As ADODB.Recordset
+    Set rsSupFilter = con.Execute("select * from tbsuplier where nmsuplier like '%" & txt_filter & "%'")
     
     lv_supplier.ListItems.Clear
-    If rsSupplier.RecordCount = 0 Then
+    If rsSupFilter.RecordCount = 0 Then
         Toolbar1.Buttons(2).Enabled = False
         Toolbar1.Buttons(3).Enabled = False
     Else
         Toolbar1.Buttons(2).Enabled = True
         Toolbar1.Buttons(3).Enabled = True
-        If Not rsSupplier.EOF Then
-            rsSupplier.MoveFirst
-            Do While Not rsSupplier.EOF
+        If Not rsSupFilter.EOF Then
+            rsSupFilter.MoveFirst
+            Do While Not rsSupFilter.EOF
                 Dim mitem As ListItem
-                Set mitem = lv_supplier.ListItems.Add(, , rsSupplier.Fields("Kdsuplier"))
-                mitem.SubItems(1) = rsSupplier.Fields("Nmsuplier")
-                mitem.SubItems(2) = rsSupplier.Fields("alamat")
-                mitem.SubItems(3) = rsSupplier.Fields("telp")
-                mitem.SubItems(4) = Format(rsSupplier.Fields("tgl_gabung"), "dd-MM-yyyy")
-                rsSupplier.MoveNext
+                Set mitem = lv_supplier.ListItems.Add(, , rsSupFilter.Fields("Kdsuplier"))
+                mitem.SubItems(1) = rsSupFilter.Fields("Nmsuplier")
+                mitem.SubItems(2) = rsSupFilter.Fields("alamat")
+                mitem.SubItems(3) = rsSupFilter.Fields("telp")
+                mitem.SubItems(4) = Format(rsSupFilter.Fields("tgl_gabung"), "dd-MM-yyyy")
+                rsSupFilter.MoveNext
             Loop
         End If
     End If
-    rsSupplier.Close
+    Set rsSupFilter = Nothing
     CoolBar1.Bands(3).Caption = "Record : " & lv_supplier.ListItems.count
 End Sub
 
@@ -357,6 +359,8 @@ Private Sub hapus()
     lv_supplier.SetFocus
     CoolBar1.Bands(3).Caption = "Record : " & lv_supplier.ListItems.count
     If lv_supplier.ListItems.count = 0 Then refreshlist
+    'also refresh rssupplier
+    Set rsSupplier = con.Execute("Select * from tbsuplier")
 End Sub
 
 Private Sub txt_filter_change()

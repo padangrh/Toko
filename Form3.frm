@@ -83,7 +83,7 @@ Begin VB.Form Form_Entri_Supplier
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   94830595
+      Format          =   95223811
       CurrentDate     =   42145
    End
    Begin VB.CommandButton btn_cancel 
@@ -372,8 +372,6 @@ Private Sub btn_Save_Click()
         Exit Sub
     End If
     
-    Set rsSupplier = con.Execute("select * from tbsuplier")
-    
     If getSupplier(txt_kode) Then
         con.Execute ("Update tbsuplier set nmsuplier='" & txt_nama & "', alamat='" & txt_alamat & "',telp='" & txt_telp & "',tgl_gabung='" & Format(DTPicker1, "yyyy-MM-dd") & "', nama_rek = '" & txt_nama_rek & "', no_rek = '" & txt_no_rek & "', bank = '" & txt_bank & "' where kdsuplier='" & txt_kode.Text & "'")
     Else
@@ -381,6 +379,8 @@ Private Sub btn_Save_Click()
         con.Execute ("Insert into tbsuplier (kdsuplier, nmsuplier, alamat, telp, tgl_gabung, nama_rek, no_rek, bank) values('" & txt_kode & "','" & txt_nama & "','" & txt_alamat & "','" & txt_telp & "','" & Format(DTPicker1, "yyyy-MM-dd") & "', '" & txt_nama_rek & "', '" & txt_no_rek & "', '" & txt_bank & "')")
     End If
     Unload Me
+    'also refresh rssupplier
+    Set rsSupplier = con.Execute("Select * from tbsuplier")
     Form_List_Supplier.refreshlist
 End Sub
 
@@ -414,15 +414,17 @@ Private Sub Form_Load()
     DTPicker1 = Date
 End Sub
 Private Sub txt_kode_change()
-    Set rsSupplier = con.Execute("select * from tbsuplier where kdsuplier='" & Trim(txt_kode) & "'")
-    If Not rsSupplier.EOF Then
-        txt_nama = rsSupplier!nmsuplier
-        txt_alamat.Text = rsSupplier!alamat
-        txt_telp.Text = rsSupplier!telp
-        DTPicker1 = rsSupplier!tgl_gabung
-        txt_nama_rek = rsSupplier!nama_rek
-        txt_no_rek = rsSupplier!no_rek
-        txt_bank = rsSupplier!bank
+    Dim rsSupFilter As ADODB.Recordset
+    Set rsSupFilter = con.Execute("select * from tbsuplier where kdsuplier='" & Trim(txt_kode) & "'")
+    
+    If Not rsSupFilter.EOF Then
+        txt_nama = rsSupFilter!nmsuplier
+        txt_alamat.Text = rsSupFilter!alamat
+        txt_telp.Text = rsSupFilter!telp
+        DTPicker1 = rsSupFilter!tgl_gabung
+        txt_nama_rek = rsSupFilter!nama_rek
+        txt_no_rek = rsSupFilter!no_rek
+        txt_bank = rsSupFilter!bank
     Else
         kosongkan
     End If
