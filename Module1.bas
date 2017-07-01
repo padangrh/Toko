@@ -58,6 +58,7 @@ Public Function getSupplier(kode As String) As Boolean
             End If
             rsSupplier.MoveNext
         Loop
+        If found = False Then rsSupplier.MoveFirst
     End If
     getSupplier = found
 End Function
