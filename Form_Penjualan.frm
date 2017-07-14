@@ -16,10 +16,28 @@ Begin VB.Form Form_Penjualan
    ScaleWidth      =   24147.85
    StartUpPosition =   2  'CenterScreen
    WindowState     =   2  'Maximized
+   Begin VB.TextBox txt_Diskon 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   18
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   614
+      Left            =   17880
+      TabIndex        =   14
+      Text            =   "12345678901234"
+      Top             =   2400
+      Width           =   1239
+   End
    Begin MSComctlLib.ListView list_nama 
       Height          =   2295
       Left            =   4440
-      TabIndex        =   19
+      TabIndex        =   20
       Top             =   3000
       Width           =   8415
       _ExtentX        =   14843
@@ -63,8 +81,8 @@ Begin VB.Form Form_Penjualan
    End
    Begin MSComCtl2.UpDown UpDown1 
       Height          =   615
-      Left            =   18840
-      TabIndex        =   16
+      Left            =   17040
+      TabIndex        =   17
       Top             =   2400
       Width           =   255
       _ExtentX        =   450
@@ -94,10 +112,10 @@ Begin VB.Form Form_Penjualan
    Begin MSComctlLib.ListView lv_jual 
       Height          =   6855
       Left            =   360
-      TabIndex        =   14
+      TabIndex        =   15
       Top             =   3360
-      Width           =   19275
-      _ExtentX        =   33999
+      Width           =   19515
+      _ExtentX        =   34422
       _ExtentY        =   12091
       View            =   3
       LabelEdit       =   1
@@ -119,7 +137,7 @@ Begin VB.Form Form_Penjualan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      NumItems        =   5
+      NumItems        =   6
       BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Text            =   "Kode Barang"
          Object.Width           =   4464
@@ -127,7 +145,7 @@ Begin VB.Form Form_Penjualan
       BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   1
          Text            =   "Nama Barang"
-         Object.Width           =   14879
+         Object.Width           =   13018
       EndProperty
       BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Alignment       =   1
@@ -142,8 +160,13 @@ Begin VB.Form Form_Penjualan
          Object.Width           =   4464
       EndProperty
       BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-         Alignment       =   1
          SubItemIndex    =   4
+         Text            =   "Diskon"
+         Object.Width           =   2130
+      EndProperty
+      BeginProperty ColumnHeader(6) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
+         Alignment       =   1
+         SubItemIndex    =   5
          Text            =   "Total"
          Object.Width           =   5208
       EndProperty
@@ -160,7 +183,7 @@ Begin VB.Form Form_Penjualan
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   614
-      Left            =   17640
+      Left            =   15840
       TabIndex        =   13
       Text            =   "12345678901234"
       Top             =   2400
@@ -179,7 +202,7 @@ Begin VB.Form Form_Penjualan
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   615
-      Left            =   13920
+      Left            =   13200
       TabIndex        =   12
       Text            =   "12345678901234"
       Top             =   2400
@@ -240,6 +263,24 @@ Begin VB.Form Form_Penjualan
       Top             =   240
       Width           =   4095
    End
+   Begin VB.Label Label4 
+      BackColor       =   &H0080FF80&
+      Caption         =   "Diskon"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   18
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   17880
+      TabIndex        =   21
+      Top             =   1800
+      Width           =   1455
+   End
    Begin VB.Label Label9 
       BackColor       =   &H0080FF80&
       Caption         =   "[F1 -> Print]  [Delete -> Hapus 1 baris]  [Shift + Delete -> Hapus Semua]  [F4 -> Tutup]"
@@ -254,7 +295,7 @@ Begin VB.Form Form_Penjualan
       EndProperty
       Height          =   495
       Left            =   360
-      TabIndex        =   15
+      TabIndex        =   16
       Top             =   10320
       Width           =   15015
    End
@@ -271,7 +312,7 @@ Begin VB.Form Form_Penjualan
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   17640
+      Left            =   15960
       TabIndex        =   11
       Top             =   1800
       Width           =   1575
@@ -289,7 +330,7 @@ Begin VB.Form Form_Penjualan
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   13920
+      Left            =   13200
       TabIndex        =   10
       Top             =   1800
       Width           =   2295
@@ -424,15 +465,15 @@ Begin VB.Form Form_Penjualan
       BackColor       =   &H0080FF80&
       Height          =   1695
       Left            =   360
-      TabIndex        =   17
+      TabIndex        =   18
       Top             =   1560
-      Width           =   19275
+      Width           =   19515
    End
    Begin VB.Label Label11 
       BackColor       =   &H0080FF80&
       Height          =   1095
       Left            =   360
-      TabIndex        =   18
+      TabIndex        =   19
       Top             =   120
       Width           =   19275
    End
@@ -444,10 +485,12 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim rsbarang As ADODB.Recordset
 Dim txt_nama_Toggle As Boolean
+Public sumDiskon As Long
 
 Private Sub Form_Load()
     lbl_user = username
     txt_total = 0
+    sumDiskon = 0
     kosongkan
     txt_nama_Toggle = False
     Set rsbarang = con.Execute("select * from tbbarang")
@@ -509,9 +552,11 @@ Private Sub Form_KeyDown(key As Integer, Shift As Integer)
     If key = 46 Then
         If Shift = 1 Then
             txt_total = "0"
+            sumDiskon = 0
             lv_jual.ListItems.Clear
         Else
-            txt_total = Format(priceToNum(txt_total) - priceToNum(lv_jual.SelectedItem.SubItems(4)), "###,###,##0")
+            txt_total = Format(priceToNum(txt_total) - priceToNum(lv_jual.SelectedItem.SubItems(5)), "###,###,##0")
+            sumDiskon = sumDiskon - priceToNum(lv_jual.SelectedItem.SubItems(4))
             lv_jual.ListItems.Remove (lv_jual.SelectedItem.index)
         End If
     End If
@@ -527,6 +572,7 @@ Private Sub kosongkan()
     txt_nama.Text = ""
     txt_harga.Text = ""
     txt_jumlah.Text = 1
+    txt_Diskon.Text = 0
     list_nama.Visible = False
 End Sub
 
@@ -537,6 +583,92 @@ End Sub
 Private Sub list_nama_KeyDown(key As Integer, Shift As Integer)
     If key = 13 Then
         list_nama_DblClick
+    End If
+End Sub
+
+Private Sub txt_Diskon_KeyDown(KeyCode As Integer, Shift As Integer)
+    If KeyCode = 13 Then
+        If Len(txt_jumlah) > 4 Then
+            txt_jumlah = ""
+            Exit Sub
+        End If
+        
+        If txt_Diskon.Text > 100 Or txt_Diskon.Text < 0 Then
+            txt_Diskon.Text = "0"
+            Exit Sub
+        End If
+    
+        If txt_harga = "" Then
+            MsgBox "Barang tidak valid"
+            Exit Sub
+        End If
+        
+        If Val(txt_jumlah.Text) < 1 Then
+            MsgBox "Jumlah tidak valid"
+            Exit Sub
+        End If
+        
+        Dim found As Boolean
+        Dim i As Integer
+        found = False
+        i = 1
+        
+        Dim subtotal, diskon As String
+        diskon = rsbarang!harga_jual * Val(txt_jumlah) * Val(txt_Diskon) / 100
+        sumDiskon = sumDiskon + CLng(diskon)
+        subtotal = rsbarang!harga_jual * Val(txt_jumlah) - CLng(diskon)
+        
+        Do While i <= lv_jual.ListItems.count
+            If lv_jual.ListItems(i).Text = rsbarang!kode Then
+                found = True
+                lv_jual.ListItems(i).SubItems(3) = Val(lv_jual.ListItems(i).SubItems(3)) + Val(txt_jumlah.Text)
+                lv_jual.ListItems(i).SubItems(4) = priceToNum(lv_jual.ListItems(i).SubItems(4)) + diskon
+                lv_jual.ListItems(i).SubItems(4) = Format(lv_jual.ListItems(i).SubItems(4), "###,###,##0")
+                lv_jual.ListItems(i).SubItems(5) = priceToNum(lv_jual.ListItems(i).SubItems(5)) + subtotal
+                lv_jual.ListItems(i).SubItems(5) = Format(lv_jual.ListItems(i).SubItems(5), "###,###,##0")
+                Exit Do
+            End If
+            i = i + 1
+        Loop
+        
+        If found = False Then
+            Dim item As ListItem
+            Set item = lv_jual.ListItems.Add(, , rsbarang!kode)
+            item.SubItems(1) = rsbarang!Nama
+            item.SubItems(2) = Format(rsbarang!harga_jual, "###,###,##0")
+            item.SubItems(3) = txt_jumlah.Text
+            item.SubItems(4) = Format(diskon, "###,###,##0")
+            item.SubItems(5) = Format(subtotal, "###,###,##0")
+        End If
+        
+        txt_total.Text = Format(priceToNum(txt_total) + CLng(subtotal), "###,###,##0")
+        
+        If MSComm1.PortOpen Then
+            MSComm1.Output = Chr$(&H1B) + Chr$(&H49) + Chr$(&HC)
+            Dim baris1, baris2 As String
+            baris1 = txt_jumlah.Text + " " + txt_nama.Text
+            If Len(baris1) < 20 Then
+               Do While (Len(baris1) < 20)
+                baris1 = baris1 + " "
+               Loop
+            Else
+                baris1 = Left$(baris1, 20)
+            End If
+            
+            MSComm1.Output = baris1
+              
+            Dim spaces As Integer
+            spaces = 20 - (Len(subtotal) + Len(txt_total.Text) + 2)
+            Do While (Len(baris2) < spaces)
+                baris2 = baris2 + " "
+            Loop
+            baris2 = subtotal + baris2 + "(" + txt_total.Text + ")"
+            MSComm1.Output = baris2
+        End If
+        
+        kosongkan
+        reload_List
+        txt_kode.SetFocus
     End If
 End Sub
 
@@ -585,77 +717,7 @@ End Sub
 
 Private Sub txt_jumlah_KeyDown(key As Integer, Shift As Integer)
     If key = 13 Then
-        If Len(txt_jumlah) > 4 Then
-            txt_jumlah = ""
-            Exit Sub
-        End If
-    
-        If txt_harga = "" Then
-            MsgBox "Barang tidak valid"
-            Exit Sub
-        End If
-        
-        If Val(txt_jumlah.Text) < 1 Then
-            MsgBox "Jumlah tidak valid"
-            Exit Sub
-        End If
-        
-        Dim found As Boolean
-        Dim i As Integer
-        found = False
-        i = 1
-        
-        Do While i <= lv_jual.ListItems.count
-            If lv_jual.ListItems(i).Text = rsbarang!kode Then
-                found = True
-                lv_jual.ListItems(i).SubItems(3) = Val(lv_jual.ListItems(i).SubItems(3)) + Val(txt_jumlah.Text)
-                lv_jual.ListItems(i).SubItems(4) = priceToNum(lv_jual.ListItems(i).SubItems(4)) + Val(txt_jumlah.Text) * priceToNum(txt_harga)
-                lv_jual.ListItems(i).SubItems(4) = Format(lv_jual.ListItems(i).SubItems(4), "###,###,##0")
-                Exit Do
-            End If
-            i = i + 1
-        Loop
-        
-        Dim subtotal As String
-        subtotal = Format(rsbarang!harga_jual * Val(txt_jumlah), "###,###,##0")
-        
-        If found = False Then
-            Dim item As ListItem
-            Set item = lv_jual.ListItems.Add(, , rsbarang!kode)
-            item.SubItems(1) = rsbarang!Nama
-            item.SubItems(2) = Format(rsbarang!harga_jual, "###,###,##0")
-            item.SubItems(3) = txt_jumlah.Text
-            item.SubItems(4) = subtotal
-        End If
-        
-        txt_total.Text = Format(priceToNum(txt_total) + priceToNum(subtotal), "###,###,##0")
-        
-        If MSComm1.PortOpen Then
-            MSComm1.Output = Chr$(&H1B) + Chr$(&H49) + Chr$(&HC)
-            Dim baris1, baris2 As String
-            baris1 = txt_jumlah.Text + " " + txt_nama.Text
-            If Len(baris1) < 20 Then
-               Do While (Len(baris1) < 20)
-                baris1 = baris1 + " "
-               Loop
-            Else
-                baris1 = Left$(baris1, 20)
-            End If
-            
-            MSComm1.Output = baris1
-              
-            Dim spaces As Integer
-            spaces = 20 - (Len(subtotal) + Len(txt_total.Text) + 2)
-            Do While (Len(baris2) < spaces)
-                baris2 = baris2 + " "
-            Loop
-            baris2 = subtotal + baris2 + "(" + txt_total.Text + ")"
-            MSComm1.Output = baris2
-        End If
-        
-        kosongkan
-        reload_List
-        txt_kode.SetFocus
+        txt_Diskon.SetFocus
     End If
 End Sub
 
@@ -737,6 +799,7 @@ Public Sub nextFaktur()
     lbl_faktur = huruf + CStr(angka + 1)
     lv_jual.ListItems.Clear
     txt_total = "0"
+    sumDiskon = 0
     kosongkan
     txt_kode.SetFocus
     Form_List_Jual.refreshlist

@@ -299,9 +299,9 @@ Private Sub btn_ok_Click()
         Exit Sub
     End If
     
-    If txt_diskon.Text = "" Then txt_diskon.Text = 0
+    If txt_Diskon.Text = "" Then txt_Diskon.Text = 0
 
-    If priceToNum(Form_Print.txt_total) < priceToNum(txt_diskon.Text) Then
+    If priceToNum(Form_Print.txt_total) < priceToNum(txt_Diskon.Text) Then
         MsgBox "Diskon yg diberikan lebih besar dari harga barang"
     Else
         Dim rsUser As ADODB.Recordset
@@ -321,11 +321,11 @@ Private Sub btn_ok_Click()
             Exit Sub
         End If
         
-        Form_Print.txt_diskon = Format(txt_diskon, "###,###,##0")
+        Form_Print.txt_Diskon = Format(txt_Diskon, "###,###,##0")
         
         Form_Print.diskon_query
         
-        Form_Print.txt_kembali = Format(priceToNum(Form_Print.txt_uang) - (priceToNum(Form_Print.txt_total) - priceToNum(Form_Print.txt_diskon)), "###,###,##0")
+        Form_Print.txt_kembali = Format(priceToNum(Form_Print.txt_uang) - (priceToNum(Form_Print.txt_total) - priceToNum(Form_Print.txt_Diskon)), "###,###,##0")
         rsUser.Close
         Unload Me
         
@@ -367,7 +367,7 @@ Private Sub Form_unload(cancel As Integer)
 End Sub
 
 Private Sub txt_diskon_LostFocus()
-    txt_diskon = Format(txt_diskon, "###,###,##0")
+    txt_Diskon = Format(txt_Diskon, "###,###,##0")
 End Sub
 
 Private Sub txt_spv_keypress(KeyAscii As Integer)
@@ -386,7 +386,7 @@ Private Sub cb_status_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub txt_customer_keypress(KeyAscii As Integer)
-    If KeyAscii = 13 Then txt_diskon.SetFocus
+    If KeyAscii = 13 Then txt_Diskon.SetFocus
     KeyAscii = validateKey(KeyAscii, 3)
 End Sub
 

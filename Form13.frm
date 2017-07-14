@@ -286,12 +286,14 @@ Public Sub Init(no_bon As String, total As String, new_bon As Boolean)
     is_new = new_bon
     
     If is_new Then
-        txt_total.Text = total
+        txt_total.Text = priceToNum(total) + Form_Penjualan.sumDiskon
+        txt_Diskon.Text = Format(Form_Penjualan.sumDiskon, "###,###,##0")
+        DoEvents
         txt_uang.SetFocus
     Else
         Set rsBill = con.Execute("select * from bill where nobukti = '" & no_bon & "'")
         txt_uang = Format(rsBill!bayar, "###,###,##0")
-        txt_diskon = Format(rsBill!diskon, "###,###,##0")
+        txt_Diskon = Format(rsBill!diskon, "###,###,##0")
         txt_total = Format(rsBill!total, "###,###,##0")
         If rsBill!bayar = 0 Then
             btn_nontunai.SetFocus
@@ -299,7 +301,7 @@ Public Sub Init(no_bon As String, total As String, new_bon As Boolean)
             txt_kembali = Format(rsBill!bayar - rsBill!total + rsBill!diskon, "###,###,##0")
             btn_tunai.SetFocus
         End If
-        If Val(txt_diskon) > 0 Then
+        If Val(txt_Diskon) > 0 Then
             Set rsDis = con.Execute("select * from tbdiskon where nobukti = '" & no_bon & "'")
             dis_spv = rsDis!supervisor
             dis_cust = rsDis!customer
@@ -312,14 +314,21 @@ End Sub
 Private Sub print_bon(tunai As Integer)
    
     If tunai = 1 Then
-        If Val(txt_uang) < (Val(txt_total) - Val(txt_diskon)) Then
+        If Val(txt_uang) < (Val(txt_total) - Val(txt_Diskon)) Then
             MsgBox "Jumlah Pembayaran Kurang (enter)", vbOKOnly + vbInformation, "Cek Jumlah Pembayaran"
             txt_uang.SetFocus
             Exit Sub
         Else
-            txt_kembalian = Val(txt_uang) - (Val(txt_total) - Val(txt_diskon))
+            txt_kembalian = Val(txt_uang) - (Val(txt_total) - Val(txt_Diskon))
         End If
     End If
+    
+    If dis_spv = "" Then
+        dis_spv = username
+        dis_status = "Customer"
+        dis_cus = "Customer"
+    End If
+            
     
     If is_new Then
         Dim i As Integer
@@ -336,21 +345,21 @@ Private Sub print_bon(tunai As Integer)
             i = i + 1
         Loop
         'editV2
-        con.Execute ("insert into bill (nobukti, kasir, tanggal, jam, total, bayar, cash, diskon) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & Val(txt_uang) & ", " & tunai & ", " & priceToNum(txt_diskon) & ")")
+        con.Execute ("insert into bill (nobukti, kasir, tanggal, jam, total, bayar, cash, diskon) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & Val(txt_uang) & ", " & tunai & ", " & priceToNum(txt_Diskon) & ")")
         Set rsBill = con.Execute("select * from bill where nobukti = '" & txt_bon & "'")
-        If (Val(txt_diskon.Text)) > 0 Then
+        If (Val(txt_Diskon.Text)) > 0 Then
             'editV2
-            con.Execute ("insert into tbdiskon (nobukti, supervisor, status, customer, nilai) values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
+            con.Execute ("insert into tbdiskon (nobukti, supervisor, status, customer, nilai) values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_Diskon) & ")")
         End If
     Else
-        con.Execute ("update bill set cash = " & tunai & ", bayar = " & priceToNum(txt_uang) & ", diskon = " & priceToNum(txt_diskon) & " where nobukti = '" & txt_bon & "'")
+        con.Execute ("update bill set cash = " & tunai & ", bayar = " & priceToNum(txt_uang) & ", diskon = " & priceToNum(txt_Diskon) & " where nobukti = '" & txt_bon & "'")
         Set rsDis = con.Execute("select * from tbdiskon where nobukti = '" & txt_bon & "'")
-        If Val(txt_diskon) > 0 Then
+        If Val(txt_Diskon) > 0 Then
             If rsDis.EOF = True Then
                 'editV2
-                con.Execute ("insert into tbdiskon (nobukti, supervisor, status, customer, nilai) values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
+                con.Execute ("insert into tbdiskon (nobukti, supervisor, status, customer, nilai) values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_Diskon) & ")")
             Else
-                con.Execute ("update tbdiskon set supervisor = '" & dis_spv & "', customer = '" & dis_cust & "', status = '" & dis_status & "', nilai = " & priceToNum(txt_diskon) & " where nobukti = '" & txt_bon.Text & "'")
+                con.Execute ("update tbdiskon set supervisor = '" & dis_spv & "', customer = '" & dis_cust & "', status = '" & dis_status & "', nilai = " & priceToNum(txt_Diskon) & " where nobukti = '" & txt_bon.Text & "'")
             End If
         Else
             If Not rsDis.EOF Then
@@ -415,15 +424,15 @@ Private Sub print_bon(tunai As Integer)
         Loop
         Printer.Print Tab(1); "                                                                  ";
         Printer.FontSize = 10
-        If priceToNum(txt_diskon) > 0 Then
+        If priceToNum(txt_Diskon) > 0 Then
             Printer.Print Tab(1); "Total"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_total, "###,###,##0"))); Format(txt_total, "###,###,##0")
-            Printer.Print Tab(1); "Diskon"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_diskon, "###,###,##0"))); Format(txt_diskon, "###,###,##0")
+            Printer.Print Tab(1); "Diskon"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_Diskon, "###,###,##0"))); Format(txt_Diskon, "###,###,##0")
         End If
         ''test
         'Printer.Print Tab(1); "Pajak Restoran 10%"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_ppn, "###,###,##0"))); Format(txt_ppn, "###,###,##0")
         Printer.Print Tab(1); "------------------------------------------------------------------";
         Printer.FontSize = 12
-        Printer.Print Tab(2); "Grand Total"; Tab(15); "Rp."; Tab(30 - Len(Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0"))); Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0")
+        Printer.Print Tab(2); "Grand Total"; Tab(15); "Rp."; Tab(30 - Len(Format(priceToNum(txt_total) - priceToNum(txt_Diskon), "###,###,##0"))); Format(priceToNum(txt_total) - priceToNum(txt_Diskon), "###,###,##0")
     
     ''    Dim diskon_total As Long
     ''    diskon_total = priceToNum(txt_total) - priceToNum(txt_diskon)
@@ -454,7 +463,7 @@ Private Sub print_bon(tunai As Integer)
     End If
     
     
-    If priceToNum(txt_diskon.Text) > 0 Then
+    If priceToNum(txt_Diskon.Text) > 0 Then
         'con.Execute ("insert into tbdiskon values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
         If MsgBox("Cetak struk diskon?", vbYesNo) = vbYes Then
             Printer.Font = "dotumche"
@@ -465,7 +474,7 @@ Private Sub print_bon(tunai As Integer)
             Printer.Print Tab(5); "Supervisor"; Tab(19); ":  "; dis_spv
             Printer.Print Tab(5); "Status"; Tab(19); ":  "; dis_status
             Printer.Print Tab(5); "Customer"; Tab(19); ":  "; dis_cust
-            Printer.Print Tab(5); "Diskon"; Tab(19); ":  Rp. "; Format(txt_diskon, "###,###,##0")
+            Printer.Print Tab(5); "Diskon"; Tab(19); ":  Rp. "; Format(txt_Diskon, "###,###,##0")
             Print Tab(3); "                                                            ";
             Print Tab(3); "                                                            ";
             Print Tab(3); "                                                            ";
@@ -576,8 +585,8 @@ End Sub
 Private Sub txt_diskon_Click()
     Me.Enabled = False
     Form_Diskon.Show 1
-    Form_Diskon.Top = Me.Top + txt_diskon.Top + 200
-    Form_Diskon.Left = Me.Left + txt_diskon.Left
+    Form_Diskon.Top = Me.Top + txt_Diskon.Top + 200
+    Form_Diskon.Left = Me.Left + txt_Diskon.Left
 End Sub
 
 Private Sub txt_uang_KeyDown(key As Integer, Shift As Integer)
@@ -587,7 +596,7 @@ Private Sub txt_uang_KeyDown(key As Integer, Shift As Integer)
             Exit Sub
         End If
         Dim kembalian As Long
-        kembalian = priceToNum(txt_uang) - priceToNum(txt_total.Text) + priceToNum(txt_diskon)
+        kembalian = priceToNum(txt_uang) - priceToNum(txt_total.Text) + priceToNum(txt_Diskon)
         If kembalian < 0 Then
             MsgBox "Uang tidak cukup"
         Else
