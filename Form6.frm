@@ -28,7 +28,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   615
       Left            =   240
-      TabIndex        =   25
+      TabIndex        =   22
       Top             =   5880
       Width           =   1215
    End
@@ -68,7 +68,7 @@ Begin VB.Form Form_Entri_Barang
    Begin MSComctlLib.ListView list_supplier 
       Height          =   2055
       Left            =   3120
-      TabIndex        =   21
+      TabIndex        =   20
       Top             =   4320
       Visible         =   0   'False
       Width           =   3855
@@ -119,7 +119,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   495
       Left            =   5640
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   2040
       Width           =   615
    End
@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   95223811
+      Format          =   95682563
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -255,7 +255,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   495
       Left            =   7200
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   5880
       Width           =   1215
    End
@@ -273,26 +273,9 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   495
       Left            =   6120
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   5880
       Width           =   975
-   End
-   Begin VB.TextBox txt_ketahanan 
-      Appearance      =   0  'Flat
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   13.5
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   495
-      Left            =   2160
-      TabIndex        =   10
-      Top             =   5040
-      Width           =   855
    End
    Begin MSMask.MaskEdBox txt_stok 
       Height          =   495
@@ -330,47 +313,9 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   495
       Left            =   5040
-      TabIndex        =   24
+      TabIndex        =   21
       Top             =   3000
       Width           =   855
-   End
-   Begin VB.Label Label7 
-      BackColor       =   &H0000C000&
-      Caption         =   "Hari"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   13.5
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   375
-      Index           =   4
-      Left            =   3240
-      TabIndex        =   23
-      Top             =   5160
-      Width           =   1815
-   End
-   Begin VB.Label Label7 
-      BackColor       =   &H0000C000&
-      Caption         =   "Ketahanan"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   13.5
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   495
-      Index           =   2
-      Left            =   240
-      TabIndex        =   22
-      Top             =   5160
-      Width           =   1815
    End
    Begin VB.Label Label7 
       BackColor       =   &H0000C000&
@@ -387,7 +332,7 @@ Begin VB.Form Form_Entri_Barang
       Height          =   495
       Index           =   3
       Left            =   240
-      TabIndex        =   19
+      TabIndex        =   18
       Top             =   4560
       Width           =   1815
    End
@@ -406,7 +351,7 @@ Begin VB.Form Form_Entri_Barang
       Height          =   495
       Index           =   1
       Left            =   240
-      TabIndex        =   18
+      TabIndex        =   17
       Top             =   3960
       Width           =   1575
    End
@@ -424,7 +369,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   375
       Left            =   240
-      TabIndex        =   17
+      TabIndex        =   16
       Top             =   3360
       Width           =   1575
    End
@@ -442,7 +387,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   495
       Left            =   240
-      TabIndex        =   16
+      TabIndex        =   15
       Top             =   2760
       Width           =   1695
    End
@@ -460,7 +405,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   375
       Left            =   240
-      TabIndex        =   15
+      TabIndex        =   14
       Top             =   2160
       Width           =   1695
    End
@@ -478,7 +423,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   375
       Left            =   240
-      TabIndex        =   14
+      TabIndex        =   13
       Top             =   1560
       Width           =   1815
    End
@@ -496,7 +441,7 @@ Begin VB.Form Form_Entri_Barang
       EndProperty
       Height          =   375
       Left            =   240
-      TabIndex        =   13
+      TabIndex        =   12
       Top             =   960
       Width           =   1695
    End
@@ -563,7 +508,7 @@ Private Sub cb_kategori_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub dp_masuk_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then txt_ketahanan.SetFocus
+    If KeyAscii = 13 Then btn_save.SetFocus
     KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
@@ -589,12 +534,12 @@ Private Sub btn_Save_Click()
     End If
     
     If getBarang(txt_kode) Then
-        con.Execute ("Update tbbarang set nama='" & txt_nama & "',kategori='" & cb_kategori.Text & "',harga_modal='" & priceToNum(txt_modal) & "',harga_jual='" & priceToNum(txt_jual) & "',kdsuplier='" & Val(txt_kode_supplier) & "',tgl_masuk='" & Format(dp_masuk, "yyyy-MM-dd") & "',ketahanan='" & Val(txt_ketahanan) & "', jumlah_akhir=" & Val(txt_stok) & " where kode='" & Trim(txt_kode) & "' ")
+        con.Execute ("Update tbbarang set nama='" & txt_nama & "',kategori='" & cb_kategori.Text & "',harga_modal='" & priceToNum(txt_modal) & "',harga_jual='" & priceToNum(txt_jual) & "',kdsuplier='" & Val(txt_kode_supplier) & "',tgl_masuk='" & Format(dp_masuk, "yyyy-MM-dd") & "', jumlah_akhir=" & Val(txt_stok) & " where kode='" & Trim(txt_kode) & "' ")
         'editV2
         con.Execute ("Insert into tbbarang_history (kode, nama, tanggal, harga_modal, harga_jual) values('" & txt_kode.Text & "','" & txt_nama.Text & "','" & Format(Now, "yyyy-MM-dd") & "','" & priceToNum(txt_modal.Text) & "','" & priceToNum(txt_jual.Text) & "')")
     Else
         'editV2
-        con.Execute ("Insert into tbbarang (kode, nama, kategori, harga_modal, harga_jual, jumlah_akhir, kdsuplier, tgl_masuk, ketahanan) values('" & Trim(txt_kode) & "' ,'" & txt_nama & "','" & cb_kategori.Text & "','" & Val(txt_modal) & "','" & Val(txt_jual) & "'," & Val(txt_stok) & ",'" & Val(txt_kode_supplier) & "','" & Format(dp_masuk, "yyyy-MM-dd") & "', '" & Val(txt_ketahanan) & "')")
+        con.Execute ("Insert into tbbarang (kode, nama, kategori, harga_modal, harga_jual, jumlah_akhir, kdsuplier, tgl_masuk) values('" & Trim(txt_kode) & "' ,'" & txt_nama & "','" & cb_kategori.Text & "','" & Val(txt_modal) & "','" & Val(txt_jual) & "'," & Val(txt_stok) & ",'" & Val(txt_kode_supplier) & "','" & Format(dp_masuk, "yyyy-MM-dd") & "')")
     End If
     kosongkan
     
@@ -608,7 +553,6 @@ Sub kosongkan()
     cb_kategori.ListIndex = -1
     txt_kode_supplier = ""
     txt_nama_supplier = ""
-    txt_ketahanan = ""
     txt_modal = 0
     txt_jual = 0
 End Sub
@@ -661,7 +605,6 @@ Private Sub txt_kode_change()
         If getSupplier(rsbarang!kdsuplier) Then
             txt_nama_supplier = rsSupplier!nmsuplier
         End If
-        txt_ketahanan.Text = rsbarang!ketahanan
         dp_masuk = rsbarang!tgl_masuk
         txt_stok = rsbarang!jumlah_akhir
     Else
@@ -671,7 +614,6 @@ Private Sub txt_kode_change()
         txt_jual = 0
         txt_kode_supplier = ""
         txt_nama_supplier = ""
-        txt_ketahanan = ""
         txt_stok = 0
     End If
     DoEvents
@@ -699,7 +641,13 @@ Private Sub txt_modal_keypress(KeyAscii As Integer)
 End Sub
 
 Private Sub txt_jual_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then txt_stok.SetFocus
+    If KeyAscii = 13 Then
+        If txt_stok.Visible Then
+            txt_stok.SetFocus
+        Else
+            txt_kode_supplier.SetFocus
+        End If
+    End If
     KeyAscii = validateKey(KeyAscii, 1)
 End Sub
 
@@ -709,7 +657,7 @@ Private Sub txt_kode_supplier_KeyDown(KeyCode As Integer, Shift As Integer)
         
         If getSupplier(txt_kode_supplier) Then
             txt_nama_supplier.Text = rsSupplier!nmsuplier
-            txt_ketahanan.SetFocus
+            btn_save.SetFocus
         Else
             MsgBox "Supplier tidak terdaftar"
             txt_kode_supplier.Text = ""
@@ -727,17 +675,6 @@ Private Sub txt_nama_supplier_Change()
     End If
 End Sub
 
-Private Sub txt_ketahanan_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then
-        If Val(txt_ketahanan) > 0 Then
-            btn_save.SetFocus
-        Else
-            MsgBox ("Ketahanan barang tidak valid")
-        End If
-    End If
-    
-    KeyAscii = validateKey(KeyAscii, 1)
-End Sub
 
 Private Sub txt_nama_supplier_KeyPress(KeyAscii As Integer)
     KeyAscii = validateKey(KeyAscii, 3)
@@ -773,7 +710,7 @@ Private Sub list_supplier_dblclick()
     If list_supplier.SelectedItem.index >= 0 Then
         txt_kode_supplier = list_supplier.SelectedItem.Text
         txt_nama_supplier = list_supplier.SelectedItem.SubItems(1)
-        txt_ketahanan.SetFocus
+        btn_save.SetFocus
     End If
 End Sub
 

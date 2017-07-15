@@ -149,19 +149,12 @@ Begin VB.MDIForm FrmMain
       Begin VB.Menu pb 
          Caption         =   "Entri Pembelian"
       End
-      Begin VB.Menu warning 
-         Caption         =   "Warning"
-         Index           =   5
-      End
    End
    Begin VB.Menu a 
       Caption         =   "Admin"
       Begin VB.Menu tu 
          Caption         =   "User Manager"
       End
-   End
-   Begin VB.Menu pa 
-      Caption         =   "Pengaturan Akun"
    End
    Begin VB.Menu lg 
       Caption         =   "Logout"
