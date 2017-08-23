@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{38911DA0-E448-11D0-84A3-00DD01104159}#1.1#0"; "COMCT332.OCX"
 Begin VB.Form Form_List_Jual 
@@ -169,7 +169,7 @@ Begin VB.Form Form_List_Jual
             Strikethrough   =   0   'False
          EndProperty
          CustomFormat    =   "dd-MM-yyyy"
-         Format          =   7733251
+         Format          =   121569283
          CurrentDate     =   42191
       End
       Begin VB.TextBox txt_filter 

@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Begin VB.MDIForm FrmMain 
    BackColor       =   &H8000000C&
    Caption         =   "Main Menu"
@@ -149,6 +149,9 @@ Begin VB.MDIForm FrmMain
       Begin VB.Menu pb 
          Caption         =   "Entri Pembelian"
       End
+      Begin VB.Menu er 
+         Caption         =   "Entri Retur"
+      End
       Begin VB.Menu warning 
          Caption         =   "Warning"
          Index           =   5
@@ -206,6 +209,10 @@ End Sub
 
 Private Sub ebr_Click()
     Call changeForm(Form_List_barang)
+End Sub
+
+Private Sub er_Click()
+    Call changeForm(Form_retur)
 End Sub
 
 Private Sub lg_Click()

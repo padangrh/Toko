@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form Form_Pembelian 
    BackColor       =   &H0080FFFF&
@@ -601,10 +601,11 @@ Private Sub list_nama_DblClick()
     If getItemByID(list_nama.SelectedItem.Text) Then
         txt_kode.Text = rsbarang!kode
         txt_nama.Text = rsbarang!Nama
-        txt_harga.Text = Format(rsbarang!harga_modal, "###,###,###")
+        txt_harga.Text = Format(rsbarang!harga_modal, "###,###,##0")
         list_nama.Visible = False
         txt_jumlah.SetFocus
         txt_jumlah.SelLength = Len(txt_jumlah.Text)
+        If Not cekList Then cekRetur
     End If
 End Sub
 
@@ -640,26 +641,26 @@ Private Sub txt_return_KeyDown(key As Integer, Shift As Integer)
                 lv_beli.ListItems(i).SubItems(3) = Val(lv_beli.ListItems(i).SubItems(3)) + Val(txt_jumlah.Text)
                 lv_beli.ListItems(i).SubItems(4) = Val(lv_beli.ListItems(i).SubItems(4)) + Val(txt_return.Text)
                 lv_beli.ListItems(i).SubItems(5) = priceToNum(lv_beli.ListItems(i).SubItems(5)) + (Val(txt_jumlah.Text) - Val(txt_return.Text)) * priceToNum(txt_harga)
-                lv_beli.ListItems(i).SubItems(5) = Format(lv_beli.ListItems(i).SubItems(5), "###,###,###")
+                lv_beli.ListItems(i).SubItems(5) = Format(lv_beli.ListItems(i).SubItems(5), "###,###,##0")
                 Exit Do
             End If
             i = i + 1
         Loop
         
         Dim subtotal As String
-        subtotal = Format(rsbarang!harga_modal * (Val(txt_jumlah) - Val(txt_return)), "###,###,###")
+        subtotal = Format(rsbarang!harga_modal * (Val(txt_jumlah) - Val(txt_return)), "###,###,##0")
         
         If found = False Then
             Dim item As ListItem
             Set item = lv_beli.ListItems.Add(, , rsbarang!kode)
             item.SubItems(1) = rsbarang!Nama
-            item.SubItems(2) = Format(rsbarang!harga_modal, "###,###,###")
+            item.SubItems(2) = Format(rsbarang!harga_modal, "###,###,##0")
             item.SubItems(3) = txt_jumlah.Text
             item.SubItems(4) = txt_return.Text
             item.SubItems(5) = subtotal
         End If
         
-        txt_total.Text = Format(priceToNum(txt_total) + priceToNum(subtotal), "###,###,###")
+        txt_total.Text = Format(priceToNum(txt_total) + priceToNum(subtotal), "###,###,##0")
         If kode_supplier = "" Then
             kode_supplier = rsbarang!kdsuplier
         End If
@@ -675,9 +676,10 @@ Private Sub txt_kode_KeyDown(key As Integer, Shift As Integer)
         kode = Trim(txt_kode.Text)
         If getItemByID(kode) Then
             txt_nama.Text = rsbarang!Nama
-            txt_harga.Text = Format(rsbarang!harga_modal, "###,###,###")
+            txt_harga.Text = Format(rsbarang!harga_modal, "###,###,##0")
             txt_jumlah.SetFocus
             txt_jumlah.SelLength = Len(txt_jumlah.Text)
+            If Not cekList Then cekRetur
         Else
             MsgBox ("Kode ini tidak terdaftar")
         End If
@@ -696,6 +698,7 @@ Private Function getItemByID(kode As String) As Boolean
         End If
         rsbarang.MoveNext
     Loop
+    rsbarang.MoveFirst
     getItemByID = False
 End Function
 
@@ -726,7 +729,7 @@ Private Sub txt_nama_KeyDown(key As Integer, Shift As Integer)
 '        Dim mitem As ListItem
 '        Set mitem = list_nama.ListItems.Add(, , rsfilter!kode)
 '        mitem.SubItems(1) = rsfilter!nama
-'        mitem.SubItems(2) = "Rp. " + Format(rsfilter!harga_modal, "###,###,###")
+'        mitem.SubItems(2) = "Rp. " + Format(rsfilter!harga_modal, "###,###,##0")
 '        rsfilter.MoveNext
 '    Loop
 '
@@ -783,3 +786,22 @@ End Sub
 Private Sub txt_return_KeyPress(KeyAscii As Integer)
     KeyAscii = validateKey(KeyAscii, 1)
 End Sub
+
+Private Sub cekRetur()
+    Dim rsRetur As ADODB.Recordset
+    Set rsRetur = con.Execute("Select * from tbretur where kode = '" & txt_kode.Text & "'")
+    If Not rsRetur.EOF Then
+        txt_return.Text = Val(rsRetur!jumlah)
+    End If
+    Set rsRetur = Nothing
+End Sub
+
+Private Function cekList() As Boolean
+    cekList = False
+    If lv_beli.ListItems.count > 0 Then
+        Dim i As Integer
+        For i = 1 To lv_beli.ListItems.count
+            If txt_kode.Text = lv_beli.ListItems(i).Text Then cekList = True
+        Next
+    End If
+End Function

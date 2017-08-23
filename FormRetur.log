@@ -1,0 +1,94 @@
+Line 28: Class MSComctlLib.ImageList of control ImageList2 was not a loaded control class.
+Line 62: Class MSComctlLib.ImageList of control ImageList1 was not a loaded control class.
+Line 96: Class ComCtl3.CoolBar of control CoolBar1 was not a loaded control class.
+Line 124: Class MSComctlLib.Toolbar of control Toolbar1 was not a loaded control class.
+Line 153: Class MSComCtl2.DTPicker of control DTPicker1 was not a loaded control class.
+Line 185: Class MSComctlLib.ImageList of control ImageListOrder was not a loaded control class.
+Line 207: Class MSComctlLib.ListView of control lv_tunai was not a loaded control class.
+Line 257: Class MSComctlLib.ListView of control lv_nontunai was not a loaded control class.
+Line 31: The property name _ExtentX in ImageList2 is invalid.
+Line 32: The property name _ExtentY in ImageList2 is invalid.
+Line 34: The property name ImageWidth in ImageList2 is invalid.
+Line 35: The property name ImageHeight in ImageList2 is invalid.
+Line 36: The property name MaskColor in ImageList2 is invalid.
+Line 37: The property name _Version in ImageList2 is invalid.
+Line 60: The property name Images in ImageList2 is invalid.
+Line 65: The property name _ExtentX in ImageList1 is invalid.
+Line 66: The property name _ExtentY in ImageList1 is invalid.
+Line 68: The property name ImageWidth in ImageList1 is invalid.
+Line 69: The property name ImageHeight in ImageList1 is invalid.
+Line 70: The property name MaskColor in ImageList1 is invalid.
+Line 71: The property name _Version in ImageList1 is invalid.
+Line 94: The property name Images in ImageList1 is invalid.
+Line 102: The property name _ExtentX in CoolBar1 is invalid.
+Line 103: The property name _ExtentY in CoolBar1 is invalid.
+Line 104: The property name BandCount in CoolBar1 is invalid.
+Line 105: The property name _CBWidth in CoolBar1 is invalid.
+Line 106: The property name _CBHeight in CoolBar1 is invalid.
+Line 107: The property name _Version in CoolBar1 is invalid.
+Line 108: The property name Caption1 in CoolBar1 is invalid.
+Line 109: The property name Child1 in CoolBar1 is invalid.
+Line 110: The property name MinHeight1 in CoolBar1 is invalid.
+Line 111: The property name Width1 in CoolBar1 is invalid.
+Line 112: The property name NewRow1 in CoolBar1 is invalid.
+Line 113: The property name Caption2 in CoolBar1 is invalid.
+Line 114: The property name Child2 in CoolBar1 is invalid.
+Line 115: The property name MinHeight2 in CoolBar1 is invalid.
+Line 116: The property name Width2 in CoolBar1 is invalid.
+Line 117: The property name NewRow2 in CoolBar1 is invalid.
+Line 118: The property name Child3 in CoolBar1 is invalid.
+Line 119: The property name MinHeight3 in CoolBar1 is invalid.
+Line 120: The property name Width3 in CoolBar1 is invalid.
+Line 121: The property name NewRow3 in CoolBar1 is invalid.
+Line 122: The property name MinHeight4 in CoolBar1 is invalid.
+Line 123: The property name NewRow4 in CoolBar1 is invalid.
+Line 130: The property name _ExtentX in Toolbar1 is invalid.
+Line 131: The property name _ExtentY in Toolbar1 is invalid.
+Line 132: The property name ButtonWidth in Toolbar1 is invalid.
+Line 133: The property name ButtonHeight in Toolbar1 is invalid.
+Line 135: The property name ImageList in Toolbar1 is invalid.
+Line 136: The property name _Version in Toolbar1 is invalid.
+Line 151: The property name Buttons in Toolbar1 is invalid.
+Line 159: The property name _ExtentX in DTPicker1 is invalid.
+Line 160: The property name _ExtentY in DTPicker1 is invalid.
+Line 161: The property name _Version in DTPicker1 is invalid.
+Line 171: The property name CustomFormat in DTPicker1 is invalid.
+Line 172: The property name Format in DTPicker1 is invalid.
+Line 173: The property name CurrentDate in DTPicker1 is invalid.
+Line 188: The property name _ExtentX in ImageListOrder is invalid.
+Line 189: The property name _ExtentY in ImageListOrder is invalid.
+Line 191: The property name ImageWidth in ImageListOrder is invalid.
+Line 192: The property name ImageHeight in ImageListOrder is invalid.
+Line 193: The property name MaskColor in ImageListOrder is invalid.
+Line 194: The property name _Version in ImageListOrder is invalid.
+Line 205: The property name Images in ImageListOrder is invalid.
+Line 213: The property name _ExtentX in lv_tunai is invalid.
+Line 214: The property name _ExtentY in lv_tunai is invalid.
+Line 215: The property name View in lv_tunai is invalid.
+Line 216: The property name LabelEdit in lv_tunai is invalid.
+Line 217: The property name LabelWrap in lv_tunai is invalid.
+Line 218: The property name HideSelection in lv_tunai is invalid.
+Line 219: The property name AllowReorder in lv_tunai is invalid.
+Line 220: The property name FullRowSelect in lv_tunai is invalid.
+Line 221: The property name _Version in lv_tunai is invalid.
+Line 222: The property name ColHdrIcons in lv_tunai is invalid.
+Line 235: The property name NumItems in lv_tunai is invalid.
+Line 239: The property name ColumnHeader(1) in lv_tunai is invalid.
+Line 244: The property name ColumnHeader(2) in lv_tunai is invalid.
+Line 249: The property name ColumnHeader(3) in lv_tunai is invalid.
+Line 255: The property name ColumnHeader(4) in lv_tunai is invalid.
+Line 263: The property name _ExtentX in lv_nontunai is invalid.
+Line 264: The property name _ExtentY in lv_nontunai is invalid.
+Line 265: The property name View in lv_nontunai is invalid.
+Line 266: The property name LabelEdit in lv_nontunai is invalid.
+Line 267: The property name LabelWrap in lv_nontunai is invalid.
+Line 268: The property name HideSelection in lv_nontunai is invalid.
+Line 269: The property name AllowReorder in lv_nontunai is invalid.
+Line 270: The property name FullRowSelect in lv_nontunai is invalid.
+Line 271: The property name _Version in lv_nontunai is invalid.
+Line 272: The property name ColHdrIcons in lv_nontunai is invalid.
+Line 285: The property name NumItems in lv_nontunai is invalid.
+Line 289: The property name ColumnHeader(1) in lv_nontunai is invalid.
+Line 294: The property name ColumnHeader(2) in lv_nontunai is invalid.
+Line 299: The property name ColumnHeader(3) in lv_nontunai is invalid.
+Line 305: The property name ColumnHeader(4) in lv_nontunai is invalid.

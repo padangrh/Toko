@@ -530,7 +530,7 @@ Private Sub print_bon(tunai As Integer)
 '        Printer.Print Tab(3); rsJual!nama_barang
 '        Dim bayar As Long
 '        bayar = Val(rsJual!jumlah_jual) * Val(rsJual!harga_jual)
-'        Printer.Print Tab(3); rsJual!jumlah_jual; "x"; Format(rsJual!harga_jual, "###,###,###"); Tab(35); Format(bayar, "###,###,###")
+'        Printer.Print Tab(3); rsJual!jumlah_jual; "x"; Format(rsJual!harga_jual, "###,###,##0"); Tab(35); Format(bayar, "###,###,##0")
 '        rsJual.MoveNext
 '    Loop
 '    Printer.Print Tab(30); "--------------------------";
@@ -540,7 +540,7 @@ Private Sub print_bon(tunai As Integer)
 '    End If
 '    Dim diskon_total As Long
 '    diskon_total = priceToNum(txt_total) - priceToNum(txt_diskon)
-'    Printer.Print Tab(8); "Total"; Tab(16); ": Rp."; Format(diskon_total, "###,###,###")
+'    Printer.Print Tab(8); "Total"; Tab(16); ": Rp."; Format(diskon_total, "###,###,##0")
 '    Printer.CurrentX = 0
 '    Printer.FontSize = 10
 '    Printer.Print Tab(3); "                                                             ";

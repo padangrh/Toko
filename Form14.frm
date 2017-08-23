@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{38911DA0-E448-11D0-84A3-00DD01104159}#1.1#0"; "COMCT332.OCX"
 Begin VB.Form Form_List_beli 
@@ -210,7 +210,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   95223809
+         Format          =   97648641
          CurrentDate     =   39459
       End
    End
@@ -695,7 +695,7 @@ Private Sub Settlement()
         rsbeli.MoveNext
     Loop
     
-    message = message + "Jumlah pembayaran = " + Format(CStr(nominal), "###,###,###") + vbCrLf + "Jumlah Bon = " + CStr(count) + " bon" + vbCrLf + no_bon
+    message = message + "Jumlah pembayaran = " + Format(CStr(nominal), "###,###,##0") + vbCrLf + "Jumlah Bon = " + CStr(count) + " bon" + vbCrLf + no_bon
     If MsgBox(message, vbOKCancel, "Settlement Pembelian") = vbOK Then
         con.Execute ("update bill_beli set settled = 1, tanggal_lunas='" & Format(Now, "yyyy-mm-dd") & "' where lunas = 1 and settled = 0")
         MsgBox "Settlement Sukses"
