@@ -156,6 +156,7 @@ Begin VB.Form Form_Retur
          _ExtentX        =   4577
          _ExtentY        =   1058
          _Version        =   393216
+         Enabled         =   0   'False
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   18
@@ -166,7 +167,7 @@ Begin VB.Form Form_Retur
             Strikethrough   =   0   'False
          EndProperty
          CustomFormat    =   "dd-MM-yyyy"
-         Format          =   105644035
+         Format          =   48234499
          CurrentDate     =   42191
       End
       Begin VB.TextBox txt_filter 
@@ -232,28 +233,28 @@ Begin VB.Form Form_Retur
       NumItems        =   5
       BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Text            =   "Kode Barang"
-         Object.Width           =   5292
+         Object.Width           =   5583
       EndProperty
       BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   1
          Text            =   "Nama Barang"
-         Object.Width           =   8819
+         Object.Width           =   17701
       EndProperty
       BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   2
          Text            =   "Tanggal"
-         Object.Width           =   4410
+         Object.Width           =   3916
       EndProperty
       BeginProperty ColumnHeader(4) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   3
          Text            =   "Nama_Kasir"
-         Object.Width           =   4410
+         Object.Width           =   5001
       EndProperty
       BeginProperty ColumnHeader(5) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Alignment       =   1
          SubItemIndex    =   4
          Text            =   "Jumlah"
-         Object.Width           =   4410
+         Object.Width           =   2963
       EndProperty
    End
 End
@@ -275,7 +276,7 @@ Public Sub refreshlist()
     Dim query_all, query_some As String
 '    query_all = "SELECT * from bill where tanggal='" & Format(DTPicker1, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'"
 '    query_some = "SELECT * from bill where tanggal='" & Format(DTPicker1, "yyyy-mm-dd") & "' and kasir='" & username & "' and nobukti like '%" & txt_filter & "%'"
-    query_all = "Select * from tbretur where tgl_retur = '" & Format(DTPicker1, "yyyy-mm-dd") & "'and nama like '%" & txt_filter & "%'"
+    query_all = "Select * from tbretur where nama like '%" & txt_filter & "%'"
 '    If isSPV Or isMaster Then
 '      Set rsJual = con.Execute(query_all)
 '    Else
@@ -308,6 +309,13 @@ Public Sub refreshlist()
     
     Set rsJual = Nothing
 End Sub
+
+'Private Sub Command1_Click()
+'    Dim i As Integer
+'    For i = 1 To lv_Retur.ColumnHeaders.count
+'        MsgBox lv_Retur.ColumnHeaders(i).Width
+'    Next
+'End Sub
 
 Private Sub CoolBar1_HeightChanged(ByVal NewHeight As Single)
     Form_Resize

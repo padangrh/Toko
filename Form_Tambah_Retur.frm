@@ -26,7 +26,7 @@ Begin VB.Form Form_Tambah_Retur
       ForeColor       =   &H00000000&
       Height          =   615
       Left            =   720
-      TabIndex        =   5
+      TabIndex        =   0
       Text            =   "12345678901234"
       Top             =   1200
       Width           =   3135
@@ -44,7 +44,7 @@ Begin VB.Form Form_Tambah_Retur
       ForeColor       =   &H00000000&
       Height          =   615
       Left            =   4440
-      TabIndex        =   4
+      TabIndex        =   1
       Text            =   "12345678901234"
       Top             =   1200
       Width           =   8415
@@ -62,7 +62,7 @@ Begin VB.Form Form_Tambah_Retur
       ForeColor       =   &H00000000&
       Height          =   614
       Left            =   13440
-      TabIndex        =   3
+      TabIndex        =   4
       Text            =   "12345678901234"
       Top             =   1200
       Width           =   1239
@@ -70,7 +70,7 @@ Begin VB.Form Form_Tambah_Retur
    Begin MSComctlLib.ListView list_nama 
       Height          =   2295
       Left            =   4440
-      TabIndex        =   0
+      TabIndex        =   3
       Top             =   1800
       Width           =   8415
       _ExtentX        =   14843
@@ -115,7 +115,7 @@ Begin VB.Form Form_Tambah_Retur
    Begin MSComCtl2.UpDown UpDown1 
       Height          =   615
       Left            =   14640
-      TabIndex        =   1
+      TabIndex        =   2
       Top             =   1200
       Width           =   255
       _ExtentX        =   450
@@ -137,7 +137,7 @@ Begin VB.Form Form_Tambah_Retur
    Begin MSComctlLib.ListView lv_Retur 
       Height          =   5775
       Left            =   600
-      TabIndex        =   2
+      TabIndex        =   5
       Top             =   2400
       Width           =   14475
       _ExtentX        =   25532
@@ -170,7 +170,7 @@ Begin VB.Form Form_Tambah_Retur
       BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          SubItemIndex    =   1
          Text            =   "Nama Barang"
-         Object.Width           =   14879
+         Object.Width           =   16140
       EndProperty
       BeginProperty ColumnHeader(3) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
          Alignment       =   1
@@ -244,6 +244,13 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim rsbarang As ADODB.Recordset
 Dim txt_nama_Toggle As Boolean
+
+'Private Sub Command1_Click()
+'    Dim i As Integer
+'    For i = 1 To lv_Retur.ColumnHeaders.count
+'        MsgBox lv_Retur.ColumnHeaders(i).Width
+'    Next
+'End Sub
 
 Private Sub Form_Load()
     kosongkan

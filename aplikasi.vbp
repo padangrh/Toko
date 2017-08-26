@@ -53,6 +53,7 @@ Form=Form_RegisterFP.frm
 Form=Form_History.frm
 Form=Form_Retur.frm
 Form=Form_Tambah_Retur.frm
+Form=Form_InputRetur.frm
 IconForm="Form_List_Supplier"
 Startup="FrmMain"
 HelpFile=""

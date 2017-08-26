@@ -15,10 +15,44 @@ Begin VB.Form Form_Pembelian
    ScaleWidth      =   42894.2
    StartUpPosition =   2  'CenterScreen
    WindowState     =   2  'Maximized
+   Begin VB.CommandButton cmd_Reset 
+      Caption         =   "Reset"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   15600
+      TabIndex        =   8
+      Top             =   10320
+      Width           =   1455
+   End
+   Begin VB.CommandButton cmd_LoadRetur 
+      Caption         =   "Retur"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   17760
+      TabIndex        =   9
+      Top             =   10320
+      Width           =   1455
+   End
    Begin MSComctlLib.ListView list_nama 
       Height          =   2295
       Left            =   4440
-      TabIndex        =   22
+      TabIndex        =   3
       Top             =   3000
       Width           =   8415
       _ExtentX        =   14843
@@ -73,7 +107,7 @@ Begin VB.Form Form_Pembelian
       ForeColor       =   &H00000000&
       Height          =   614
       Left            =   18000
-      TabIndex        =   21
+      TabIndex        =   6
       Text            =   "12345678901234"
       Top             =   2400
       Width           =   1023
@@ -81,7 +115,7 @@ Begin VB.Form Form_Pembelian
    Begin MSComCtl2.UpDown UpDown1 
       Height          =   615
       Left            =   17280
-      TabIndex        =   16
+      TabIndex        =   20
       Top             =   2400
       Width           =   255
       _ExtentX        =   450
@@ -89,7 +123,7 @@ Begin VB.Form Form_Pembelian
       _Version        =   393216
       Value           =   1
       BuddyControl    =   "txt_jumlah"
-      BuddyDispid     =   196610
+      BuddyDispid     =   196611
       OrigLeft        =   19062
       OrigTop         =   2863
       OrigRight       =   19364
@@ -103,7 +137,7 @@ Begin VB.Form Form_Pembelian
    Begin MSComctlLib.ListView lv_beli 
       Height          =   6855
       Left            =   360
-      TabIndex        =   14
+      TabIndex        =   7
       Top             =   3360
       Width           =   19275
       _ExtentX        =   33999
@@ -176,7 +210,7 @@ Begin VB.Form Form_Pembelian
       ForeColor       =   &H00000000&
       Height          =   614
       Left            =   16080
-      TabIndex        =   13
+      TabIndex        =   5
       Text            =   "12345678901234"
       Top             =   2400
       Width           =   1453
@@ -195,7 +229,7 @@ Begin VB.Form Form_Pembelian
       ForeColor       =   &H00000000&
       Height          =   615
       Left            =   13320
-      TabIndex        =   12
+      TabIndex        =   4
       Text            =   "12345678901234"
       Top             =   2400
       Width           =   2295
@@ -213,7 +247,7 @@ Begin VB.Form Form_Pembelian
       ForeColor       =   &H00000000&
       Height          =   615
       Left            =   4440
-      TabIndex        =   9
+      TabIndex        =   2
       Text            =   "12345678901234"
       Top             =   2400
       Width           =   8415
@@ -231,7 +265,7 @@ Begin VB.Form Form_Pembelian
       ForeColor       =   &H00000000&
       Height          =   615
       Left            =   600
-      TabIndex        =   6
+      TabIndex        =   1
       Text            =   "12345678901234"
       Top             =   2400
       Width           =   3135
@@ -250,7 +284,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   855
       Left            =   15360
-      TabIndex        =   3
+      TabIndex        =   12
       Text            =   "00.000.000"
       Top             =   240
       Width           =   4095
@@ -258,7 +292,7 @@ Begin VB.Form Form_Pembelian
    Begin MSComCtl2.UpDown UpDown2 
       Height          =   614
       Left            =   19020
-      TabIndex        =   20
+      TabIndex        =   24
       Top             =   2400
       Width           =   255
       _ExtentX        =   450
@@ -266,7 +300,7 @@ Begin VB.Form Form_Pembelian
       _Version        =   393216
       Value           =   1
       BuddyControl    =   "txt_return"
-      BuddyDispid     =   196609
+      BuddyDispid     =   196610
       OrigLeft        =   19062
       OrigTop         =   2863
       OrigRight       =   19364
@@ -289,7 +323,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   495
       Left            =   18000
-      TabIndex        =   19
+      TabIndex        =   23
       Top             =   1800
       Width           =   1575
    End
@@ -307,7 +341,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   495
       Left            =   360
-      TabIndex        =   15
+      TabIndex        =   19
       Top             =   10320
       Width           =   15015
    End
@@ -325,7 +359,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   495
       Left            =   16080
-      TabIndex        =   11
+      TabIndex        =   18
       Top             =   1800
       Width           =   1575
    End
@@ -343,7 +377,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   495
       Left            =   13320
-      TabIndex        =   10
+      TabIndex        =   17
       Top             =   1800
       Width           =   2295
    End
@@ -361,7 +395,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   495
       Left            =   4440
-      TabIndex        =   8
+      TabIndex        =   16
       Top             =   1800
       Width           =   3255
    End
@@ -379,7 +413,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   495
       Left            =   600
-      TabIndex        =   7
+      TabIndex        =   15
       Top             =   1800
       Width           =   2295
    End
@@ -397,7 +431,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   615
       Left            =   7920
-      TabIndex        =   5
+      TabIndex        =   14
       Top             =   360
       Width           =   2895
    End
@@ -415,7 +449,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   615
       Left            =   6600
-      TabIndex        =   4
+      TabIndex        =   13
       Top             =   360
       Width           =   2295
    End
@@ -433,7 +467,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   975
       Left            =   14280
-      TabIndex        =   2
+      TabIndex        =   11
       Top             =   240
       Width           =   5295
    End
@@ -451,7 +485,7 @@ Begin VB.Form Form_Pembelian
       EndProperty
       Height          =   615
       Left            =   3120
-      TabIndex        =   1
+      TabIndex        =   10
       Top             =   360
       Width           =   2655
    End
@@ -477,7 +511,7 @@ Begin VB.Form Form_Pembelian
       BackColor       =   &H0000C0C0&
       Height          =   1695
       Left            =   360
-      TabIndex        =   17
+      TabIndex        =   21
       Top             =   1560
       Width           =   19275
    End
@@ -485,7 +519,7 @@ Begin VB.Form Form_Pembelian
       BackColor       =   &H0000C0C0&
       Height          =   1095
       Left            =   360
-      TabIndex        =   18
+      TabIndex        =   22
       Top             =   120
       Width           =   19275
    End
@@ -498,6 +532,44 @@ Attribute VB_Exposed = False
 Dim rsbarang As ADODB.Recordset
 Public kode_supplier As String
 Dim txt_nama_Toggle As Boolean
+Dim loadReturFlag As Boolean
+Dim tempKodeSup As String
+
+Private Sub cmd_LoadRetur_Click()
+    Dim x As String
+    If tempKodeSup <> "" Then
+        x = tempKodeSup
+    Else
+        x = InputBox("Silahkan masukkan kode supplier yg akan digunakan.", "Masukkan kode supplier")
+    End If
+    If x <> "" And Val(x) <> 0 Then
+        tempKodeSup = Val(x)
+        Dim rsRetur As ADODB.Recordset
+        Set rsRetur = con.Execute("Select a.*, c.nmsuplier from tbretur a, tbbarang b, tbsuplier c where a.kode = b.kode and b.kdsuplier = c.kdsuplier and b.kdsuplier = '" & Val(x) & "'")
+        If Not rsRetur.EOF Then
+            Me.Enabled = False
+            Dim mitem As ListItem
+            Form_InputRetur.Label3.Caption = rsRetur!nmsuplier
+            Do While Not rsRetur.EOF
+                Set mitem = Form_InputRetur.lv_Retur.ListItems.Add(, , rsRetur!kode)
+                mitem.SubItems(1) = rsRetur!Nama
+                mitem.SubItems(2) = rsRetur!tgl_retur
+                mitem.SubItems(3) = rsRetur!userid
+                mitem.SubItems(4) = rsRetur!jumlah
+                rsRetur.MoveNext
+            Loop
+            DoEvents
+            Form_InputRetur.Show
+        End If
+    Set rsRetur = Nothing
+    loadReturFlag = True
+    End If
+End Sub
+
+Private Sub cmd_Reset_Click()
+    resetFaktur
+    txt_kode.SetFocus
+End Sub
 
 Private Sub Form_Load()
     lbl_user = username
@@ -519,6 +591,8 @@ Private Sub Form_Load()
         angka = Val(Mid(file_data, 2, 20))
         lbl_faktur = huruf + CStr(angka + 1)
     Wend
+    tempKodeSup = ""
+    loadReturFlag = False
 Close #1
 
 End Sub
@@ -605,7 +679,7 @@ Private Sub list_nama_DblClick()
         list_nama.Visible = False
         txt_jumlah.SetFocus
         txt_jumlah.SelLength = Len(txt_jumlah.Text)
-        If Not cekList Then cekRetur
+'        If Not cekList Then cekRetur
     End If
 End Sub
 
@@ -666,6 +740,10 @@ Private Sub txt_return_KeyDown(key As Integer, Shift As Integer)
         End If
         kosongkan
         txt_kode.SetFocus
+        DoEvents
+        If Not loadReturFlag Then cekRetur
+        loadReturFlag = True
+        DoEvents
     End If
 End Sub
 
@@ -679,7 +757,7 @@ Private Sub txt_kode_KeyDown(key As Integer, Shift As Integer)
             txt_harga.Text = Format(rsbarang!harga_modal, "###,###,##0")
             txt_jumlah.SetFocus
             txt_jumlah.SelLength = Len(txt_jumlah.Text)
-            If Not cekList Then cekRetur
+'            If Not cekList Then cekRetur
         Else
             MsgBox ("Kode ini tidak terdaftar")
         End If
@@ -757,6 +835,8 @@ End Sub
 
 Private Sub resetFaktur()
     txt_total = "0"
+    loadReturFlag = False
+    tempKodeSup = ""
     lv_beli.ListItems.Clear
     kode_supplier = ""
     kosongkan
@@ -787,21 +867,55 @@ Private Sub txt_return_KeyPress(KeyAscii As Integer)
     KeyAscii = validateKey(KeyAscii, 1)
 End Sub
 
+'Private Sub cekRetur()
+'    Dim rsRetur As ADODB.Recordset
+'    Set rsRetur = con.Execute("Select * from tbretur where kode = '" & txt_kode.Text & "'")
+'    If Not rsRetur.EOF Then
+'        txt_return.Text = Val(rsRetur!jumlah)
+'    End If
+'    Set rsRetur = Nothing
+'End Sub
+'
+'Private Function cekList() As Boolean
+'    cekList = False
+'    If lv_beli.ListItems.count > 0 Then
+'        Dim i As Integer
+'        For i = 1 To lv_beli.ListItems.count
+'            If txt_kode.Text = lv_beli.ListItems(i).Text Then cekList = True
+'        Next
+'    End If
+'End Function
+
 Private Sub cekRetur()
     Dim rsRetur As ADODB.Recordset
-    Set rsRetur = con.Execute("Select * from tbretur where kode = '" & txt_kode.Text & "'")
+    Dim tempKdSup As Integer
+    Set rsRetur = con.Execute("Select kdsuplier from tbbarang where kode = '" & lv_beli.ListItems(1).Text & "'")
+    '(select kdsuplier from tbbarang where kode = '')
+    tempKdSup = rsRetur!kdsuplier
+    tempKodeSup = tempKdSup
+    Set rsRetur = con.Execute("Select a.*, c.nmsuplier from tbretur a, tbbarang b, tbsuplier c where a.kode = b.kode and b.kdsuplier = c.kdsuplier and b.kdsuplier = '" & tempKdSup & "'")
     If Not rsRetur.EOF Then
-        txt_return.Text = Val(rsRetur!jumlah)
+        Me.Enabled = False
+        Dim mitem As ListItem
+        Form_InputRetur.Label3.Caption = rsRetur!nmsuplier
+        Do While Not rsRetur.EOF
+            Set mitem = Form_InputRetur.lv_Retur.ListItems.Add(, , rsRetur!kode)
+            mitem.SubItems(1) = rsRetur!Nama
+            mitem.SubItems(2) = rsRetur!tgl_retur
+            mitem.SubItems(3) = rsRetur!userid
+            mitem.SubItems(4) = rsRetur!jumlah
+            rsRetur.MoveNext
+        Loop
+        Form_InputRetur.Show
     End If
     Set rsRetur = Nothing
 End Sub
 
-Private Function cekList() As Boolean
-    cekList = False
-    If lv_beli.ListItems.count > 0 Then
-        Dim i As Integer
-        For i = 1 To lv_beli.ListItems.count
-            If txt_kode.Text = lv_beli.ListItems(i).Text Then cekList = True
-        Next
-    End If
-End Function
+Public Sub hitungTxtTotal()
+    txt_total.Text = 0
+    Dim i As Integer
+    For i = 1 To lv_beli.ListItems.count
+        txt_total.Text = txt_total.Text + priceToNum(lv_beli.ListItems(i).SubItems(5))
+    Next
+    txt_total = Format(txt_total.Text, "###,###,##0")
+End Sub
