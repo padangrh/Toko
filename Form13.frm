@@ -440,16 +440,27 @@ Private Sub print_bon(tunai As Integer)
         Printer.Print Tab(1); "                                                             ";
         Printer.FontSize = 10
         
-        Printer.Print Tab(2); "Customer Service: (0751)483518";
-        Printer.Print Tab(2); "HP Pemesanan: 0811 668 5000";
+        'Nipah
+        Printer.Print Tab(2); "Customer Serivce: (0751)33318";
+        Printer.Print Tab(2); "HP Pemesanan: 0812 663 3318"
         Printer.Print Tab(2); "www.christinehakimideapark.com";
         Printer.Print Tab(3); ""
         Printer.Print Tab(1); "                                                             ";
         
+'        'CHIP
+'        Printer.Print Tab(2); "Customer Service: (0751)483518";
+'        Printer.Print Tab(2); "HP Pemesanan: 0811 668 5000";
+'        Printer.Print Tab(2); "www.christinehakimideapark.com";
+'        Printer.Print Tab(3); ""
+'        Printer.Print Tab(1); "                                                             ";
+        
         'Printer.FontSize = 10
         Printer.Print Tab((38 - Len("*Periksalah uang kembalian anda*")) / 2); "*Periksalah uang kembalian anda*";
         Printer.Print Tab((38 - Len("*sebelum meninggalkan kasir*")) / 2); "*sebelum meninggalkan kasir*";
-    
+        
+        'Khusus Nipah
+        Printer.Print Tab((38 - Len("*Harga sudah termasuk PPN*")) / 2); "*Harga sudah termasuk PPN*";
+        
         Printer.EndDoc
     End If
     

@@ -13,6 +13,7 @@ Begin VB.Form Form_InputRetur
    ScaleWidth      =   15210
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmd_Batal 
+      BackColor       =   &H008080FF&
       Caption         =   "Batal"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -25,11 +26,13 @@ Begin VB.Form Form_InputRetur
       EndProperty
       Height          =   615
       Left            =   7440
+      Style           =   1  'Graphical
       TabIndex        =   2
       Top             =   5760
       Width           =   2175
    End
    Begin VB.CommandButton cmd_Masukkan 
+      BackColor       =   &H0080FF80&
       Caption         =   "Masukkan"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -42,6 +45,7 @@ Begin VB.Form Form_InputRetur
       EndProperty
       Height          =   615
       Left            =   4920
+      Style           =   1  'Graphical
       TabIndex        =   1
       Top             =   5760
       Width           =   2175

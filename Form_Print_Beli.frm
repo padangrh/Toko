@@ -375,7 +375,10 @@ Private Sub btn_print_click()
     Printer.FontSize = 10
     Printer.FontBold = False
     Printer.Print Tab(3); "                                                            "; 'baris kosong
-    Printer.Print Tab(3); "Jl. Adinegoro No. 11A Padang";
+'    'CHIP
+'    Printer.Print Tab(3); "Jl. Adinegoro No. 11A Padang";
+    'Nipah
+    Printer.Print Tab(3); "Jl. Nipah No. 38 Padang";
     Printer.Print Tab(3); "                                                             ";
     Printer.Print Tab(3); "No. FAKTUR"; Tab(20); ": "; txt_bon.Text;
     Printer.Print Tab(3); "Staff"; Tab(20); ": "; rsBill!staff;
@@ -514,11 +517,11 @@ Private Sub reload_Supplier()
     Set rsSup = Nothing
 End Sub
 
-Private Sub hapusRetur(inkode As String)
+Private Sub hapusRetur(inKode As String)
     Dim rsRetur As ADODB.Recordset
-    Set rsRetur = con.Execute("Select * from tbretur where kode = '" & inkode & "'")
+    Set rsRetur = con.Execute("Select * from tbretur where kode = '" & inKode & "'")
     If Not rsRetur.EOF Then
-        con.Execute ("Delete from tbretur where kode = '" & inkode & "'")
+        con.Execute ("Delete from tbretur where kode = '" & inKode & "'")
     End If
     Set rsRetur = Nothing
 End Sub

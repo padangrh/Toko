@@ -7,15 +7,16 @@ Begin VB.Form Form_Pembelian
    ClientHeight    =   10935
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   16320
+   ClientWidth     =   19440
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form11"
    ScaleHeight     =   13064.73
    ScaleMode       =   0  'User
-   ScaleWidth      =   42894.2
+   ScaleWidth      =   51094.56
    StartUpPosition =   2  'CenterScreen
    WindowState     =   2  'Maximized
    Begin VB.CommandButton cmd_Reset 
+      BackColor       =   &H008080FF&
       Caption         =   "Reset"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -27,12 +28,14 @@ Begin VB.Form Form_Pembelian
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   15600
+      Left            =   17760
+      Style           =   1  'Graphical
       TabIndex        =   8
       Top             =   10320
       Width           =   1455
    End
    Begin VB.CommandButton cmd_LoadRetur 
+      BackColor       =   &H0080FF80&
       Caption         =   "Retur"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -44,7 +47,8 @@ Begin VB.Form Form_Pembelian
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   17760
+      Left            =   15840
+      Style           =   1  'Graphical
       TabIndex        =   9
       Top             =   10320
       Width           =   1455
