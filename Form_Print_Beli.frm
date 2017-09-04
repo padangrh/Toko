@@ -378,7 +378,8 @@ Private Sub btn_print_click()
 '    'CHIP
 '    Printer.Print Tab(3); "Jl. Adinegoro No. 11A Padang";
     'Nipah
-    Printer.Print Tab(3); "Jl. Nipah No. 38 Padang";
+    'Printer.Print Tab(3); "Jl. Nipah No. 38 Padang";
+    Printer.Print Tab(3); Setting_Object("Alamat1")
     Printer.Print Tab(3); "                                                             ";
     Printer.Print Tab(3); "No. FAKTUR"; Tab(20); ": "; txt_bon.Text;
     Printer.Print Tab(3); "Staff"; Tab(20); ": "; rsBill!staff;

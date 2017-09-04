@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Begin VB.Form Form_Entri_Barang 
@@ -142,7 +142,7 @@ Begin VB.Form Form_Entri_Barang
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "dd-MM-yyyy"
-      Format          =   95223811
+      Format          =   107020291
       CurrentDate     =   42145
    End
    Begin VB.TextBox txt_kode_supplier 
@@ -699,7 +699,7 @@ Private Sub txt_modal_keypress(KeyAscii As Integer)
 End Sub
 
 Private Sub txt_jual_KeyPress(KeyAscii As Integer)
-    If KeyAscii = 13 Then txt_stok.SetFocus
+    If KeyAscii = 13 Then txt_kode_supplier.SetFocus
     KeyAscii = validateKey(KeyAscii, 1)
 End Sub
 

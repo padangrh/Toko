@@ -380,13 +380,127 @@ Private Sub print_bon(tunai As Integer)
     'Dim tempFont As String
     'tempFont = InputBox("Nama Font : ", "Font")
     
+''start old print
+'    If is_new = True Or cetak_Flag = True Then
+''        Printer.Font = "Times New Roman"
+'        Printer.Font = "mingliu"
+'        'Printer.Font = tempFont
+'        Printer.FontSize = 18
+'        Printer.FontBold = True
+'        Printer.Print Tab(4); Setting_Object("Toko2"); '"KRIPIK BALADO";
+'        Printer.Print Tab(3); Setting_Object("Toko"); '"CHRISTINE HAKIM";
+'        'Printer.Print Tab(2); Printer.PaintPicture(App.Path & "\CHIP.jpg");
+'        'Printer.Print Tab(2); "CHRISTINE HAKIM";
+'
+''        Printer.PaintPicture LoadPicture(App.Path & "\chip.jpg"), 300, 0, 2774, 1510
+''        Printer.Print Tab(1); "                                                                  ";
+''        Printer.Print Tab(1); "                                                                  ";
+''        Printer.Print Tab(1); "                                                                  ";
+''        Printer.Print Tab(1); "                                                                  ";
+''        Printer.Print Tab(1); "                                                                  ";
+'        Printer.Font = "dotumche"
+''        Printer.Font = "Times New Roman"
+'        Printer.FontSize = 10
+'        Printer.FontBold = False
+'        Printer.Print Tab(1); "                                                            "; 'baris kosong
+'        Printer.Print Tab(1); Setting_Object("Alamat1");
+'        Printer.Print Tab(1); "No. FAKTUR : "; txt_bon.Text
+'        Printer.Print Tab(1); Format(rsBill!tanggal, "dd-MM-yyyy"); "  "; rsBill!jam;
+'        Printer.Print Tab(1); "Nama Kasir : "; rsBill!kasir;
+'        Printer.Print Tab(1); "                                                                  ";
+'        Printer.Print Tab(1); "------------------------------------------------------------------";
+'        Do While Not rsJual.EOF
+'            Printer.Print Tab(1); rsJual!nama_barang
+'            Dim bayar As Long
+'            bayar = Val(rsJual!jumlah_jual) * Val(rsJual!harga_jual)
+'            Printer.Print Tab(2); rsJual!jumlah_jual; Tab(9); "x"; Tab(21 - Len(Format(rsJual!harga_jual, "###,###,##0"))); Format(rsJual!harga_jual, "###,###,##0"); Tab(35 - Len(Format(bayar, "###,###,##0"))); Format(bayar, "###,###,##0")
+'            rsJual.MoveNext
+'        Loop
+'        Printer.Print Tab(1); "                                                                  ";
+'        Printer.FontSize = 10
+'        If priceToNum(txt_diskon) > 0 Then
+'            Printer.Print Tab(1); "Total"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_total, "###,###,##0"))); Format(txt_total, "###,###,##0")
+'            Printer.Print Tab(1); "Diskon"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_diskon, "###,###,##0"))); Format(txt_diskon, "###,###,##0")
+'        End If
+'        ''test
+'        'Printer.Print Tab(1); "Pajak Restoran 10%"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_ppn, "###,###,##0"))); Format(txt_ppn, "###,###,##0")
+'        Printer.Print Tab(1); "------------------------------------------------------------------";
+'        Printer.FontSize = 12
+'        Printer.Print Tab(2); "Grand Total"; Tab(15); "Rp."; Tab(30 - Len(Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0"))); Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0")
+'
+'    ''    Dim diskon_total As Long
+'    ''    diskon_total = priceToNum(txt_total) - priceToNum(txt_diskon)
+'    ''nyelip di sini
+'        Printer.CurrentX = 0
+'        Printer.FontSize = 10
+'        Printer.Print Tab(3); "                                                             ";
+'        If (tunai = 1) Then
+'            Printer.Print Tab(1); "Jumlah Uang"; Tab(15); "Rp. "; Tab(31 - Len(Format(txt_uang, "###,###,##0"))); Format(txt_uang, "###,###,##0");
+'            Printer.Print Tab(1); "Kembalian  "; Tab(15); "Rp. "; Tab(31 - Len(Format(txt_kembali, "###,###,##0"))); Format(txt_kembali, "###,###,##0");
+'        Else
+'            Printer.Print Tab(3); "-NON TUNAI-";
+'        End If
+'        Printer.Print Tab(1); "                                                             ";
+'        Printer.FontSize = 10
+'
+'        'Nipah
+'        Printer.Print Tab(2); "Customer Serivce: (0751)33318";
+'        Printer.Print Tab(2); "HP Pemesanan: 0812 663 3318"
+'        Printer.Print Tab(2); "www.tokochristinehakim.com";
+'        Printer.Print Tab(2); "www.christinehakimideapark.com";
+'        Printer.Print Tab(3); ""
+'        Printer.Print Tab(1); "                                                             ";
+'
+''        'CHIP
+''        Printer.Print Tab(2); "Customer Service: (0751)483518";
+''        Printer.Print Tab(2); "HP Pemesanan: 0811 668 5000";
+''        Printer.Print Tab(2); "www.christinehakimideapark.com";
+''        Printer.Print Tab(3); ""
+''        Printer.Print Tab(1); "                                                             ";
+'
+'        'Printer.FontSize = 10
+'        Printer.Print Tab((38 - Len("*Periksalah uang kembalian anda*")) / 2); "*Periksalah uang kembalian anda*";
+'        Printer.Print Tab((38 - Len("*sebelum meninggalkan kasir*")) / 2); "*sebelum meninggalkan kasir*";
+'
+'        'Khusus Nipah
+'        Printer.Print Tab((38 - Len("*Harga sudah termasuk PPN*")) / 2); "*Harga sudah termasuk PPN*";
+'
+'        Printer.EndDoc
+'    End If
+'
+'
+'    If priceToNum(txt_diskon.Text) > 0 Then
+'        'con.Execute ("insert into tbdiskon values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
+'        If MsgBox("Cetak struk diskon?", vbYesNo) = vbYes Then
+'            Printer.Font = "dotumche"
+''            Printer.Font = "Times New Roman"
+'            'Printer.Font = tempFont
+'            Printer.FontSize = 10
+'            Printer.Print Tab(5); Format(Now, "dd-MM-yyyy  hh:mm:ss");
+'            Printer.Print Tab(5); "No Faktur"; Tab(19); ":  "; txt_bon
+'            Printer.Print Tab(5); "Supervisor"; Tab(19); ":  "; dis_spv
+'            Printer.Print Tab(5); "Status"; Tab(19); ":  "; dis_status
+'            Printer.Print Tab(5); "Customer"; Tab(19); ":  "; dis_cust
+'            Printer.Print Tab(5); "Diskon"; Tab(19); ":  Rp. "; Format(txt_diskon, "###,###,##0")
+'            Print Tab(3); "                                                            ";
+'            Print Tab(3); "                                                            ";
+'            Print Tab(3); "                                                            ";
+'            Printer.EndDoc
+'        End If
+'    End If
+''end old print
+
+    
     If is_new = True Or cetak_Flag = True Then
-        Printer.Font = "mingliu"
+        Printer.Font = "Times New Roman"
+'        Printer.Font = "mingliu"
         'Printer.Font = tempFont
-        Printer.FontSize = 18
+        Printer.FontSize = 15
         Printer.FontBold = True
-        Printer.Print Tab(4); Setting_Object("Toko2"); '"KRIPIK BALADO";
-        Printer.Print Tab(3); Setting_Object("Toko"); '"CHRISTINE HAKIM";
+        Printer.CurrentX = (Printer.ScaleWidth - Printer.TextWidth(Setting_Object("Toko2"))) / 2
+        Printer.Print Setting_Object("Toko2") '"KRIPIK BALADO";
+        Printer.CurrentX = (Printer.ScaleWidth - Printer.TextWidth(Setting_Object("Toko"))) / 2
+        Printer.Print Setting_Object("Toko") '"CHRISTINE HAKIM";
         'Printer.Print Tab(2); Printer.PaintPicture(App.Path & "\CHIP.jpg");
         'Printer.Print Tab(2); "CHRISTINE HAKIM";
         
@@ -396,56 +510,116 @@ Private Sub print_bon(tunai As Integer)
 '        Printer.Print Tab(1); "                                                                  ";
 '        Printer.Print Tab(1); "                                                                  ";
 '        Printer.Print Tab(1); "                                                                  ";
-        Printer.Font = "dotumche"
+'        Printer.Font = "dotumche"
+        Printer.Font = "Times New Roman"
         Printer.FontSize = 10
         Printer.FontBold = False
-        Printer.Print Tab(1); "                                                            "; 'baris kosong
-        Printer.Print Tab(1); Setting_Object("Alamat1");
-        Printer.Print Tab(1); "No. FAKTUR : "; txt_bon.Text
-        Printer.Print Tab(1); Format(rsBill!tanggal, "dd-MM-yyyy"); "  "; rsBill!jam;
-        Printer.Print Tab(1); "Nama Kasir : "; rsBill!kasir;
+        Printer.CurrentX = (Printer.ScaleWidth - Printer.TextWidth(Setting_Object("Alamat1"))) / 2
+        Printer.Print Setting_Object("Alamat1")
+        
+        Printer.Print Tab(1); "                                                            " 'baris kosong
+        
+        Printer.Print Tab(1); "No. FAKTUR";
+        Printer.CurrentX = 1300
+        Printer.Print ":";
+        Printer.CurrentX = 1500
+        Printer.Print txt_bon.Text
+        
+        Printer.Print Tab(1); Format(rsBill!tanggal, "dd-MM-yyyy"); "    "; rsBill!jam
+        
+        Printer.Print Tab(1); "Nama Kasir";
+        Printer.CurrentX = 1300
+        Printer.Print ":";
+        Printer.CurrentX = 1500
+        Printer.Print rsBill!kasir
+        
         Printer.Print Tab(1); "                                                                  ";
         Printer.Print Tab(1); "------------------------------------------------------------------";
         Do While Not rsJual.EOF
             Printer.Print Tab(1); rsJual!nama_barang
             Dim bayar As Long
             bayar = Val(rsJual!jumlah_jual) * Val(rsJual!harga_jual)
-            Printer.Print Tab(2); rsJual!jumlah_jual; Tab(9); "x"; Tab(21 - Len(Format(rsJual!harga_jual, "###,###,##0"))); Format(rsJual!harga_jual, "###,###,##0"); Tab(35 - Len(Format(bayar, "###,###,##0"))); Format(bayar, "###,###,##0")
+            Printer.Print Tab(2); rsJual!jumlah_jual;
+            Printer.CurrentX = 500
+            Printer.Print "x";
+            Printer.CurrentX = 2000 - Printer.TextWidth(Format(rsJual!harga_jual, "###,###,##0"))
+            Printer.Print Format(rsJual!harga_jual, "###,###,##0");
+            Printer.CurrentX = 3500 - Printer.TextWidth(Format(bayar, "###,###,##0"))
+            Printer.Print Format(bayar, "###,###,##0")
             rsJual.MoveNext
         Loop
         Printer.Print Tab(1); "                                                                  ";
         Printer.FontSize = 10
         If priceToNum(txt_diskon) > 0 Then
-            Printer.Print Tab(1); "Total"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_total, "###,###,##0"))); Format(txt_total, "###,###,##0")
-            Printer.Print Tab(1); "Diskon"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_diskon, "###,###,##0"))); Format(txt_diskon, "###,###,##0")
+            Printer.Print Tab(1); "Total";
+            Printer.CurrentX = 2000 - Printer.TextWidth("Rp.")
+            Printer.Print "Rp.";
+            Printer.CurrentX = 3500 - Printer.TextWidth(Format(txt_total, "###,###,##0"))
+            Printer.Print Format(txt_total, "###,###,##0")
+            
+            Printer.Print Tab(1); "Diskon";
+            Printer.CurrentX = 2000 - Printer.TextWidth("Rp.")
+            Printer.Print "Rp.";
+            Printer.CurrentX = 3500 - Printer.TextWidth(Format(txt_diskon, "###,###,##0"))
+            Printer.Print Format(txt_diskon, "###,###,##0")
+            
         End If
         ''test
         'Printer.Print Tab(1); "Pajak Restoran 10%"; Tab(20); "Rp."; Tab(35 - Len(Format(txt_ppn, "###,###,##0"))); Format(txt_ppn, "###,###,##0")
         Printer.Print Tab(1); "------------------------------------------------------------------";
         Printer.FontSize = 12
-        Printer.Print Tab(2); "Grand Total"; Tab(15); "Rp."; Tab(30 - Len(Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0"))); Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0")
-    
+        Printer.Print Tab(2); "Grand Total";
+        Printer.CurrentX = 2000 - Printer.TextWidth("Rp.")
+        Printer.Print "Rp.";
+        Printer.CurrentX = 3500 - Printer.TextWidth(Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0"))
+        Printer.Print Format(priceToNum(txt_total) - priceToNum(txt_diskon), "###,###,##0")
     ''    Dim diskon_total As Long
     ''    diskon_total = priceToNum(txt_total) - priceToNum(txt_diskon)
     ''nyelip di sini
         Printer.CurrentX = 0
         Printer.FontSize = 10
-        Printer.Print Tab(3); "                                                             ";
+        Printer.Print Tab(3); "                                                             "
         If (tunai = 1) Then
-            Printer.Print Tab(1); "Jumlah Uang"; Tab(15); "Rp. "; Tab(31 - Len(Format(txt_uang, "###,###,##0"))); Format(txt_uang, "###,###,##0");
-            Printer.Print Tab(1); "Kembalian  "; Tab(15); "Rp. "; Tab(31 - Len(Format(txt_kembali, "###,###,##0"))); Format(txt_kembali, "###,###,##0");
+            Printer.Print Tab(1); "Jumlah Uang";
+            Printer.CurrentX = 2000 - Printer.TextWidth("Rp.")
+            Printer.Print "Rp.";
+            Printer.CurrentX = 3500 - Printer.TextWidth(Format(txt_uang, "###,###,##0"))
+            Printer.Print Format(txt_uang, "###,###,##0")
+            
+            Printer.Print Tab(1); "Kembalian  ";
+            Printer.CurrentX = 2000 - Printer.TextWidth("Rp.")
+            Printer.Print "Rp.";
+            Printer.CurrentX = 3500 - Printer.TextWidth(Format(txt_kembali, "###,###,##0"))
+            Printer.Print Format(txt_kembali, "###,###,##0")
         Else
-            Printer.Print Tab(3); "-NON TUNAI-";
+            Printer.Print Tab(1); "                                     ";
+            Printer.CurrentX = (Printer.ScaleWidth - Printer.TextWidth("-NON TUNAI-")) / 2
+            Printer.Print "-NON TUNAI-"
         End If
-        Printer.Print Tab(1); "                                                             ";
-        Printer.FontSize = 10
+        Printer.Print Tab(1); "                                                             "
+        Printer.FontSize = 8
         
         'Nipah
-        Printer.Print Tab(2); "Customer Serivce: (0751)33318";
-        Printer.Print Tab(2); "HP Pemesanan: 0812 663 3318"
-        Printer.Print Tab(2); "www.christinehakimideapark.com";
+        Printer.Print Tab(2); "Customer Serivce";
+        Printer.CurrentX = 1600
+        Printer.Print ":";
+        Printer.CurrentX = 2000
+        Printer.Print "(0751)33318"
+        
+        Printer.Print Tab(2); "HP Pemesanan";
+        Printer.CurrentX = 1600
+        Printer.Print ":";
+        Printer.CurrentX = 2000
+        Printer.Print "0812 663 3318"
+        
+        
+        Printer.Print Tab(2); "www.christinehakimideapark.com"
+        
+        Printer.Print Tab(2); "www.tokochristinehakim.com"
+        
+        
         Printer.Print Tab(3); ""
-        Printer.Print Tab(1); "                                                             ";
+        Printer.Print Tab(1); "                                                             "
         
 '        'CHIP
 '        Printer.Print Tab(2); "Customer Service: (0751)483518";
@@ -454,12 +628,16 @@ Private Sub print_bon(tunai As Integer)
 '        Printer.Print Tab(3); ""
 '        Printer.Print Tab(1); "                                                             ";
         
-        'Printer.FontSize = 10
-        Printer.Print Tab((38 - Len("*Periksalah uang kembalian anda*")) / 2); "*Periksalah uang kembalian anda*";
-        Printer.Print Tab((38 - Len("*sebelum meninggalkan kasir*")) / 2); "*sebelum meninggalkan kasir*";
+        Printer.FontSize = 8
+        Printer.CurrentX = (Printer.ScaleWidth - Printer.TextWidth("*Perikasalah uang kembalian anda*")) / 2
+        Printer.Print "*Periksalah uang kembalian anda*"
+        
+        Printer.CurrentX = (Printer.ScaleWidth - Printer.TextWidth("*sebelum meninggalkan kasir*")) / 2
+        Printer.Print "*sebelum meninggalkan kasir*"
         
         'Khusus Nipah
-        Printer.Print Tab((38 - Len("*Harga sudah termasuk PPN*")) / 2); "*Harga sudah termasuk PPN*";
+        Printer.CurrentX = (Printer.ScaleWidth - Printer.TextWidth("*Harga sudah termasuk PPN*")) / 2
+        Printer.Print "*Harga sudah termasuk PPN*"
         
         Printer.EndDoc
     End If
@@ -469,6 +647,7 @@ Private Sub print_bon(tunai As Integer)
         'con.Execute ("insert into tbdiskon values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
         If MsgBox("Cetak struk diskon?", vbYesNo) = vbYes Then
             Printer.Font = "dotumche"
+'            Printer.Font = "Times New Roman"
             'Printer.Font = tempFont
             Printer.FontSize = 10
             Printer.Print Tab(5); Format(Now, "dd-MM-yyyy  hh:mm:ss");
@@ -483,7 +662,7 @@ Private Sub print_bon(tunai As Integer)
             Printer.EndDoc
         End If
     End If
-    
+
 
       
     Close #1
