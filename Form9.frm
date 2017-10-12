@@ -98,36 +98,75 @@ Begin VB.Form Form_List_Jual
       Left            =   0
       TabIndex        =   0
       Top             =   0
-      Width           =   18255
-      _ExtentX        =   32200
+      Width           =   20055
+      _ExtentX        =   35375
       _ExtentY        =   1667
-      BandCount       =   4
-      _CBWidth        =   18255
+      BandCount       =   6
+      _CBWidth        =   20055
       _CBHeight       =   945
       _Version        =   "6.0.8169"
       Caption1        =   "Filter"
       Child1          =   "txt_filter"
       MinHeight1      =   600
-      Width1          =   6000
+      Width1          =   5010
       NewRow1         =   0   'False
       Caption2        =   "Tanggal"
       Child2          =   "DTPicker1"
       MinHeight2      =   600
-      Width2          =   3495
+      Width2          =   3195
       NewRow2         =   0   'False
-      Child3          =   "Toolbar1"
-      MinHeight3      =   885
-      Width3          =   9000
+      Child3          =   "chk_Sampai"
+      MinHeight3      =   435
+      Width3          =   405
       NewRow3         =   0   'False
-      MinHeight4      =   360
+      Caption4        =   "Sampai"
+      Child4          =   "DTPicker2"
+      MinHeight4      =   600
+      Width4          =   3000
       NewRow4         =   0   'False
+      Child5          =   "Toolbar1"
+      MinHeight5      =   885
+      Width5          =   9000
+      NewRow5         =   0   'False
+      MinHeight6      =   360
+      NewRow6         =   0   'False
+      Begin VB.CheckBox chk_Sampai 
+         Height          =   435
+         Left            =   8430
+         TabIndex        =   7
+         Top             =   255
+         Width           =   210
+      End
+      Begin MSComCtl2.DTPicker DTPicker2 
+         Height          =   600
+         Left            =   9510
+         TabIndex        =   6
+         Top             =   165
+         Width           =   2160
+         _ExtentX        =   3810
+         _ExtentY        =   1058
+         _Version        =   393216
+         Enabled         =   0   'False
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   18
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         CustomFormat    =   "dd-MM-yyyy"
+         Format          =   93782019
+         CurrentDate     =   42191
+      End
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   885
-         Left            =   9720
+         Left            =   11895
          TabIndex        =   4
          Top             =   30
-         Width           =   8280
-         _ExtentX        =   14605
+         Width           =   7905
+         _ExtentX        =   13944
          _ExtentY        =   1561
          ButtonWidth     =   3043
          ButtonHeight    =   1455
@@ -152,11 +191,11 @@ Begin VB.Form Form_List_Jual
       End
       Begin MSComCtl2.DTPicker DTPicker1 
          Height          =   600
-         Left            =   6900
+         Left            =   5910
          TabIndex        =   2
          Top             =   165
-         Width           =   2595
-         _ExtentX        =   4577
+         Width           =   2295
+         _ExtentX        =   4048
          _ExtentY        =   1058
          _Version        =   393216
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -169,7 +208,7 @@ Begin VB.Form Form_List_Jual
             Strikethrough   =   0   'False
          EndProperty
          CustomFormat    =   "dd-MM-yyyy"
-         Format          =   121569283
+         Format          =   93782019
          CurrentDate     =   42191
       End
       Begin VB.TextBox txt_filter 
@@ -179,7 +218,7 @@ Begin VB.Form Form_List_Jual
          TabIndex        =   1
          Text            =   "Text1"
          Top             =   165
-         Width           =   5355
+         Width           =   4365
       End
    End
    Begin MSComctlLib.ImageList ImageListOrder 
@@ -320,15 +359,37 @@ Public Sub refreshlist()
     tunai = 0
     nontunai = 0
     Dim mitem
-    Dim query_all, query_some As String
-    query_all = "SELECT * from bill where tanggal='" & Format(DTPicker1, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'"
-    query_some = "SELECT * from bill where tanggal='" & Format(DTPicker1, "yyyy-mm-dd") & "' and kasir='" & username & "' and nobukti like '%" & txt_filter & "%'"
+'    Dim query_all, query_some As String
+'    query_all = "SELECT * from bill where tanggal='" & Format(DTPicker1, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'"
+'    query_some = "SELECT * from bill where tanggal='" & Format(DTPicker1, "yyyy-mm-dd") & "' and kasir='" & username & "' and nobukti like '%" & txt_filter & "%'"
+    
+    Dim query As String
+    
+    query = "SELECT * from bill"
+    
+    If DTPicker2.Enabled Then
+        query = query & " where tanggal>='" & Format(DTPicker1, "yyyy-mm-dd") & "' and tanggal <= '" & Format(DTPicker2, "yyyy-mm-dd") & "'"
+    Else
+        query = query & " where tanggal='" & Format(DTPicker1, "yyyy-mm-dd") & "'"
+    End If
     
     If isSPV Or isMaster Then
-      Set rsJual = con.Execute(query_all)
+        'Query all
     Else
-      Set rsJual = con.Execute(query_some)
+        'Query some
+        query = query & " and kasir='" & username & "'"
     End If
+  
+    'filter
+    query = query & " and (nobukti like '%" & txt_filter & "%' or kasir like '%" & txt_filter & "%' or total like '%" & txt_filter & "%')"
+  
+    Set rsJual = con.Execute(query)
+    
+'    If isSPV Or isMaster Then
+'      Set rsJual = con.Execute(query_all)
+'    Else
+'      Set rsJual = con.Execute(query_some)
+'    End If
   
     lv_tunai.ListItems.Clear
     lv_nontunai.ListItems.Clear
@@ -362,13 +423,23 @@ Public Sub refreshlist()
       Loop
       End If
     End If
-    CoolBar1.Bands(3).Caption = "Record : " & lv_tunai.ListItems.count
+    CoolBar1.Bands(5).Caption = "Record : " & lv_tunai.ListItems.count
     rsJual.Close
     FrmMain.Text1 = Format(tunai, "###,###,##0")
     FrmMain.Text2 = Format(nontunai, "###,###,##0")
     
     Set rsJual = Nothing
 End Sub
+
+Private Sub chk_Sampai_Click()
+    If DTPicker2.Enabled Then
+        DTPicker2.Enabled = False
+    Else
+        DTPicker2.Enabled = True
+    End If
+    Call refreshlist
+End Sub
+
 Private Sub CoolBar1_HeightChanged(ByVal NewHeight As Single)
   Form_Resize
 End Sub
@@ -377,8 +448,13 @@ Private Sub DTPicker1_KeyPress(KeyAscii As Integer)
     KeyAscii = validateKey(KeyAscii, 2)
 End Sub
 
+Private Sub DTPicker2_Change()
+    Call refreshlist
+End Sub
+
 Private Sub Form_Load()
     DTPicker1 = Date
+    DTPicker2 = Date
     Dim i As Integer
     For i = 1 To lv_tunai.ColumnHeaders.count
       lv_tunai.ColumnHeaders.item(i).Icon = 0
@@ -532,7 +608,7 @@ End Function
 
 Private Sub tambah()
     Form_Penjualan.Show
-    CoolBar1.Bands(3).Caption = "Record : " & lv_tunai.ListItems.count
+    CoolBar1.Bands(5).Caption = "Record : " & lv_tunai.ListItems.count
 End Sub
 
 Private Sub dtpicker1_Change()

@@ -277,7 +277,7 @@ Public Sub refreshlist()
     Next
     Dim mitem As ListItem
     Dim rsbarang As New ADODB.Recordset
-    Set rsbarang = con.Execute("SELECT * from v_barang where nama like '%" & txt_filter & "%'")
+    Set rsbarang = con.Execute("SELECT * from v_barang where nama like '%" & txt_filter & "%' or nmsuplier like '%" & txt_filter & "%' or kode like '%" & txt_filter & "%'")
     
     LV1.ListItems.Clear
     If rsbarang.RecordCount = 0 Then

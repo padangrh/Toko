@@ -73,80 +73,69 @@ Begin VB.Form Form_List_beli
       Width           =   20010
       _ExtentX        =   35295
       _ExtentY        =   1720
-      BandCount       =   6
+      BandCount       =   5
       _CBWidth        =   20010
       _CBHeight       =   975
       _Version        =   "6.0.8169"
       Caption1        =   "Filter:"
       Child1          =   "txt_filter"
       MinHeight1      =   600
-      Width1          =   3000
+      Width1          =   2925
       NewRow1         =   0   'False
-      Child2          =   "btn_export"
-      MinWidth2       =   1200
+      Caption2        =   "Tanggal"
+      Child2          =   "tgl"
       MinHeight2      =   600
-      Width2          =   1095
+      Width2          =   3495
       NewRow2         =   0   'False
-      Visible2        =   0   'False
-      Child3          =   "btn_import"
-      MinWidth3       =   1200
-      MinHeight3      =   600
-      Width3          =   975
+      Child3          =   "chk_Sampai"
+      MinHeight3      =   255
+      Width3          =   405
       NewRow3         =   0   'False
-      Caption4        =   "Tanggal"
-      Child4          =   "tgl"
-      MinHeight4      =   600
+      Caption4        =   "Sampai"
+      Child4          =   "dtp_Sampai"
+      MinHeight4      =   615
       Width4          =   3495
       NewRow4         =   0   'False
       Child5          =   "Toolbar1"
       MinHeight5      =   915
       Width5          =   9000
       NewRow5         =   0   'False
-      MinHeight6      =   825
-      Width6          =   9000
-      NewRow6         =   0   'False
-      Begin VB.CommandButton btn_import 
-         Caption         =   "Import"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   12
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   600
-         Left            =   4620
+      Begin MSComCtl2.DTPicker dtp_Sampai 
+         Height          =   615
+         Left            =   7725
          TabIndex        =   6
          Top             =   180
-         Width           =   1200
-      End
-      Begin VB.CommandButton btn_export 
-         Caption         =   "Export"
-         BeginProperty Font 
+         Width           =   2655
+         _ExtentX        =   4683
+         _ExtentY        =   1085
+         _Version        =   393216
+         Enabled         =   0   'False
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
-            Size            =   12
+            Size            =   18
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   600
-         Left            =   3195
+         Format          =   92078081
+         CurrentDate     =   39459
+      End
+      Begin VB.CheckBox chk_Sampai 
+         Height          =   255
+         Left            =   6645
          TabIndex        =   5
-         Top             =   180
-         Visible         =   0   'False
-         Width           =   1200
+         Top             =   360
+         Width           =   210
       End
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   915
-         Left            =   9570
+         Left            =   10605
          TabIndex        =   4
          Top             =   30
-         Width           =   8805
-         _ExtentX        =   15531
+         Width           =   9315
+         _ExtentX        =   16431
          _ExtentY        =   1614
          ButtonWidth     =   3043
          ButtonHeight    =   1455
@@ -190,11 +179,11 @@ Begin VB.Form Form_List_beli
          TabIndex        =   2
          Text            =   "Text1"
          Top             =   180
-         Width           =   2310
+         Width           =   2235
       End
       Begin MSComCtl2.DTPicker tgl 
          Height          =   600
-         Left            =   6750
+         Left            =   3825
          TabIndex        =   1
          Top             =   180
          Width           =   2595
@@ -210,7 +199,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   97648641
+         Format          =   102891521
          CurrentDate     =   39459
       End
    End
@@ -370,21 +359,33 @@ Dim FilterCat, x, strsql As String
 Dim a, ha, hut As Double
 
 Public Sub refreshlist()
+    Dim query As String
     Dim rsbeli As ADODB.Recordset
     LV1.Sorted = False
-    Set rsbeli = con.Execute("SELECT * from bill_beli where tanggal='" & Format(tgl, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'")
-        
-    LV1.ListItems.Clear
-    CoolBar1.Bands(3).Caption = "Record : 0"
-    
-    If rsbeli.RecordCount = 0 Then
-        Toolbar1.Buttons(2).Enabled = False
-        Toolbar1.Buttons(3).Enabled = False
-        Exit Sub
+    query = "Select a.nobukti, a.tanggal, a.jam, a.pembayaran, a.kode_supplier, b.nmsuplier, a.total, a.lunas, a.settled, a.tanggal_lunas from bill_beli a, tbsuplier b where a.kode_supplier = b.kdsuplier"
+    If dtp_Sampai.Enabled Then
+        'Set rsbeli = con.Execute("Select * from bill_beli where tanggal>='" & Format(tgl, "yyyy-mm-dd") & "' and tanggal <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'")
+        query = query & " and a.tanggal>='" & Format(tgl, "yyyy-mm-dd") & "' and a.tanggal <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "'"
+    Else
+        'Set rsbeli = con.Execute("SELECT * from bill_beli where tanggal='" & Format(tgl, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%' ")
+        query = query & " and a.tanggal='" & Format(tgl, "yyyy-mm-dd") & "'"
     End If
     
-    Toolbar1.Buttons(2).Enabled = True
-    Toolbar1.Buttons(3).Enabled = True
+    query = query & " and (a.nobukti like '%" & txt_filter & "%' or b.nmsuplier like '%" & txt_filter & "%' or a.total like '%" & txt_filter & "%')"
+    
+    Set rsbeli = con.Execute(query)
+    
+    LV1.ListItems.Clear
+    CoolBar1.Bands(4).Caption = "Record : 0"
+    
+'    If rsbeli.RecordCount = 0 Then
+'        Toolbar1.Buttons(2).Enabled = False
+'        Toolbar1.Buttons(3).Enabled = False
+'        Exit Sub
+'    End If
+'
+'    Toolbar1.Buttons(2).Enabled = True
+'    Toolbar1.Buttons(3).Enabled = True
     
     If rsbeli.EOF Then
         rsbeli.Close
@@ -432,7 +433,7 @@ Public Sub refreshlist()
         
         rsbeli.MoveNext
       Loop
-    CoolBar1.Bands(3).Caption = "Record : " & LV1.ListItems.count
+    CoolBar1.Bands(4).Caption = "Record : " & LV1.ListItems.count
     rsbeli.Close
     Set rsbeli = Nothing
 End Sub
@@ -539,8 +540,21 @@ errorHandler:
     Err.Clear
 End Sub
 
+Private Sub chk_Sampai_Click()
+    If dtp_Sampai.Enabled Then
+        dtp_Sampai.Enabled = False
+    Else
+        dtp_Sampai.Enabled = True
+    End If
+    Call refreshlist
+End Sub
+
 Private Sub CoolBar1_HeightChanged(ByVal NewHeight As Single)
   Form_Resize
+End Sub
+
+Private Sub dtp_Sampai_Change()
+    Call refreshlist
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
@@ -556,14 +570,17 @@ End Sub
 
 Private Sub Form_Load()
   tgl = Date
+  dtp_Sampai = Date
   Dim i As Integer
   For i = 1 To LV1.ColumnHeaders.count
     LV1.ColumnHeaders.item(i).Icon = 0
   Next
   LV1.ColumnHeaders.item(1).Icon = 1
   txt_filter.Text = ""
-  Toolbar1.Buttons(4).Visible = isMaster
-  Toolbar1.Buttons(5).Visible = isMaster
+'  Toolbar1.Buttons(4).Visible = isMaster
+'  Toolbar1.Buttons(5).Visible = isMaster
+'    Toolbar1.Buttons(4).Visible = False
+'    Toolbar1.Buttons(5).Visible = False
 End Sub
 
 Private Sub Form_Resize()
