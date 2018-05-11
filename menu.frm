@@ -152,6 +152,9 @@ Begin VB.MDIForm FrmMain
       Begin VB.Menu er 
          Caption         =   "Entri Retur"
       End
+      Begin VB.Menu sb 
+         Caption         =   "Sinkronisasi dengan CHIP"
+      End
       Begin VB.Menu warning 
          Caption         =   "Warning"
          Index           =   5
@@ -259,6 +262,66 @@ Private Sub rjl_Click()
     Call changeForm(Form_List_Supplier)
 End Sub
 
+Private Sub sb_Click()
+    If MsgBox("Sinkronisasi data dengan CHIP?", vbYesNo, "Konfirmasi") = vbYes Then
+        Dim tCon As New ADODB.Connection
+        tCon.ConnectionString = "Provider=MSDASQL.1;Password=yuyu;Persist Security Info=True;User ID=root;Data Source=datalocal"
+        tCon.Open
+        Dim rsTrans As ADODB.Recordset
+        Set rsTrans = tCon.Execute("Select * from bill_beli")
+        If Not rsTrans.EOF Then
+            Do While Not rsTrans.EOF
+                con.Execute ("insert into bill_beli values ('" & rsTrans!nobukti & "','" & rsTrans!staff & "','" _
+                    & Format(rsTrans!tanggal, "yyyy-mm-dd") & "','" & rsTrans!jam & "','" & rsTrans!total & "','" _
+                    & rsTrans!kode_supplier & "','" & rsTrans!pembayaran & "','" & rsTrans!lunas & "','" _
+                    & rsTrans!settled & "','" & Format(rsTrans!tanggal_lunas, "yyyy-mm-dd") & "')")
+                rsTrans.MoveNext
+            Loop
+            Set rsTrans = Nothing
+            Set rsTrans = tCon.Execute("Select * from tbbeli")
+            Do While Not rsTrans.EOF
+                con.Execute ("insert into tbbeli values ('" & rsTrans!nobukti & "','" & Format(rsTrans!tglbukti, "yyyy-mm-dd") _
+                    & "','" & rsTrans!kode & "','" & rsTrans!nama_barang & "','" & rsTrans!harga & "','" _
+                    & rsTrans!jumlah & "','" & rsTrans!return & "')")
+                'update jumlah akhir
+                con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir + " _
+                    & (rsTrans!jumlah - rsTrans!return) _
+                    & ", tgl_masuk='" & Format(rsTrans!tglbukti, "yyyy-mm-dd") & "' where kode = '" & rsTrans!kode & "'")
+                rsTrans.MoveNext
+            Loop
+            Set rsTrans = Nothing
+        End If
+        tCon.Execute ("delete from bill_beli")
+        'tCon.Execute ("delete from tbabsen")
+        tCon.Execute ("delete from tbbeli")
+        tCon.Execute ("delete from tbbarang")
+        tCon.Execute ("delete from tbsuplier")
+        
+        Set rsTrans = con.Execute("Select * from tbsuplier")
+        Do While Not rsTrans.EOF
+            tCon.Execute ("Insert into tbsuplier values ('" & rsTrans!kdsuplier & "','" & rsTrans!nmsuplier & "','" _
+                & rsTrans!alamat & "','" & rsTrans!telp & "','" & Format(rsTrans!tgl_gabung, "yyyy-mm-dd") & "','" _
+                & rsTrans!nama_rek & "','" & rsTrans!no_rek & "','" & rsTrans!bank & "')")
+            rsTrans.MoveNext
+        Loop
+        Set rsTrans = Nothing
+        
+        Set rsTrans = con.Execute("Select * from tbbarang")
+        Do While Not rsTrans.EOF
+            tCon.Execute ("Insert into tbbarang values ('" & rsTrans!kode & "','" & rsTrans!Nama & "','" _
+                & rsTrans!kategori & "','" & rsTrans!harga_modal & "','" & rsTrans!harga_jual & "','" _
+                & rsTrans!jumlah_akhir & "','" & rsTrans!kdsuplier & "','" & Format(rsTrans!tgl_masuk, "yyyy-mm-dd") _
+                & "','" & rsTrans!ketahanan & "');")
+            rsTrans.MoveNext
+        Loop
+        Set rsTrans = Nothing
+        
+        tCon.Close
+        
+        MsgBox "Sinkronisasi selesai"
+    End If
+End Sub
+
 Private Sub sp_Click()
     Call changeForm(Form_List_Supplier)
 End Sub
@@ -333,10 +396,12 @@ End Sub
 Private Sub MDIForm_Unload(cancel As Integer)
     If Setting_Object("Absen") Then
         Dim Rec As ADODB.Recordset
-        Set Rec = con.Execute("select * from tbabsen where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+        Set Rec = con.Execute("select * from tbabsen where nama = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
         If Not Rec.EOF Then
-            con.Execute ("update tbabsen set jam_keluar = '" & Format(Now, "HH:mm:ss") & "' where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+'            con.Execute ("update tbabsen set jam_keluar = '" & Format(Now, "HH:mm:ss") & "' where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+            con.Execute ("Delete from tbabsen where nama = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "' and status = '" & "LOGOUT" & "'")
         End If
+        con.Execute ("insert into tbabsen (nama, tanggal, jam, status) values ('" & username & "','" & Format(Now, "yyyy-MM-dd") & "','" & Format(Now, "HH:mm:ss") & "','" & "LOGOUT" & "')")
         Set Rec = Nothing
     End If
     Dim Form As VB.Form

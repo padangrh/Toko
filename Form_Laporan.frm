@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "MSCOMCTL.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Object = "{00025600-0000-0000-C000-000000000046}#5.2#0"; "Crystl32.OCX"
 Begin VB.Form Form_Laporan 
@@ -12,6 +12,23 @@ Begin VB.Form Form_Laporan
    ScaleHeight     =   6600
    ScaleWidth      =   7020
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton btn_Diskon 
+      Caption         =   "Laporan Diskon"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   855
+      Left            =   3600
+      TabIndex        =   16
+      Top             =   4320
+      Width           =   3135
+   End
    Begin VB.TextBox txt_kode_supplier 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -236,7 +253,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   95092737
+      Format          =   116785153
       CurrentDate     =   42810
    End
    Begin MSComCtl2.DTPicker dt_end 
@@ -257,7 +274,7 @@ Begin VB.Form Form_Laporan
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   95092737
+      Format          =   116785153
       CurrentDate     =   42810
    End
    Begin VB.Label Label3 
@@ -332,12 +349,16 @@ Private Sub btn_barang_Click()
     runCrystalReport
 End Sub
 
+Private Sub btn_Diskon_Click()
+    Call openReport("laporandiskon.rpt", "bill.tanggal", DURATION, True)
+End Sub
+
 Private Sub btn_harian_Click()
     Call openReport("laporanharian.rpt", "bill.tanggal", ONE_DAY, True)
 End Sub
 
 Private Sub openReport(file_name As String, date_parameter As String, report_type As Integer, auto_run As Boolean)
-    cr.connect = "Provider=MSDASQL.1;Pwd=yuyu;Persist Security Info=True;User ID=root;Data Source=data"
+    cr.connect = "Provider=MSDASQL.1;Pwd=" & Setting_Object("DB_Pw") & ";Persist Security Info=True;User ID=" & Setting_Object("DB_Id") & ";Data Source=" & Setting_Object("DB_Name")
     cr.ReportFileName = App.Path + "\" + file_name
     If report_type = ONE_DAY Then
         cr.SelectionFormula = "{" & date_parameter & "}= #" & Format(dt_start.Value, "yyyy-MM-dd") & "#"

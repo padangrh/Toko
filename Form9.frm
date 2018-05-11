@@ -157,7 +157,7 @@ Begin VB.Form Form_List_Jual
             Strikethrough   =   0   'False
          EndProperty
          CustomFormat    =   "dd-MM-yyyy"
-         Format          =   93782019
+         Format          =   112001027
          CurrentDate     =   42191
       End
       Begin MSComctlLib.Toolbar Toolbar1 
@@ -208,7 +208,7 @@ Begin VB.Form Form_List_Jual
             Strikethrough   =   0   'False
          EndProperty
          CustomFormat    =   "dd-MM-yyyy"
-         Format          =   93782019
+         Format          =   112001027
          CurrentDate     =   42191
       End
       Begin VB.TextBox txt_filter 
@@ -462,7 +462,7 @@ Private Sub Form_Load()
     lv_tunai.ColumnHeaders.item(1).Icon = 1
     txt_filter.Text = ""
     
-    Toolbar1.Buttons(4).Visible = isMaster
+    Toolbar1.Buttons(4).Visible = isMaster Or isSPV
 End Sub
   
 Private Sub Form_Resize()
@@ -561,6 +561,17 @@ Public Sub Toolbar1_ButtonClick(ByVal Button As MSComctlLib.Button)
         Printer.Print Tab(2); "Non-Tunai: Rp."; FrmMain.Text2;
         Printer.Print Tab(2); "--------------------------------------------------";
         Printer.Print Tab(2); "Total: Rp."; Format(Val(Replace(FrmMain.Text1, ".", "")) + Val(Replace(FrmMain.Text2, ".", "")), "###,###,##0");
+        Dim rsDelete As ADODB.Recordset
+        Set rsDelete = con.Execute("Select * from dbill where tanggal = '" & Format(Date, "yyyy-mm-dd") & "' and kasir = '" & username & "'")
+        If Not rsDelete.EOF Then
+            Printer.Print Tab(2); "                                           "
+            Printer.Print Tab(2); "Faktur yg dihapus : "
+            Do While Not rsDelete.EOF
+                Printer.Print Tab(2); rsDelete!nobukti
+                rsDelete.MoveNext
+            Loop
+        End If
+        Set rsDelete = Nothing
         Printer.EndDoc
         
         FrmMain.logoff
@@ -590,8 +601,9 @@ End Sub
 Private Function hapusTransaksi(no_bon As String) As Boolean
     If MsgBox("Hapus faktur No. " + no_bon + "?", vbYesNo, "Konfirmasi") = vbYes Then
         Dim rsJual As ADODB.Recordset
-        con.Execute ("delete from bill where nobukti='" & no_bon & "'")
         Set rsJual = con.Execute("select * from tbjual where nobukti='" & no_bon & "'")
+        con.Execute ("insert into `delete` values ('" & no_bon & "','" & username & "')")
+        con.Execute ("insert into dtbjual (select * from tbjual where nobukti = '" & no_bon & "')")
         If Not rsJual.EOF Then
             rsJual.MoveFirst
             Do While Not rsJual.EOF
@@ -600,6 +612,8 @@ Private Function hapusTransaksi(no_bon As String) As Boolean
             Loop
             con.Execute ("delete from tbjual where nobukti='" & no_bon & "'")
         End If
+        con.Execute ("insert into dbill (select * from bill where nobukti = '" & no_bon & "')")
+        con.Execute ("delete from bill where nobukti='" & no_bon & "'")
         hapusTransaksi = True
     Else
         hapusTransaksi = False

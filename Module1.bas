@@ -37,7 +37,7 @@ Declare Sub Sleep Lib "kernel32" _
    (ByVal dwMilliseconds As Long)
    
 Public Sub connect()
-    'con.ConnectionString = "Provider=MSDASQL.1;Password=yuyu;Persist Security Info=True;User ID=root;Data Source=data"
+'    con.ConnectionString = "Provider=MSDASQL.1;Password=yuyu;Persist Security Info=True;User ID=root;Data Source=data"
     con.ConnectionString = "Provider=MSDASQL.1;Password=" & Setting_Object("DB_Pw") & ";Persist Security Info=True;User ID=" & Setting_Object("DB_Id") & ";Data Source=" & Setting_Object("DB_Name")
     con.Open
 End Sub
@@ -63,7 +63,7 @@ Public Function getSupplier(kode As String) As Boolean
     getSupplier = found
 End Function
 
-Public Function priceToNum(price As String) As Long
+Public Function priceToNum(price As String) As Currency
     price = Replace(price, ".", "")
     price = Replace(price, ",", "")
     priceToNum = Val(price)

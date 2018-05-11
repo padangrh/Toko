@@ -221,10 +221,11 @@ Private Sub CommandLogin_Click()
             FrmMain.Toolbar1.Enabled = True
             If Setting_Object("Absen") Then
                 're-use Rec untuk login tbabsen
-                Set Rec = con.Execute("select * from tbabsen where userid = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "'")
+                Set Rec = con.Execute("select * from tbabsen where nama = '" & username & "' and tanggal = '" & Format(Now, "yyyy-MM-dd") & "' and status = '" & "LOGIN" & "'")
                 If Rec.EOF Then
                     'editV2
-                    con.Execute ("insert into tbabsen (userid, tanggal, jam_masuk, jam_keluar) values ('" & username & "','" & Format(Now, "yyyy-MM-dd") & "','" & Format(Now, "HH:mm:ss") & "','')")
+'                    con.Execute ("insert into tbabsen (nama, tanggal, jam_masuk, jam_keluar) values ('" & username & "','" & Format(Now, "yyyy-MM-dd") & "','" & Format(Now, "HH:mm:ss") & "','')")
+                    con.Execute ("insert into tbabsen (nama, tanggal, jam, status) values ('" & username & "','" & Format(Now, "yyyy-MM-dd") & "','" & Format(Now, "HH:mm:ss") & "','" & "LOGIN" & "')")
                 End If
                 Set Rec = Nothing
             End If

@@ -127,7 +127,7 @@ Begin VB.Form Form_Pembelian
       _Version        =   393216
       Value           =   1
       BuddyControl    =   "txt_jumlah"
-      BuddyDispid     =   196611
+      BuddyDispid     =   196612
       OrigLeft        =   19062
       OrigTop         =   2863
       OrigRight       =   19364
@@ -304,7 +304,7 @@ Begin VB.Form Form_Pembelian
       _Version        =   393216
       Value           =   1
       BuddyControl    =   "txt_return"
-      BuddyDispid     =   196610
+      BuddyDispid     =   196611
       OrigLeft        =   19062
       OrigTop         =   2863
       OrigRight       =   19364
@@ -835,6 +835,20 @@ Public Sub nextFaktur()
     resetFaktur
     txt_kode.SetFocus
     Form_List_beli.refreshlist
+End Sub
+
+Public Sub skipFaktur()
+    Dim namafile, huruf As String
+    Dim angka As Integer
+    
+    huruf = Left(lbl_faktur, 1)
+    angka = Val(Mid(lbl_faktur, 2, 20))
+    
+    namafile = App.Path & "\fakturbeli.txt"
+    Open namafile For Output As #1
+    Print #1, lbl_faktur
+    Close #1
+    lbl_faktur = huruf + CStr(angka + 1)
 End Sub
 
 Private Sub resetFaktur()

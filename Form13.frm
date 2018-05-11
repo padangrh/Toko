@@ -256,6 +256,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim rsBill, rsJual, rsDis As ADODB.Recordset
 Dim is_new As Boolean
+Dim retryCount As Integer
+Dim flagNobukti As Boolean
 
 Dim dis_spv As String
 Dim dis_status As String
@@ -284,7 +286,7 @@ Public Sub Init(no_bon As String, total As String, new_bon As Boolean)
     txt_bon.Enabled = False
     txt_bon.Text = no_bon
     is_new = new_bon
-    
+    flagNobukti = False
     If is_new Then
         txt_total.Text = total
         txt_uang.SetFocus
@@ -327,6 +329,17 @@ Private Sub print_bon(tunai As Integer)
         Dim tanggal As String
         tanggal = Format(Now, "yyyy-mm-dd")
         
+        retryCount = 0
+        Call insert2Bill(tanggal, tunai)
+        DoEvents
+        'con.Execute ("insert into bill (nobukti, kasir, tanggal, jam, total, bayar, cash, diskon) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & Val(txt_uang) & ", " & tunai & ", " & priceToNum(txt_diskon) & ")")
+        If flagNobukti = False Then
+            MsgBox "Faktur gagal disimpan"
+            Exit Sub
+        End If
+        
+        Set rsBill = con.Execute("select * from bill where nobukti = '" & txt_bon & "'")
+        
         Do While i <= Form_Penjualan.lv_jual.ListItems.count
             Dim item As ListItem
             Set item = Form_Penjualan.lv_jual.ListItems(i)
@@ -336,8 +349,6 @@ Private Sub print_bon(tunai As Integer)
             i = i + 1
         Loop
         'editV2
-        con.Execute ("insert into bill (nobukti, kasir, tanggal, jam, total, bayar, cash, diskon) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & Val(txt_uang) & ", " & tunai & ", " & priceToNum(txt_diskon) & ")")
-        Set rsBill = con.Execute("select * from bill where nobukti = '" & txt_bon & "'")
         If (Val(txt_diskon.Text)) > 0 Then
             'editV2
             con.Execute ("insert into tbdiskon (nobukti, supervisor, status, customer, nilai) values('" & txt_bon & "', '" & dis_spv & "', '" & dis_status & "', '" & dis_cust & "', " & priceToNum(txt_diskon) & ")")
@@ -604,13 +615,13 @@ Private Sub print_bon(tunai As Integer)
         Printer.CurrentX = 1600
         Printer.Print ":";
         Printer.CurrentX = 2000
-        Printer.Print "(0751)33318"
+        Printer.Print "(0751)483518"
         
         Printer.Print Tab(2); "HP Pemesanan";
         Printer.CurrentX = 1600
         Printer.Print ":";
         Printer.CurrentX = 2000
-        Printer.Print "0812 663 3318"
+        Printer.Print "0811 668 5000"
         
         
         Printer.Print Tab(2); "www.christinehakimideapark.com"
@@ -795,4 +806,40 @@ End Sub
 
 Private Sub txt_uang_KeyPress(KeyAscii As Integer)
     KeyAscii = validateKey(KeyAscii, 1)
+End Sub
+
+Private Sub insert2Bill(tanggal As String, tunai As Integer, Optional inNobukti As String)
+
+    Dim cekNobukti As ADODB.Recordset
+    If inNobukti = "" Then
+        inNobukti = txt_bon.Text
+    End If
+        
+    Set cekNobukti = con.Execute("Select * from bill where nobukti = '" & inNobukti & "'")
+    If cekNobukti.EOF Then
+        flagNobukti = True
+        con.Execute ("insert into bill (nobukti, kasir, tanggal, jam, total, bayar, cash, diskon) values('" & inNobukti & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & Val(txt_uang) & ", " & tunai & ", " & priceToNum(txt_diskon) & ")")
+        DoEvents
+    Else
+        If retryCount < 3 Then
+            retryCount = retryCount + 1
+            Form_Penjualan.skipFaktur
+            txt_bon.Text = Form_Penjualan.lbl_faktur
+            Call insert2Bill(tanggal, tunai)
+        Else
+            'MsgBox ("Faktur gagal. Hubungi kantor.")
+            Dim tempNobukti As String
+            tempNobukti = InputBox("Masukkan nomor faktur : ", "Input")
+            If tempNobukti <> "" Then
+                Form_Penjualan.lbl_faktur.Caption = tempNobukti
+                txt_bon.Text = tempNobukti
+                Call insert2Bill(tanggal, tunai, tempNobukti)
+            Else
+                Form_Penjualan.skipFaktur
+                txt_bon.Text = Form_Penjualan.lbl_faktur
+                Call insert2Bill(tanggal, tunai)
+            End If
+        End If
+    End If
+    Set cekNobukti = Nothing
 End Sub

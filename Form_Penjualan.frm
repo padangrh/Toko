@@ -748,6 +748,21 @@ Public Sub nextFaktur()
     End If
 End Sub
 
+Public Sub skipFaktur()
+    Dim namafile, huruf As String
+    Dim angka As Long
+    Me.Enabled = True
+    huruf = Left(lbl_faktur, 1)
+    angka = Val(Mid(lbl_faktur, 2, 20))
+    
+    namafile = App.Path & "\faktur.txt"
+    Open namafile For Output As #1
+    Print #1, lbl_faktur
+    Close #1
+    
+    lbl_faktur = huruf + CStr(angka + 1)
+End Sub
+
 Public Sub reload_List()
 'pindahan generate list barang
     list_nama.ListItems.Clear

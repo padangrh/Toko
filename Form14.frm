@@ -73,7 +73,7 @@ Begin VB.Form Form_List_beli
       Width           =   20010
       _ExtentX        =   35295
       _ExtentY        =   1720
-      BandCount       =   5
+      BandCount       =   6
       _CBWidth        =   20010
       _CBHeight       =   975
       _Version        =   "6.0.8169"
@@ -82,27 +82,38 @@ Begin VB.Form Form_List_beli
       MinHeight1      =   600
       Width1          =   2925
       NewRow1         =   0   'False
-      Caption2        =   "Tanggal"
-      Child2          =   "tgl"
-      MinHeight2      =   600
-      Width2          =   3495
+      Child2          =   "chk_Settled"
+      MinHeight2      =   255
+      Width2          =   405
       NewRow2         =   0   'False
-      Child3          =   "chk_Sampai"
-      MinHeight3      =   255
-      Width3          =   405
+      Caption3        =   "Tanggal"
+      Child3          =   "tgl"
+      MinHeight3      =   600
+      Width3          =   3495
       NewRow3         =   0   'False
-      Caption4        =   "Sampai"
-      Child4          =   "dtp_Sampai"
-      MinHeight4      =   615
-      Width4          =   3495
+      Child4          =   "chk_Sampai"
+      MinHeight4      =   255
+      Width4          =   405
       NewRow4         =   0   'False
-      Child5          =   "Toolbar1"
-      MinHeight5      =   915
-      Width5          =   9000
+      Caption5        =   "Sampai"
+      Child5          =   "dtp_Sampai"
+      MinHeight5      =   615
+      Width5          =   3495
       NewRow5         =   0   'False
+      Child6          =   "Toolbar1"
+      MinHeight6      =   915
+      Width6          =   9000
+      NewRow6         =   0   'False
+      Begin VB.CheckBox chk_Settled 
+         Height          =   255
+         Left            =   3120
+         TabIndex        =   7
+         Top             =   360
+         Width           =   210
+      End
       Begin MSComCtl2.DTPicker dtp_Sampai 
          Height          =   615
-         Left            =   7725
+         Left            =   8160
          TabIndex        =   6
          Top             =   180
          Width           =   2655
@@ -119,23 +130,23 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   92078081
+         Format          =   105971713
          CurrentDate     =   39459
       End
       Begin VB.CheckBox chk_Sampai 
          Height          =   255
-         Left            =   6645
+         Left            =   7080
          TabIndex        =   5
          Top             =   360
          Width           =   210
       End
       Begin MSComctlLib.Toolbar Toolbar1 
          Height          =   915
-         Left            =   10605
+         Left            =   11040
          TabIndex        =   4
          Top             =   30
-         Width           =   9315
-         _ExtentX        =   16431
+         Width           =   8880
+         _ExtentX        =   15663
          _ExtentY        =   1614
          ButtonWidth     =   3043
          ButtonHeight    =   1455
@@ -183,7 +194,7 @@ Begin VB.Form Form_List_beli
       End
       Begin MSComCtl2.DTPicker tgl 
          Height          =   600
-         Left            =   3825
+         Left            =   4260
          TabIndex        =   1
          Top             =   180
          Width           =   2595
@@ -199,7 +210,7 @@ Begin VB.Form Form_List_beli
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   102891521
+         Format          =   106299393
          CurrentDate     =   39459
       End
    End
@@ -362,21 +373,44 @@ Public Sub refreshlist()
     Dim query As String
     Dim rsbeli As ADODB.Recordset
     LV1.Sorted = False
-    query = "Select a.nobukti, a.tanggal, a.jam, a.pembayaran, a.kode_supplier, b.nmsuplier, a.total, a.lunas, a.settled, a.tanggal_lunas from bill_beli a, tbsuplier b where a.kode_supplier = b.kdsuplier"
-    If dtp_Sampai.Enabled Then
-        'Set rsbeli = con.Execute("Select * from bill_beli where tanggal>='" & Format(tgl, "yyyy-mm-dd") & "' and tanggal <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'")
-        query = query & " and a.tanggal>='" & Format(tgl, "yyyy-mm-dd") & "' and a.tanggal <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "'"
+    FrmMain.Text1 = "0"
+    If chk_Settled Then
+        query = "Select a.nobukti, a.tanggal, a.jam, a.pembayaran, a.kode_supplier, b.nmsuplier, a.total, a.lunas, a.settled, a.tanggal_lunas from bill_beli a, tbsuplier b where a.kode_supplier = b.kdsuplier"
+        If dtp_Sampai.Enabled Then
+            'Set rsbeli = con.Execute("Select * from bill_beli where tanggal>='" & Format(tgl, "yyyy-mm-dd") & "' and tanggal <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'")
+            query = query & " and a.tanggal_lunas>='" & Format(tgl, "yyyy-mm-dd") & "' and a.tanggal_lunas <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "'"
+        Else
+            'Set rsbeli = con.Execute("SELECT * from bill_beli where tanggal='" & Format(tgl, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%' ")
+            query = query & " and a.tanggal_lunas='" & Format(tgl, "yyyy-mm-dd") & "'"
+        End If
+        
     Else
-        'Set rsbeli = con.Execute("SELECT * from bill_beli where tanggal='" & Format(tgl, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%' ")
-        query = query & " and a.tanggal='" & Format(tgl, "yyyy-mm-dd") & "'"
+        query = "Select a.nobukti, a.tanggal, a.jam, a.pembayaran, a.kode_supplier, b.nmsuplier, a.total, a.lunas, a.settled, a.tanggal_lunas from bill_beli a, tbsuplier b where a.kode_supplier = b.kdsuplier"
+        If dtp_Sampai.Enabled Then
+            'Set rsbeli = con.Execute("Select * from bill_beli where tanggal>='" & Format(tgl, "yyyy-mm-dd") & "' and tanggal <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%'")
+            query = query & " and a.tanggal>='" & Format(tgl, "yyyy-mm-dd") & "' and a.tanggal <='" & Format(dtp_Sampai, "yyyy-mm-dd") & "'"
+        Else
+            'Set rsbeli = con.Execute("SELECT * from bill_beli where tanggal='" & Format(tgl, "yyyy-mm-dd") & "' and nobukti like '%" & txt_filter & "%' ")
+            query = query & " and a.tanggal='" & Format(tgl, "yyyy-mm-dd") & "'"
+        End If
+        
+        'query = query & " and (a.nobukti like '%" & txt_filter & "%' or b.nmsuplier like '%" & txt_filter & "%' or a.total like '%" & txt_filter & "%')"
+        
     End If
     
-    query = query & " and (a.nobukti like '%" & txt_filter & "%' or b.nmsuplier like '%" & txt_filter & "%' or a.total like '%" & txt_filter & "%')"
+    Dim filtR As String
     
+    filtR = Replace(txt_filter.Text, "$", "")
+    If InStr(1, txt_filter.Text, "$") > 0 Then
+        query = query & " and (a.lunas = '0' or a.settled = '0')"
+    End If
+        
+    query = query & " and (a.nobukti like '%" & filtR & "%' or b.nmsuplier like '%" & filtR & "%' or a.total like '%" & filtR & "%')"
+        
     Set rsbeli = con.Execute(query)
     
     LV1.ListItems.Clear
-    CoolBar1.Bands(4).Caption = "Record : 0"
+    CoolBar1.Bands(5).Caption = "Record : 0"
     
 '    If rsbeli.RecordCount = 0 Then
 '        Toolbar1.Buttons(2).Enabled = False
@@ -425,15 +459,16 @@ Public Sub refreshlist()
         End If
       
         If rsbeli.Fields("settled") = 1 Then
-          mitem.SubItems(6) = Format(rsbeli!tanggal_lunas, "dd/MM/yyyy")
-          mitem.ForeColor = vbBlack
+            FrmMain.Text1 = Format(priceToNum(FrmMain.Text1) + rsbeli!total, "###,###,##0")
+            mitem.SubItems(6) = Format(rsbeli!tanggal_lunas, "dd/MM/yyyy")
+            mitem.ForeColor = vbBlack
         Else
           mitem.SubItems(6) = ""
         End If
         
         rsbeli.MoveNext
       Loop
-    CoolBar1.Bands(4).Caption = "Record : " & LV1.ListItems.count
+    CoolBar1.Bands(5).Caption = "Record : " & LV1.ListItems.count
     rsbeli.Close
     Set rsbeli = Nothing
 End Sub
@@ -546,6 +581,10 @@ Private Sub chk_Sampai_Click()
     Else
         dtp_Sampai.Enabled = True
     End If
+    Call refreshlist
+End Sub
+
+Private Sub chk_Settled_Click()
     Call refreshlist
 End Sub
 
@@ -671,14 +710,13 @@ Private Sub deleteRecord()
     Dim rsbeli As ADODB.Recordset
     Set rsbeli = con.Execute("select * from tbbeli where nobukti = '" & no_bon & "'")
     If rsbeli.EOF Or rsbeli.BOF Then
-        Exit Sub
+'        Exit Sub
+        rsbeli.MoveFirst
+        Do While Not rsbeli.EOF
+            con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir - " & CStr(rsbeli!jumlah - rsbeli!return) & " where kode = '" & rsbeli!kode & "'")
+            rsbeli.MoveNext
+        Loop
     End If
-    
-    rsbeli.MoveFirst
-    Do While Not rsbeli.EOF
-        con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir - " & CStr(rsbeli!jumlah - rsbeli!return) & " where kode = '" & rsbeli!kode & "'")
-        rsbeli.MoveNext
-    Loop
     con.Execute ("delete from tbbeli where nobukti='" & no_bon & "'")
     con.Execute ("delete from bill_beli where nobukti='" & no_bon & "'")
     LV1.ListItems.Remove (LV1.SelectedItem.index)
@@ -727,5 +765,5 @@ Private Sub tambah()
 End Sub
 
 Private Sub txt_filter_KeyPress(KeyAscii As Integer)
-    KeyAscii = validateKey(KeyAscii, 2)
+'    KeyAscii = validateKey(KeyAscii, 2)
 End Sub

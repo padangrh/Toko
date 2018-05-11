@@ -257,6 +257,8 @@ Attribute VB_Exposed = False
 Dim rsBill, rsbeli As ADODB.Recordset
 Dim is_new As Boolean
 Dim txt_sup_toggle As Boolean
+Dim flagNobukti As Boolean
+Dim retryCount As Integer
 
 Private Sub btn_batal_Click()
     Unload Me
@@ -278,6 +280,7 @@ Private Sub Form_unload(cancel As Integer)
 End Sub
 
 Public Sub Init(no_bon As String, total As String, new_bon As Boolean)
+    flagNobukti = False
     txt_bon.Enabled = False
     txt_bon.Text = no_bon
     txt_total.Text = total
@@ -336,28 +339,40 @@ Private Sub btn_print_click()
     End If
     
     If is_new Then
+        retryCount = 0
         Dim i As Integer
-        i = 1
+        Dim tempJAkhir As Integer
         Dim tanggal As String
         tanggal = Format(Now, "yyyy-mm-dd")
         
+        'con.Execute ("insert into bill_beli (nobukti, staff, tanggal, jam, total, kode_supplier, pembayaran, lunas, settled, tanggal_lunas) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & txt_kode_supplier & ", " & cb_bayar.ListIndex & ", 0,0,'1990-09-26')")
+        Call insert2BillB(tanggal)
+        
+        If flagNobukti = False Then
+            MsgBox "Faktur gagal disimpan"
+            Exit Sub
+        End If
+        DoEvents
+        i = 1
         Do While i <= Form_Pembelian.lv_beli.ListItems.count
             Dim item As ListItem
             Set item = Form_Pembelian.lv_beli.ListItems(i)
             'editV2
-            con.Execute ("insert into tbbeli  (nobukti, tglbukti, kode, nama_barang, harga, jumlah, `return`) values('" & txt_bon & "', '" & tanggal & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ", " & item.SubItems(4) & ")")
-            con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir + " & (Val(item.SubItems(3)) - Val(item.SubItems(4))) & ", tgl_masuk='" & Format(Now, "yyyy-mm-dd") & "' where kode = '" & item.Text & "'")
+            con.Execute ("insert into tbbeli values('" & txt_bon & "', '" & Format(Now, "yyyy-mm-dd") & "', '" & item.Text & "', '" & item.SubItems(1) & "', " & priceToNum(item.SubItems(2)) & ", " & item.SubItems(3) & ", " & item.SubItems(4) & ");")
+'            MsgBox (Val(item.SubItems(3)) - Val(item.SubItems(4)))
+            tempJAkhir = Val(item.SubItems(3)) - Val(item.SubItems(4))
+            con.Execute ("update tbbarang set jumlah_akhir = jumlah_akhir + " & tempJAkhir & ", tgl_masuk='" & Format(Now, "yyyy-mm-dd") & "' where kode = '" & item.Text & "'")
             'hapusRetur (Form_Pembelian.lv_beli.ListItems(i).Text)
             con.Execute ("delete from tbretur where kode = '" & item.Text & "'")
             i = i + 1
         Loop
+        DoEvents
         'editV2
-        con.Execute ("insert into bill_beli (nobukti, staff, tanggal, jam, total, kode_supplier, pembayaran, lunas, settled, tanggal_lunas) values('" & txt_bon & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & txt_kode_supplier & ", " & cb_bayar.ListIndex & ", 0,0,'1990-09-26')")
         Set rsBill = con.Execute("select * from bill_beli where nobukti = '" & txt_bon & "'")
     Else
         con.Execute ("update bill_beli set kode_supplier = " & txt_kode_supplier & ", pembayaran = " & cb_bayar.ListIndex & " where nobukti = '" & txt_bon & "'")
     End If
-    
+    DoEvents
     Set rsbeli = con.Execute("select * from tbbeli where nobukti = '" & txt_bon & "'")
     If rsbeli.EOF Then
         MsgBox "data tidak ditemukan"
@@ -391,7 +406,7 @@ Private Sub btn_print_click()
         Printer.Print Tab(3); rsbeli!nama_barang
         Dim bayar As Long
         bayar = (rsbeli!jumlah - rsbeli!return) * rsbeli!harga
-        Printer.Print Tab(3); rsbeli!jumlah; "-"; rsbeli!return; "x"; Format(rsbeli!harga, "###,###,##0"); Tab(35); Format(bayar, "###,###,##0")
+        Printer.Print Tab(3); rsbeli!jumlah; "-"; rsbeli!return; "x "; Format(rsbeli!harga, "###,###,##0"); Tab(35); Format(bayar, "###,###,##0")
         rsbeli.MoveNext
     Loop
     Printer.FontSize = 14
@@ -525,4 +540,42 @@ Private Sub hapusRetur(inKode As String)
         con.Execute ("Delete from tbretur where kode = '" & inKode & "'")
     End If
     Set rsRetur = Nothing
+End Sub
+
+Private Sub insert2BillB(tanggal As String, Optional inNobukti As String)
+    Dim cekNobukti As ADODB.Recordset
+    If inNobukti = "" Then
+        inNobukti = txt_bon.Text
+    End If
+    Set cekNobukti = con.Execute("Select * from bill_beli where nobukti = '" & inNobukti & "'")
+    If cekNobukti.EOF Then
+        flagNobukti = True
+        con.Execute ("insert into bill_beli (nobukti, staff, tanggal, jam, total, kode_supplier, pembayaran, lunas, settled, tanggal_lunas) values('" & inNobukti & "','" & username & "', '" & tanggal & "', '" & Format(Now, "hh:mm:ss") & "', " & priceToNum(txt_total) & ", " & txt_kode_supplier & ", " & cb_bayar.ListIndex & ", 0,0,'1990-09-26')")
+        DoEvents
+    Else
+        If retryCount < 3 Then
+            retryCount = retryCount + 1
+            Form_Pembelian.skipFaktur
+            txt_bon.Text = Form_Pembelian.lbl_faktur
+            Call insert2BillB(tanggal)
+        Else
+            retryCount = retryCount + 1
+            If retryCount > 5 Then
+                MsgBox ("Faktur gagal. Hubungi kantor.")
+                Exit Sub
+            End If
+            Dim tempNobukti As String
+            tempNobukti = InputBox("Masukkan nomor faktur : ", "Input")
+            If tempNobukti <> "" Then
+                Form_Pembelian.lbl_faktur = tempNobukti
+                txt_bon.Text = tempNobukti
+                Call insert2BillB(tanggal, tempNobukti)
+            Else
+                Form_Pembelian.skipFaktur
+                txt_bon.Text = Form_Pembelian.lbl_faktur
+                Call insert2BillB(tanggal)
+            End If
+        End If
+    End If
+    Set cekNobukti = Nothing
 End Sub
